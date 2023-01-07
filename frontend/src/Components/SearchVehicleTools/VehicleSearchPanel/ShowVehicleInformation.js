@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { GetVehicleInformation } from '../../../interfaces/BackendCalls';
 
-import ShowBox from '../Common/ShowBox';
+import ShowBox from '../../Common/ShowBox';
 
 function ShowVehicleInformation(props) {
 

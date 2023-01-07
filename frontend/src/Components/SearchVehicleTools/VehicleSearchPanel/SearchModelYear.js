@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { GetModelYearsList } from '../../../interfaces/BackendCalls';
 
-import SearchBox from '../Common/SearchBox';
+import SearchBox from '../../Common/SearchBox';
 
 function SearchModelYear(props) {
 

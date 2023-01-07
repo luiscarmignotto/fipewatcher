@@ -1,7 +1,7 @@
 import React, {useState, useEffect } from 'react';
 import { GetVehicleTypes } from '../../../interfaces/BackendCalls';
 
-import ChooseBox from '../Common/ChooseBox';
+import ChooseBox from '../../Common/ChooseBox';
 
 function GetVehicleType(props) {
 
@@ -17,6 +17,7 @@ function GetVehicleType(props) {
 
         <div>
             {vehicleTypeList && <ChooseBox itemsList={vehicleTypeList} setOption={props.setVehicleType}/>} 
+            {!vehicleTypeList && <div>ERRO AO SE CONECTAR COM O SERVIDOR</div>}
         </div>
     )
 

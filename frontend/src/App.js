@@ -1,5 +1,5 @@
 import './App.css';
-import VehicleSearchPanel from './Components/UserInputs/VehicleSearchPanel/VehicleSearchPanel';
+import VehicleSearchPanel from './Components/SearchVehicleTools/VehicleSearchPanel/VehicleSearchPanel';
 
 const vehicleSearchPanelStyle = {
   "heigth": "50%"
