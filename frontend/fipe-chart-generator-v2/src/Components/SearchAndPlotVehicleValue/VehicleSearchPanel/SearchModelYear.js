@@ -14,7 +14,7 @@ function SearchModelYear(props) {
     console.log("modelYearsList", modelYearsList);
 
     return (
-        <SearchBox className="GetVehicleDataSearchBox" setOption={props.setModelYear} itemsList={modelYearsList} placeholder="Digite o Ano"/>
+        <SearchBox setOption={props.setModelYear} itemsList={modelYearsList} placeholder="Digite o Ano"/>
     )
 
 }

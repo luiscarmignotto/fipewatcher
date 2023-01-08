@@ -14,7 +14,9 @@ function SearchModel(props) {
     console.log("modelsList", modelsList);
 
     return (
-        <SearchBox className="GetVehicleDataSearchBox" setOption={props.setModel} itemsList={modelsList} placeholder="Digite o Modelo"/>
+        <div>
+            <SearchBox setOption={props.setModel} itemsList={modelsList} placeholder="Digite o Modelo"/>
+        </div>
     )
 
 }

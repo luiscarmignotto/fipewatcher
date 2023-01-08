@@ -1,12 +1,11 @@
 .SearchAndPlotVehicleValue {
-  display: flex;
-  flex-direction: row;
+  display: grid;
   align-items: center;
-  justify-content: space-between;
+  grid-template-columns: 20% 20% 1fr;
+  justify-content: left;
   width: 100%;
   height: 100%;
   background-color: #282c34;
-  padding-left: 3%;
-  padding-right: 3%;
-
+  padding: 30px;
+  gap: 50px; 
 }

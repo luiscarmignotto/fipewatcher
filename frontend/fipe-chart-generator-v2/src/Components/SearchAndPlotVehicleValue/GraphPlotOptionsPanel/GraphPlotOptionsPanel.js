@@ -1,7 +1,8 @@
 import { React, useState } from 'react';
 import GetNumberOfMonths from './GetNumberOfMonths';
 import PlotDefaults from './PlotDefaults';
-import './GraphPlotOptionsPanel.css'
+// import './GraphPlotOptionsPanel.css'
+import '../css/UserInputPanel.css'
 
 const GraphPlotOptionsPanel = (props) => {
 
@@ -17,12 +18,12 @@ const GraphPlotOptionsPanel = (props) => {
     }
 
     return (
-        <div className="GraphPlotOptionsPanel">
-            <div className="GraphPlotOptionsPanelHeading">Configurações do Plot</div>
-            <div className="GraphPlotOptionsPanelBoxes">
+        <div className="UserInputPanelContainer">
+            <div className="UserInputPanel__Heading">Configurações do Plot</div>
+            <div className="UserInputPanel__InputBoxesContainer">
                 <GetNumberOfMonths setNumberOfMonths={setNumberOfMonths} />
             </div>
-            <div className="GraphPlotOptionsPanelButtons">
+            <div className="UserInputPanel__ActionButtonsContainer">
                 {numberOfMonths && <button onClick={() => { generatePlotOptions() } }>Pesquisar</button>}
             </div>            
             

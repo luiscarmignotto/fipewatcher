@@ -1,0 +1,28 @@
+.MainPage {
+    justify-content: center;
+
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: auto 1fr auto;
+}
+
+.MainPage__Header {
+    height: 60px;
+    background-color: black;
+    text-align: center;
+    color: white; 
+    
+}
+
+.MainPage__Content{
+    background-color: blue;
+}
+
+.MainPage__Footer {
+    height: 60px;
+    background-color: black;
+    text-align: center;
+    justify-content: center;
+    color: white; 
+}
+

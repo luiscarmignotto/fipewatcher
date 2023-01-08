@@ -15,8 +15,8 @@ function GetVehicleType(props) {
 
     return (
 
-        <div className="GetVehicleTypeBox">
-            {vehicleTypeList && <ChooseBox className="GetVehicleDataSearchBox" itemsList={vehicleTypeList} setOption={props.setVehicleType}/>} 
+        <div>
+            {vehicleTypeList && <ChooseBox itemsList={vehicleTypeList} setOption={props.setVehicleType}/>} 
             {!vehicleTypeList && <div>ERRO AO SE CONECTAR COM O SERVIDOR</div>}
         </div>
     )

@@ -13,7 +13,7 @@ function ShowVehicleInformation(props) {
 
     return (
 
-        <ShowBox className="GetVehicleDataSearchBox" itemsList={props.vehicleDisplayInformation} />
+        <ShowBox itemsList={props.vehicleDisplayInformation} />
 
     )
 

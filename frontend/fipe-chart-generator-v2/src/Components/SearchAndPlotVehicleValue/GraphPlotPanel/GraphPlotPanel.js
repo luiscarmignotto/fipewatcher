@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import { GetPlotData } from '../../../interfaces/BackendCalls';
 import LineChart from './GraphsStyles/LineChart';
-import './GraphPlotPanel.css'
+import '../css/PlotPanel.css'
 import { Dots } from "react-activity";
 import "react-activity/dist/library.css";
 
@@ -23,13 +23,15 @@ const GraphPlotPanel = (props) => {
 
     return (
         <div className="GraphPlotPanel">
-            <div className="GraphPlotPanelHeading">
+            <div className="GraphPlotPanel__Heading">
                 Gráfico De Preços
             </div>
-            { plotData && 
-                <LineChart className="GraphPlotPanelPlot" monthArray={plotData.monthArray} valueArray={plotData.valueArray} vehicleInfo={props.vehicleInfo} />
-            }
-            {!plotData && <Dots className="GraphPlotPanelPlot"/> }
+            <div className="GraphPlotPanel__Content">
+                { plotData && 
+                    <LineChart monthArray={plotData.monthArray} valueArray={plotData.valueArray} vehicleInfo={props.vehicleInfo} />
+                }
+                {!plotData && <Dots/>}
+            </div>
         </div>
     );
 }

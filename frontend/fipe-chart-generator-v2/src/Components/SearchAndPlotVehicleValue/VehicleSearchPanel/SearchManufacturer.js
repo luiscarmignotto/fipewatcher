@@ -12,7 +12,10 @@ function SearchManufacturer(props) {
     }, [props.vehicleType]);
 
     return (
-        <SearchBox className="GetVehicleDataSearchBox" setOption={props.setManufacturer} itemsList={manufacturersList} placeholder="Digite a Marca"/>
+        <div>
+            <SearchBox setOption={props.setManufacturer} itemsList={manufacturersList} placeholder="Digite a Marca"/>
+        </div>
+        
     )
 
 }

@@ -1,6 +1,7 @@
 import React, {useState } from 'react';
 
-import './VehicleSearchPanel.css'
+// import './VehicleSearchPanel.css'
+import '../css/UserInputPanel.css'
 
 import GetVehicleType from './GetVehicleType';
 import SearchManufacturer from './SearchManufacturer';
@@ -42,23 +43,23 @@ function VehicleSearchPanel(props) {
 
     return (
 
-        <div className="VehicleSearchPanel">
-            <div className="VehicleSearchPanelHeading">Consulta de Valores</div>
-            <div className="VehicleSearchPanelBoxes">
+        <div className="UserInputPanelContainer">
+            <div className="UserInputPanel__Heading">Consulta de Valores</div>
+            <div className="UserInputPanel__InputBoxesContainer">
                 {!props.vehicleInformation && <GetVehicleType setVehicleType={setVehicleType} vehicleType={vehicleType}/>}
                 {!props.vehicleInformation && vehicleType && <SearchManufacturer vehicleType={vehicleType} setManufacturer={setManufacturer}/>}
                 {!props.vehicleInformation && vehicleType && manufacturer && <SearchModel vehicleType={vehicleType} manufacturer={manufacturer} setModel={setModel}/>}
                 {!props.vehicleInformation && vehicleType && manufacturer && model && <SearchModelYear vehicleType={vehicleType} manufacturer={manufacturer} model={model} setModelYear={setModelYear}/>}
             {vehicleType && manufacturer && model && modelYear && searchFlag && 
-                <div className="VehicleSearchPanelShowInfo">
+                <div className="UserInputPanel__DisplayInformation">
                     <ShowVehicleInformation vehicleType={vehicleType} manufacturer={manufacturer} model={model} modelYear={modelYear} vehicleDisplayInformation={vehicleDisplayInformation} setVehicleDisplayInformation={setVehicleDisplayInformation}/>              
                 </div>
             }            
             </div>
-            <div className="VehicleSearchPanelButtons">
-            {vehicleType && manufacturer && model && modelYear && !searchFlag && <button className="VehicleSearchPanelButton" onClick={() => { setSearchFlag(true); generateVehicleInformation() } }>Pesquisar</button>}
-                {!searchFlag && <button className="VehicleSearchPanelButton" onClick={() => resetValues() }>Resetar Pesquisa</button>}
-                {props.vehicleInformation && <button className="VehicleSearchPanelButton" onClick={() => resetValues() }>Pesquisar Novamente</button>}
+            <div className="UserInputPanel__ActionButtonsContainer">
+            {vehicleType && manufacturer && model && modelYear && !searchFlag && <button onClick={() => { setSearchFlag(true); generateVehicleInformation() } }>Pesquisar</button>}
+                {!searchFlag && <button onClick={() => resetValues() }>Resetar Pesquisa</button>}
+                {props.vehicleInformation && <button onClick={() => resetValues() }>Pesquisar Novamente</button>}
             </div>
 
         </div>

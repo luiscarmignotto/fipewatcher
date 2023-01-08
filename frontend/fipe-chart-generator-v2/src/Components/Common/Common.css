@@ -1,27 +1,28 @@
 .ChooseBox {
-    width: 100%;
-    height: 100%;
+    
 }
 
-.ChooseBoxSelectOption {
-    width: 80%;
-    height: 100%;
+.ChooseBox__SelectOption {
     text-align: center;
 }
 
 .SearchBox {
-    width: 100%;
-    height: 100%;
+    
 }
 
-.SearchBoxInput {
-    width: 80%; 
-    height: 100%;
-}
-
-.SearchBoxDropDownList {
+.SearchBox__Input {
     text-align: center;
-    width: 100%; 
+    align-self: center;
+    
+}
+
+.SearchBox__DropDownList {
+    text-align: left;
+}
+
+.ShowBox {
+    font-weight: bold;
+    text-align: center;
 }
 
 .NumberInputBox {
