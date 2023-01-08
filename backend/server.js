@@ -1,4 +1,5 @@
 import { GetManufacturers, GetModels, GetModelYear, GetAllVehicleInformationShort, GetVehicleTypes } from './src/FipeRequests.js';
+import { GeneratePlotData } from './src/GeneratePlotData.js';
 
 import express from 'express';
 import cors from 'cors';
@@ -49,6 +50,15 @@ app.post('/ConsultarAnoModelo', (req, res) => {
 
 app.post('/ConsultarValorComTodosParametros', (req, res) => {
   GetAllVehicleInformationShort(req.body)
+    .then(
+      (response) => {
+        res.send(response)
+      }
+    );
+})
+
+app.post('/GerarDadosPlot', (req, res) => {
+  GeneratePlotData(req.body)
     .then(
       (response) => {
         res.send(response)

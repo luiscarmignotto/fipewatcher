@@ -1,6 +1,10 @@
 import fetch from 'node-fetch';
 
-async function SendPostRequest (url, data) {
+import ServerProperties from './ServerProperties.js';
+
+async function SendPostRequest (operation, data) {
+
+    const url = ServerProperties().fipeAPIUrl + operation; 
 
     const payload = {
         method: 'POST', 
@@ -18,13 +22,13 @@ async function SendPostRequest (url, data) {
         body: JSON.stringify(data)
     }
 
-    console.log("Sending Post Request to ", url, "with: ", payload);
+    // console.log("Sending Post Request to ", url, "with: ", payload);
 
     const response = await fetch(url, payload);
 
     const jsonData = await response.json();
 
-    console.log("JsonData: ", jsonData)
+    // console.log("JsonData: ", jsonData)
 
     return jsonData; 
 
@@ -33,7 +37,7 @@ async function SendPostRequest (url, data) {
 
 async function GetManufacturers(requestBody) {
 
-    const url = 'https://veiculos.fipe.org.br/api/veiculos/ConsultarMarcas';
+    const operation = '/ConsultarMarcas';
 
     // console.log("RequestBody: ", requestBody)
 
@@ -42,7 +46,7 @@ async function GetManufacturers(requestBody) {
         "codigoTipoVeiculo": requestBody.vehicleTypeId
     }
 
-    const response = await SendPostRequest(url, getManufacturersRequest);
+    const response = await SendPostRequest(operation, getManufacturersRequest);
 
     // // console.log("Response: ", response);
 
@@ -52,7 +56,7 @@ async function GetManufacturers(requestBody) {
 
 async function GetModels(requestBody) {
 
-    const url = 'https://veiculos.fipe.org.br/api/veiculos/ConsultarModelos';
+    const operation = '/ConsultarModelos';
 
     const getModelsRequest = {
         "codigoTipoVeiculo" : requestBody.vehicleTypeId,
@@ -60,7 +64,7 @@ async function GetModels(requestBody) {
         "codigoMarca" : requestBody.manufacturerId
     }
 
-    const response = await SendPostRequest(url, getModelsRequest);
+    const response = await SendPostRequest(operation, getModelsRequest);
 
     // console.log("Response: ", response);
 
@@ -70,7 +74,7 @@ async function GetModels(requestBody) {
 
 async function GetModelYear(requestBody) {
 
-    const url = 'https://veiculos.fipe.org.br/api/veiculos/ConsultarAnoModelo';
+    const operation = '/ConsultarAnoModelo';
 
     const getModelsRequest = {
         "codigoTipoVeiculo" : requestBody.vehicleTypeId,
@@ -79,7 +83,7 @@ async function GetModelYear(requestBody) {
         "codigoMarca" : requestBody.manufacturerId
     }
 
-    const response = await SendPostRequest(url, getModelsRequest);
+    const response = await SendPostRequest(operation, getModelsRequest);
 
     // console.log("Response: ", response);
 
@@ -89,36 +93,19 @@ async function GetModelYear(requestBody) {
 
 async function GetAllVehicleInformation(requestBody) {
 
-    const url = 'https://veiculos.fipe.org.br/api/veiculos/ConsultarValorComTodosParametros';
+    const operation = '/ConsultarValorComTodosParametros';
 
-    console.log("requestBody: ",  requestBody);
+    // console.log("requestBody GetAllVehicleInformation: ",  requestBody);
 
-    const getModelsRequest = {
-        "codigoTipoVeiculo" : requestBody.vehicleTypeId,
-        "codigoTabelaReferencia" : "292",
-        "codigoModelo": requestBody.modelId,
-        "codigoMarca" : requestBody.manufacturerId,
-        "tipoVeiculo": requestBody.vehicleTypeString,
-        "tipoConsulta": "tradicional",
-        "codigoTipoCombustivel": "1",
-        "anoModelo": requestBody.modelYearId
-    }
+    var referenceTableId = ServerProperties().latestTableId;
 
-    const response = await SendPostRequest(url, getModelsRequest);
-
-    return response;
-       
-}
-
-async function GetAllVehicleInformationShort(requestBody) {
-
-    const url = 'https://veiculos.fipe.org.br/api/veiculos/ConsultarValorComTodosParametros';
-
-    console.log("requestBody: ",  requestBody);
+    if (requestBody["referenceTableId"]) {
+        referenceTableId = requestBody.referenceTableId;
+    } 
 
     const getModelsRequest = {
         "codigoTipoVeiculo" : requestBody.vehicleTypeId,
-        "codigoTabelaReferencia" : "292",
+        "codigoTabelaReferencia" : referenceTableId,
         "codigoModelo": requestBody.modelId,
         "codigoMarca" : requestBody.manufacturerId,
         "tipoVeiculo": requestBody.vehicleTypeString,
@@ -127,7 +114,36 @@ async function GetAllVehicleInformationShort(requestBody) {
         "anoModelo": requestBody.modelYearId.replace(/\D/g,'')
     }
 
-    const response = await SendPostRequest(url, getModelsRequest);
+    const response = await SendPostRequest(operation, getModelsRequest);
+
+    return response;
+       
+}
+
+async function GetAllVehicleInformationShort(requestBody) {
+
+    const operation = '/ConsultarValorComTodosParametros';
+
+    const referenceTableId = ServerProperties().latestTableId;
+
+    if (requestBody.referenceTableId) {
+        const referenceTableId = requestBody.referenceTableId;
+    }
+
+    console.log("requestBody: ",  requestBody);
+
+    const getModelsRequest = {
+        "codigoTipoVeiculo" : requestBody.vehicleTypeId,
+        "codigoTabelaReferencia" : referenceTableId,
+        "codigoModelo": requestBody.modelId,
+        "codigoMarca" : requestBody.manufacturerId,
+        "tipoVeiculo": requestBody.vehicleTypeString,
+        "tipoConsulta": "tradicional",
+        "codigoTipoCombustivel": "1",
+        "anoModelo": requestBody.modelYearId.replace(/\D/g,'')
+    }
+
+    const response = await SendPostRequest(operation, getModelsRequest);
 
     const responseItens = ["Marca", "Modelo", "AnoModelo", "Combustível", "MesReferencia", "Valor" ]
 
