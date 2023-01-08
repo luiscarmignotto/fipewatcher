@@ -1,5 +1,6 @@
 import React, {useState, useEffect } from 'react';
 import { GetVehicleTypes } from '../../../interfaces/BackendCalls';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import ChooseBox from '../../Common/ChooseBox';
 
@@ -14,8 +15,8 @@ function GetVehicleType(props) {
     // console.log("vehicleTypeList", vehicleTypeList)
 
     return (
-
         <div>
+            {props.vehicleType && <FontAwesomeIcon icon="fa-light fa-car-side" />}
             {vehicleTypeList && <ChooseBox itemsList={vehicleTypeList} setOption={props.setVehicleType}/>} 
             {!vehicleTypeList && <div>ERRO AO SE CONECTAR COM O SERVIDOR</div>}
         </div>

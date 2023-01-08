@@ -3,8 +3,8 @@ import React from 'react';
 function NumberInputBox(props) {
 
     return (
-        <div>
-            <input className="NumberInputBox" type="number" onChange={(event) => props.setValue(event.target.value)}/>
+        <div className="NumberInput" >
+            <input className="NumberInput__Box" type="number" onChange={(event) => props.setValue(event.target.value)}/>
         </div>
     )
 }

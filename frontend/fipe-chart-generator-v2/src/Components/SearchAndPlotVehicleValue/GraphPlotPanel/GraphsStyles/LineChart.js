@@ -2,9 +2,13 @@ import React from 'react';
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 
+import { ConvertLabelToCurrency } from './GraphPlotFormatTools';
+
 const LineChart = (props) => {
 
   const title = props.vehicleInfo.manufacturer.Label + " - " + props.vehicleInfo.model.Label + " - " + props.vehicleInfo.modelYear.Label
+
+  const displayLabel = ConvertLabelToCurrency(props.valueArray); 
 
   const data = {
     labels: props.monthArray,
@@ -17,6 +21,7 @@ const LineChart = (props) => {
         borderColor: 'rgba(75,192,192,1)'
       }
     ],
+    reponsive: true
   };
 
   return <Line data={data} />

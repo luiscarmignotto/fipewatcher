@@ -1,5 +1,8 @@
-import './SearchAndPlotVehicleValue.css';
 import { useState } from 'react'
+
+import './SearchAndPlotVehicleValue.css';
+
+
 import VehicleSearchPanel from './VehicleSearchPanel/VehicleSearchPanel';
 import GraphPlotOptionsPanel from './GraphPlotOptionsPanel/GraphPlotOptionsPanel';
 import GraphPlotPanel from './GraphPlotPanel/GraphPlotPanel';

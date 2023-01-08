@@ -1,9 +1,11 @@
 import { React, useState, useEffect } from 'react';
+
+import '../css/PlotPanel.css'
+
+
 import { GetPlotData } from '../../../interfaces/BackendCalls';
 import LineChart from './GraphsStyles/LineChart';
-import '../css/PlotPanel.css'
-import { Dots } from "react-activity";
-import "react-activity/dist/library.css";
+import ActivityIndicator from '../../Common/ActivityIndicator';
 
 
 const GraphPlotPanel = (props) => {
@@ -15,25 +17,34 @@ const GraphPlotPanel = (props) => {
         GetPlotData(props.vehicleInfo, props.plotOptions).then((result) => setPlotData({
             "monthArray": result.monthArray,
             "valueArray": result.valueArray
-        }));
+        }
+    ));
 
     }, [props]);
 
     console.log("plotData", plotData);
 
-    return (
-        <div className="GraphPlotPanel">
-            <div className="GraphPlotPanel__Heading">
-                Gráfico De Preços
+    if (plotData) {
+        return (
+            <div className="GraphPlotPanel">
+                <div className="GraphPlotPanel__Heading">
+                    Gráfico De Preços
+                </div>
+                <div className="GraphPlotPanel__Content">
+                    { plotData && 
+                        <LineChart monthArray={plotData.monthArray} valueArray={plotData.valueArray} vehicleInfo={props.vehicleInfo} />
+                    }
+                </div>
             </div>
-            <div className="GraphPlotPanel__Content">
-                { plotData && 
-                    <LineChart monthArray={plotData.monthArray} valueArray={plotData.valueArray} vehicleInfo={props.vehicleInfo} />
-                }
-                {!plotData && <Dots/>}
+        );
+
+    } else {
+        return (
+            <div className="GraphPlotPanel__Loading">
+                    <ActivityIndicator />
             </div>
-        </div>
-    );
+        );
+    }
 }
 
 export default GraphPlotPanel;

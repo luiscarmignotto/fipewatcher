@@ -13,11 +13,13 @@
 .SearchBox__Input {
     text-align: center;
     align-self: center;
+    color: #92a4b4
     
 }
 
 .SearchBox__DropDownList {
     text-align: left;
+    color: #92a4b4
 }
 
 .ShowBox {
@@ -25,6 +27,16 @@
     text-align: center;
 }
 
-.NumberInputBox {
+.NumberInput {
+    justify-self: center;
+    color: #92a4b4
+}
+
+.NumberInput__Box {
     text-align: center;
+}
+
+.ActionButton {
+    align-self: center;
+    justify-self: center;
 }

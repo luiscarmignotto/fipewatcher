@@ -1,6 +1,5 @@
 import React, {useState } from 'react';
 
-// import './VehicleSearchPanel.css'
 import '../css/UserInputPanel.css'
 
 import GetVehicleType from './GetVehicleType';
@@ -8,6 +7,7 @@ import SearchManufacturer from './SearchManufacturer';
 import SearchModel from './SearchModel';
 import SearchModelYear from './SearchModelYear';
 import ShowVehicleInformation from './ShowVehicleInformation';
+import ActionButton from '../../Common/ActionButton';
 
 function VehicleSearchPanel(props) {
 
@@ -19,7 +19,7 @@ function VehicleSearchPanel(props) {
     const [modelYear, setModelYear] = useState(null);
     const [vehicleDisplayInformation, setVehicleDisplayInformation] = useState(null);
 
-    function resetValues(){
+    function ResetValues(){
         setVehicleType(null);
         setManufacturer(null);
         setModel(null);
@@ -29,7 +29,7 @@ function VehicleSearchPanel(props) {
         props.setPlotOptions(null);        
     }
 
-    function generateVehicleInformation(){
+    function GenerateVehicleInformation(){
 
         const vehicleInformation = {
             "vehicleType": vehicleType,
@@ -39,6 +39,11 @@ function VehicleSearchPanel(props) {
         }
         
         props.setVehicleInformation(vehicleInformation);
+    }
+
+    function SearchButton(){
+        setSearchFlag(true);
+        GenerateVehicleInformation();
     }
 
     return (
@@ -57,9 +62,9 @@ function VehicleSearchPanel(props) {
             }            
             </div>
             <div className="UserInputPanel__ActionButtonsContainer">
-            {vehicleType && manufacturer && model && modelYear && !searchFlag && <button onClick={() => { setSearchFlag(true); generateVehicleInformation() } }>Pesquisar</button>}
-                {!searchFlag && <button onClick={() => resetValues() }>Resetar Pesquisa</button>}
-                {props.vehicleInformation && <button onClick={() => resetValues() }>Pesquisar Novamente</button>}
+                {vehicleType && manufacturer && model && modelYear && !searchFlag && <ActionButton onClick={SearchButton} text="Pesquisar"/>}
+                {!searchFlag && <ActionButton onClick={ResetValues} text="Resetar Pesquisa"/>}
+                {props.vehicleInformation && <ActionButton onClick={ResetValues} text="Pesquisar Novamente"/>}
             </div>
 
         </div>
