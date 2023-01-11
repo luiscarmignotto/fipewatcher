@@ -2,12 +2,12 @@
 
     "url": "http://localhost:4000", 
     "routes": {
-        "GetVehicleTypes": "/ConsultarTipoVeiculos",
+        "getVehicleTypes": "/ConsultarTipoVeiculos",
         "SearchManufacturer": "/ConsultarMarcas",
         "SearchModels": "/ConsultarModelos",
         "SearchModelYears": "/ConsultarAnoModelo",
-        "GetVehicleInformation": "/ConsultarValorComTodosParametros",
-        "GetPlotData": "/GerarDadosPlot"
+        "getVehicleInformation": "/ConsultarValorComTodosParametros",
+        "getPlotData": "/GerarDadosPlot"
     }
 
 }

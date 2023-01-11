@@ -1,22 +1,19 @@
 import React, { useEffect } from 'react';
-import { GetVehicleInformation } from '../../../interfaces/BackendCalls';
+import { getVehicleInformation } from '../../../interfaces/BackendCalls';
 
 import ShowBox from '../../Common/ShowBox';
 
 function ShowVehicleInformation(props) {
 
     useEffect(() => {
-        if (!props.vehicleDisplayInformation) {
-            GetVehicleInformation(props.vehicleType.id, props.manufacturer.Value, props.model.Value, props.modelYear.Label).then((result) => { props.setVehicleDisplayInformation(result) } );
+        if (!props.inputVehicleInfo.searchResult) {
+            getVehicleInformation(props.inputVehicleInfo).then((result) => { props.setInputVehicleInfo({...props.inputVehicleInfo, "searchResult": result}) } );
         }    
     }, [props]);
 
     return (
-
-        <ShowBox itemsList={props.vehicleDisplayInformation} />
-
+        <ShowBox itemsList={props.inputVehicleInfo.searchResult} /> 
     )
-
 }
 
 export default ShowVehicleInformation;

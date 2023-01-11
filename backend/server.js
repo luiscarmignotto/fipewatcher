@@ -1,4 +1,4 @@
-import { GetManufacturers, GetModels, GetModelYear, GetAllVehicleInformationShort, GetVehicleTypes } from './src/FipeRequests.js';
+import { GetManufacturers, GetModels, GetModelYear, GetAllVehicleInformationShort, getVehicleTypes } from './src/FipeRequests.js';
 import { GeneratePlotData } from './src/GeneratePlotData.js';
 
 import express from 'express';
@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/ConsultarTipoVeiculos', (req, res) => {
-  res.send(GetVehicleTypes())
+  res.send(getVehicleTypes())
 })
 
 app.post('/ConsultarMarcas', (req, res) => {

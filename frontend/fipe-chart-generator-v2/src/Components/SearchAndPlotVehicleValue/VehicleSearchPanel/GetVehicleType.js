@@ -1,7 +1,5 @@
 import React, {useState, useEffect } from 'react';
-import { GetVehicleTypes } from '../../../interfaces/BackendCalls';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { getVehicleTypes } from '../../../interfaces/BackendCalls';
 import ChooseBox from '../../Common/ChooseBox';
 
 function GetVehicleType(props) {
@@ -9,15 +7,28 @@ function GetVehicleType(props) {
     const [vehicleTypeList,  setVehicleTypeList] = useState(null)
 
     useEffect(() => {
-        GetVehicleTypes().then((result) => { if (result.length > 0) { setVehicleTypeList(result) }} )
-    }, [props.searchAgain]);
+       
+        getVehicleTypes().then((result) => { if (result.length > 0) { setVehicleTypeList(result) }} )
+        console.log(vehicleTypeList);
+
+    }, [props]);
     
-    // console.log("vehicleTypeList", vehicleTypeList)
+    function handleChoice(choiceValue) {
+
+        props.setInputVehicleInfo({
+            ...props.inputVehicleInfo, 
+            "vehicleType": choiceValue, 
+            "manufacturer": null, 
+            "model": null,
+            "modelYear": null
+        })
+
+
+    }
 
     return (
         <div>
-            {props.vehicleType && <FontAwesomeIcon icon="fa-light fa-car-side" />}
-            {vehicleTypeList && <ChooseBox itemsList={vehicleTypeList} setOption={props.setVehicleType}/>} 
+            {vehicleTypeList && <ChooseBox itemsList={vehicleTypeList} setOption={handleChoice}/>} 
             {!vehicleTypeList && <div>ERRO AO SE CONECTAR COM O SERVIDOR</div>}
         </div>
     )

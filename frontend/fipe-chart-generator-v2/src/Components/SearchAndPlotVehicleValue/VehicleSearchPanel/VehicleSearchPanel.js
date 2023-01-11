@@ -13,37 +13,14 @@ function VehicleSearchPanel(props) {
 
     const [searchFlag, setSearchFlag] = useState(false);
 
-    const [vehicleType, setVehicleType] = useState(null);
-    const [manufacturer, setManufacturer] = useState(null);
-    const [model, setModel] = useState(null);
-    const [modelYear, setModelYear] = useState(null);
-    const [vehicleDisplayInformation, setVehicleDisplayInformation] = useState(null);
-
-    function ResetValues(){
-        setVehicleType(null);
-        setManufacturer(null);
-        setModel(null);
-        setModelYear(null);
+    function resetValues(){
         setSearchFlag(false);
-        props.setVehicleInformation(null);
+        props.setInputVehicleInfo({});
         props.setPlotOptions(null);        
     }
 
-    function GenerateVehicleInformation(){
-
-        const vehicleInformation = {
-            "vehicleType": vehicleType,
-            "manufacturer": manufacturer,
-            "model": model,
-            "modelYear": modelYear            
-        }
-        
-        props.setVehicleInformation(vehicleInformation);
-    }
-
-    function SearchButton(){
-        setSearchFlag(true);
-        GenerateVehicleInformation();
+    function searchButton(){
+        setSearchFlag(true);    
     }
 
     return (
@@ -51,20 +28,28 @@ function VehicleSearchPanel(props) {
         <div className="UserInputPanelContainer">
             <div className="UserInputPanel__Heading">Consulta de Valores</div>
             <div className="UserInputPanel__InputBoxesContainer">
-                {!props.vehicleInformation && <GetVehicleType setVehicleType={setVehicleType} vehicleType={vehicleType}/>}
-                {!props.vehicleInformation && vehicleType && <SearchManufacturer vehicleType={vehicleType} setManufacturer={setManufacturer}/>}
-                {!props.vehicleInformation && vehicleType && manufacturer && <SearchModel vehicleType={vehicleType} manufacturer={manufacturer} setModel={setModel}/>}
-                {!props.vehicleInformation && vehicleType && manufacturer && model && <SearchModelYear vehicleType={vehicleType} manufacturer={manufacturer} model={model} setModelYear={setModelYear}/>}
-            {vehicleType && manufacturer && model && modelYear && searchFlag && 
-                <div className="UserInputPanel__DisplayInformation">
-                    <ShowVehicleInformation vehicleType={vehicleType} manufacturer={manufacturer} model={model} modelYear={modelYear} vehicleDisplayInformation={vehicleDisplayInformation} setVehicleDisplayInformation={setVehicleDisplayInformation}/>              
+                
+                <GetVehicleType inputVehicleInfo={props.inputVehicleInfo} setInputVehicleInfo={props.setInputVehicleInfo} />
+        
+            { props.inputVehicleInfo.vehicleType && 
+                <SearchManufacturer inputVehicleInfo={props.inputVehicleInfo} setInputVehicleInfo={props.setInputVehicleInfo}/>
+            }
+            { props.inputVehicleInfo.vehicleType && props.inputVehicleInfo.manufacturer && 
+                <SearchModel inputVehicleInfo={props.inputVehicleInfo} setInputVehicleInfo={props.setInputVehicleInfo}/>
+            }
+            { props.inputVehicleInfo.vehicleType && props.inputVehicleInfo.manufacturer && props.inputVehicleInfo.model && 
+                <SearchModelYear inputVehicleInfo={props.inputVehicleInfo} setInputVehicleInfo={props.setInputVehicleInfo}/>
+            }
+            {props.inputVehicleInfo.vehicleType && props.inputVehicleInfo.manufacturer && props.inputVehicleInfo.model &&  props.inputVehicleInfo.modelYear && searchFlag && 
+                <div className="UserInputPanel__DisplayInfo">
+                    <ShowVehicleInformation inputVehicleInfo={props.inputVehicleInfo} setInputVehicleInfo={props.setInputVehicleInfo} />              
                 </div>
             }            
             </div>
             <div className="UserInputPanel__ActionButtonsContainer">
-                {vehicleType && manufacturer && model && modelYear && !searchFlag && <ActionButton onClick={SearchButton} text="Pesquisar"/>}
-                {!searchFlag && <ActionButton onClick={ResetValues} text="Resetar Pesquisa"/>}
-                {props.vehicleInformation && <ActionButton onClick={ResetValues} text="Pesquisar Novamente"/>}
+                {props.inputVehicleInfo.vehicleType && props.inputVehicleInfo.manufacturer && props.inputVehicleInfo.model && props.inputVehicleInfo.modelYear && !searchFlag && <ActionButton onClick={searchButton} text="Pesquisar"/>}
+                {!searchFlag && <ActionButton onClick={resetValues} text="Resetar Pesquisa"/>}
+                {props.inputVehicleInfo.searchResult && <ActionButton onClick={resetValues} text="Pesquisar Novamente"/>}
             </div>
 
         </div>

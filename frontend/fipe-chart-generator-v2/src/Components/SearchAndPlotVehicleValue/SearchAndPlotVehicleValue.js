@@ -10,17 +10,19 @@ import GraphPlotPanel from './GraphPlotPanel/GraphPlotPanel';
 
 function SearchAndPlotVehicleValue() {
 
-  const [vehicleInformation, setVehicleInformation] = useState(null);
+  const [inputVehicleInfo, setInputVehicleInfo] = useState({});
   const [plotOptions, setPlotOptions] = useState(null);
+  const [plotData,setPlotData] = useState(null);
 
-  console.log("vehicleInformation", vehicleInformation);
+  console.log("inputVehicleInfo", inputVehicleInfo);
   console.log("plotOptions", plotOptions);
+  console.log("plotData", plotData);
 
   return (
     <div className="SearchAndPlotVehicleValue">
-      <VehicleSearchPanel vehicleInformation={vehicleInformation} setVehicleInformation={setVehicleInformation} setPlotOptions={setPlotOptions}/>
-      {vehicleInformation && <GraphPlotOptionsPanel plotOptions={plotOptions} setPlotOptions={setPlotOptions} />}
-      {vehicleInformation && plotOptions && <GraphPlotPanel vehicleInfo={vehicleInformation} plotOptions={plotOptions} />}
+      <VehicleSearchPanel inputVehicleInfo={inputVehicleInfo} setInputVehicleInfo={setInputVehicleInfo} setPlotOptions={setPlotOptions}/>
+      {inputVehicleInfo.searchResult && <GraphPlotOptionsPanel plotOptions={plotOptions} setPlotOptions={setPlotOptions} plotData={plotData} setPlotData={setPlotData}/>}
+      {inputVehicleInfo.searchResult && plotOptions && <GraphPlotPanel vehicleInfo={inputVehicleInfo} plotOptions={plotOptions} plotData={plotData} setPlotData={setPlotData}/>}
     </div>
   );
 }

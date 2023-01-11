@@ -7,8 +7,6 @@ function SearchBox(props) {
 
     function searchFilter(value) {
 
-        console.log("searchValue: ", searchValue)
-
         const searchTerm = searchValue.toLowerCase();
         const fullName = value.toLowerCase();
 
@@ -18,8 +16,6 @@ function SearchBox(props) {
             fullName.includes(searchTerm) &&
             fullName !== searchTerm 
         )       
-
-
     }
 
     function displayOptions(itemsList){
@@ -28,11 +24,6 @@ function SearchBox(props) {
 
         return filterIncludeOptions
     }
-
-    if (props.itemsList) {
-        console.log("ItemsList:", props.itemsList)
-    }
-    
 
     return (
 

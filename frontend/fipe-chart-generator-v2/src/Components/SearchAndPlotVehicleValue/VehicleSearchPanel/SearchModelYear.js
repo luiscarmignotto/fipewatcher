@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { GetModelYearsList } from '../../../interfaces/BackendCalls';
+import { getModelYearsList } from '../../../interfaces/BackendCalls';
 
 import SearchBox from '../../Common/SearchBox';
 
@@ -8,13 +8,18 @@ function SearchModelYear(props) {
     const [modelYearsList, setModelYearsList] = useState(null);
 
     useEffect(() => {
-        GetModelYearsList(props.vehicleType.id, props.manufacturer.Value, props.model.Value).then((result) => result.length > 0 ? setModelYearsList(result) : null);
-    }, [props.vehicleType, props.manufacturer, props.model.Value]);
+        getModelYearsList(props.inputVehicleInfo).then((result) => result.length > 0 ? setModelYearsList(result) : null);
+    }, [props]);
 
-    console.log("modelYearsList", modelYearsList);
+    function handleChoice(choiceValue){
+        props.setInputVehicleInfo({
+            ...props.inputVehicleInfo, 
+            "modelYear": choiceValue
+        })
+    }
 
     return (
-        <SearchBox setOption={props.setModelYear} itemsList={modelYearsList} placeholder="Digite o Ano"/>
+        <SearchBox setOption={handleChoice} itemsList={modelYearsList} placeholder="Digite o Ano"/>
     )
 
 }

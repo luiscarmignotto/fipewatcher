@@ -13,13 +13,14 @@
 .SearchBox__Input {
     text-align: center;
     align-self: center;
-    color: #92a4b4
+    color: #92a4b4;
     
 }
 
 .SearchBox__DropDownList {
     text-align: left;
-    color: #92a4b4
+    color: #92a4b4;
+    font-size: 80%;
 }
 
 .ShowBox {
@@ -39,4 +40,9 @@
 .ActionButton {
     align-self: center;
     justify-self: center;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    background-color: #33a9f4;;
 }

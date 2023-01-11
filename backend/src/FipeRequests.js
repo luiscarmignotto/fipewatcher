@@ -155,10 +155,10 @@ async function GetAllVehicleInformationShort(requestBody) {
        
 }
 
-function GetVehicleTypes(){
+function getVehicleTypes(){
 
     const vehicleTypes = [
-        { "Label": "Carros e Utilitários", "id": 1, "name": "carro"},
+        { "Label": "Carros e Utilitários", "id": 1, "name": "carro", "icon":"faCar"},
         { "Label": "Caminhões e micro-ônibus", "id": 3, "name": "caminhao"},
         { "Label": "Motos", "id": 2, "name": "moto"}
     ]
@@ -166,4 +166,4 @@ function GetVehicleTypes(){
     return vehicleTypes
 }
 
-export { GetManufacturers, GetModels, GetModelYear, GetAllVehicleInformation, GetAllVehicleInformationShort,  GetVehicleTypes };
+export { GetManufacturers, GetModels, GetModelYear, GetAllVehicleInformation, GetAllVehicleInformationShort,  getVehicleTypes };

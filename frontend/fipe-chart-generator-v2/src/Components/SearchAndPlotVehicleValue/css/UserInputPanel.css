@@ -16,7 +16,7 @@
     text-align: center;
     font-weight: bold;
     color: #92a4b4;
-    font-size: 40px;
+    font-size: 25px;
     height: 60px; 
 }
 
@@ -29,6 +29,7 @@
 }
 
 .UserInputPanel__InputBoxesContainer div{
+    text-align: center;
 }
 
 .UserInputPanel__ActionButtonsContainer {
@@ -39,7 +40,7 @@
     justify-content: center;
 }
 
-.UserInputPanel__DisplayInformation {
+.UserInputPanel__DisplayInfo {
     border: 1px solid black;
     text-align: center;
     align-self: center;

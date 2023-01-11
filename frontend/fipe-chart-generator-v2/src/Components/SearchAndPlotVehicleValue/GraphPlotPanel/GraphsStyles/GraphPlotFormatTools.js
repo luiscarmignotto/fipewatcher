@@ -1,4 +1,4 @@
-function ConvertLabelToCurrency(labelArray) {
+function convertLabelToCurrency(labelArray) {
 
     var converted = [];
 
@@ -12,4 +12,4 @@ function ConvertLabelToCurrency(labelArray) {
     return converted; 
 }
 
-export { ConvertLabelToCurrency };
+export { convertLabelToCurrency };
