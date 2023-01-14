@@ -1,38 +1,55 @@
 .UserInputPanelContainer {
-    border: 1px solid #93ceff; 
-    border-radius: 15px;
-    background-color: #fff;
-    height: 50%;
-    min-width: 200px;
+    border-radius: 30px;
 
+    background-color: (0,0,0,0.5);
+    backdrop-filter: blur(15px);
+
+    height: 60vh;
+    width: 60%;
+    
     display: grid; 
     grid-template-columns: 100%;
-    grid-template-rows: auto 200px auto; 
-    /* gap: 40px;  */
+    grid-template-rows: auto auto auto; 
     justify-content: center;
+
 }
 
-.UserInputPanel__Heading {
+.UserInputPanel__Head {
     text-align: center;
     font-weight: bold;
-    color: #92a4b4;
-    font-size: 25px;
+    color: white;
+    font-size: 60px;
     height: 60px; 
 }
 
-.UserInputPanel__InputBoxesContainer {
+.UserInputPanel__Content {
+    /* border-radius: 30px; */
+    width: 60%;
+    justify-self: center;
+
+    /* backdrop-filter: blur(50px); */
+
     display: grid; 
     grid-template-columns: auto;
-    grid-template-rows: 1/3 1/3 1/3;
+    grid-template-rows: auto auto;
+    align-content: center;
+    gap: 30px;
+}
+
+.UserInputPanel__Content--InputBoxesContainer {
+
+    display: grid; 
+    grid-template-columns: 50%;
+    grid-template-rows: auto auto auto;
     justify-content: center;
     align-self: center;
 }
 
-.UserInputPanel__InputBoxesContainer div{
+.UserInputPanel__Content--InputBoxesContainer div{
     text-align: center;
 }
 
-.UserInputPanel__ActionButtonsContainer {
+.UserInputPanel__Content--ActionButtonsContainer {
     height: 60px;
     display: grid; 
     grid-template-columns: auto;
@@ -40,9 +57,13 @@
     justify-content: center;
 }
 
-.UserInputPanel__DisplayInfo {
-    border: 1px solid black;
+.UserInputPanel__Content--DisplayInfo {
+    border: 1px solid white;
+    border-radius: 10px;
     text-align: center;
     align-self: center;
+    justify-self: center;
+    width: 60%;
 }
+
 

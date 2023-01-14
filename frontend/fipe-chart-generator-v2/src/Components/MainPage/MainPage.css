@@ -1,6 +1,6 @@
 .MainPage {
 
-    width: 80%;
+    width: 100%;
     height: 100%;
 
     justify-self: center;
@@ -9,26 +9,29 @@
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: auto 1fr auto;
+    
 }
 
 .MainPage__Header {
-    height: 60px;
-    background-color: #92a4b4;
+    height: 100px;
+    background-color: black;
     text-align: center;
     color: white; 
     
 }
 
 .MainPage__Content{
-    background-color: blue;
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: 100%;
+    /* background-image: linear-gradient(#33a9f4,white); */
+    background-image: url(../../images/rainbow-painting-colorful-abstract-splash-colors-backgroun-5.jpg);
+    background-attachment: fixed;
 }
 
 .MainPage__Footer {
     height: 100px;
-    background-color: #92a4b4;
+    background-color: black;
     text-align: center;
     justify-content: center;
     color: white; 

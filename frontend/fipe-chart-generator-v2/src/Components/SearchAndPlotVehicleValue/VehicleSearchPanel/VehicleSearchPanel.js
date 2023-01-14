@@ -9,49 +9,47 @@ import SearchModelYear from './SearchModelYear';
 import ShowVehicleInformation from './ShowVehicleInformation';
 import ActionButton from '../../Common/ActionButton';
 
+import { getVehicleInformation } from '../../../interfaces/BackendCalls';
+
+
+
 function VehicleSearchPanel(props) {
 
-    const [searchFlag, setSearchFlag] = useState(false);
-
     function resetValues(){
-        setSearchFlag(false);
-        props.setInputVehicleInfo({});
-        props.setPlotOptions(null);        
+        props.setInputVehicleInfo({});    
     }
 
     function searchButton(){
-        setSearchFlag(true);    
+
+        if (props.inputVehicleInfo.vehicleType && props.inputVehicleInfo.manufacturer && props.inputVehicleInfo.model &&  props.inputVehicleInfo.modelYear) {
+            getVehicleInformation(props.inputVehicleInfo).then((result) => { props.setInputVehicleInfo({...props.inputVehicleInfo, "searchResult": result}) } );
+        }
     }
 
     return (
 
         <div className="UserInputPanelContainer">
-            <div className="UserInputPanel__Heading">Consulta de Valores</div>
-            <div className="UserInputPanel__InputBoxesContainer">
-                
-                <GetVehicleType inputVehicleInfo={props.inputVehicleInfo} setInputVehicleInfo={props.setInputVehicleInfo} />
-        
-            { props.inputVehicleInfo.vehicleType && 
-                <SearchManufacturer inputVehicleInfo={props.inputVehicleInfo} setInputVehicleInfo={props.setInputVehicleInfo}/>
-            }
-            { props.inputVehicleInfo.vehicleType && props.inputVehicleInfo.manufacturer && 
-                <SearchModel inputVehicleInfo={props.inputVehicleInfo} setInputVehicleInfo={props.setInputVehicleInfo}/>
-            }
-            { props.inputVehicleInfo.vehicleType && props.inputVehicleInfo.manufacturer && props.inputVehicleInfo.model && 
-                <SearchModelYear inputVehicleInfo={props.inputVehicleInfo} setInputVehicleInfo={props.setInputVehicleInfo}/>
-            }
-            {props.inputVehicleInfo.vehicleType && props.inputVehicleInfo.manufacturer && props.inputVehicleInfo.model &&  props.inputVehicleInfo.modelYear && searchFlag && 
-                <div className="UserInputPanel__DisplayInfo">
-                    <ShowVehicleInformation inputVehicleInfo={props.inputVehicleInfo} setInputVehicleInfo={props.setInputVehicleInfo} />              
+            <div className="UserInputPanel__Head">Consulta de Valores</div>
+            <div className="UserInputPanel__Content">
+                <div className="UserInputPanel__Content--InputBoxesContainer">
+                    
+                    <GetVehicleType inputVehicleInfo={props.inputVehicleInfo} setInputVehicleInfo={props.setInputVehicleInfo} />
+            
+                { props.inputVehicleInfo.vehicleType && 
+                    <SearchManufacturer inputVehicleInfo={props.inputVehicleInfo} setInputVehicleInfo={props.setInputVehicleInfo}/>
+                }
+                { props.inputVehicleInfo.vehicleType && props.inputVehicleInfo.manufacturer && 
+                    <SearchModel inputVehicleInfo={props.inputVehicleInfo} setInputVehicleInfo={props.setInputVehicleInfo}/>
+                }
+                { props.inputVehicleInfo.vehicleType && props.inputVehicleInfo.manufacturer && props.inputVehicleInfo.model && 
+                    <SearchModelYear inputVehicleInfo={props.inputVehicleInfo} setInputVehicleInfo={props.setInputVehicleInfo}/>
+                }           
                 </div>
-            }            
+                <div className="UserInputPanel__Content--ActionButtonsContainer">
+                    {props.inputVehicleInfo.vehicleType && props.inputVehicleInfo.manufacturer && props.inputVehicleInfo.model && props.inputVehicleInfo.modelYear && <ActionButton onClick={searchButton} text="Pesquisar"/>}
+                    {<ActionButton onClick={resetValues} text="Resetar Pesquisa"/>}
+                </div>                
             </div>
-            <div className="UserInputPanel__ActionButtonsContainer">
-                {props.inputVehicleInfo.vehicleType && props.inputVehicleInfo.manufacturer && props.inputVehicleInfo.model && props.inputVehicleInfo.modelYear && !searchFlag && <ActionButton onClick={searchButton} text="Pesquisar"/>}
-                {!searchFlag && <ActionButton onClick={resetValues} text="Resetar Pesquisa"/>}
-                {props.inputVehicleInfo.searchResult && <ActionButton onClick={resetValues} text="Pesquisar Novamente"/>}
-            </div>
-
         </div>
     )
 

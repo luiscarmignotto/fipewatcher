@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react';
+import { React, useEffect } from 'react';
 
 import '../css/PlotPanel.css'
 
@@ -6,14 +6,15 @@ import '../css/PlotPanel.css'
 import { getPlotData } from '../../../interfaces/BackendCalls';
 import LineChart from './GraphsStyles/LineChart';
 import ActivityIndicator from '../../Common/ActivityIndicator';
+import ActionButton from '../../Common/ActionButton';
 
 
 const GraphPlotPanel = (props) => {
 
     useEffect(() => {
         
-        if (!props.plotData){
-            getPlotData(props.vehicleInfo, props.plotOptions).then((result) => props.setPlotData({
+        if (!props.plotData.valueArray){
+            getPlotData(props.inputVehicleInfo, props.plotOptions).then((result) => props.setPlotData({
                 "monthArray": result.monthArray,
                 "valueArray": result.valueArray
             }));
@@ -22,19 +23,26 @@ const GraphPlotPanel = (props) => {
 
     return (
         <div className="GraphPlotPanel">
-            <div className="GraphPlotPanel__Heading">
+            <div className="GraphPlotPanel__Head">
                 Gráfico De Preços
             </div>
             <div className="GraphPlotPanel__Content">
-                { props.plotData && 
-                    <LineChart monthArray={props.plotData.monthArray} valueArray={props.plotData.valueArray} vehicleInfo={props.vehicleInfo} />
-                }{
-                    !props.plotData && 
+                { props.plotData.valueArray && props.plotData.monthArray &&  
+                    <LineChart monthArray={props.plotData.monthArray} valueArray={props.plotData.valueArray} inputVehicleInfo={props.inputVehicleInfo} />
+                }
+                {
+                    !props.plotData.valueArray && 
                     <div className="GraphPlotPanel__Loading">
-                        <ActivityIndicator />
+                        <ActivityIndicator/>
                     </div>
                 }
             </div>
+            { props.plotData.valueArray && 
+            <div className="GraphPlotPanel__Content--ActionButtonsContainer">
+                <ActionButton onClick={() => { props.setPlotOptions({}) }} text="Alter Opções de Plot"/>
+                <ActionButton onClick={() => { props.setPlotOptions({}); props.setInputVehicleInfo({...props.inputVehicleInfo, "searchResult": null})}} text="Alter Opções do Veículo"/>
+            </div>
+            }
         </div>
     );
 }

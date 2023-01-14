@@ -157,6 +157,8 @@ async function GetAllVehicleInformationShort(requestBody) {
 
 function getVehicleTypes(){
 
+    console.log("getVehicleTypes Start");
+
     const vehicleTypes = [
         { "Label": "Carros e Utilitários", "id": 1, "name": "carro", "icon":"faCar"},
         { "Label": "Caminhões e micro-ônibus", "id": 3, "name": "caminhao"},

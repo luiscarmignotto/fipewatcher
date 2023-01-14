@@ -7,6 +7,7 @@ const MainPage = (props) => {
         <div className="MainPage">
             <div className="MainPage__Header">Header</div>
             <div className="MainPage__Content">
+                {/* <div>Placeholder</div> */}
                 <SearchAndPlotVehicleValue />
             </div>
             <div className="MainPage__Footer">Footer</div>

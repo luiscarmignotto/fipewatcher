@@ -78,7 +78,7 @@ async function GeneratePlotData(requestBody) {
             monthArray.push(vehicleInfoResponse.MesReferencia);
 
         } catch (error) {
-            console.log("continuing");
+            console.log("Could not find data for referenceTableId: ", tableIdIndex);
             continue; 
         }
     }

@@ -1,17 +1,22 @@
-import React, {useState, useEffect } from 'react';
+import React, {useState, useEffect, useRef } from 'react';
 import { getVehicleTypes } from '../../../interfaces/BackendCalls';
 import ChooseBox from '../../Common/ChooseBox';
 
 function GetVehicleType(props) {
 
-    const [vehicleTypeList,  setVehicleTypeList] = useState(null)
+    var count = useRef(0);
+
+    const [vehicleTypeList,  setVehicleTypeList] = useState(null);
 
     useEffect(() => {
-       
-        getVehicleTypes().then((result) => { if (result.length > 0) { setVehicleTypeList(result) }} )
-        console.log(vehicleTypeList);
+        if(!props.inputVehicleInfo.vehicleType) {
+            getVehicleTypes().then((result) => { if (result.length > 0) { setVehicleTypeList(result) }} )
+            count.current++; 
+        }
 
-    }, [props]);
+        console.log("count,", count.current);
+
+    }, [props.inputVehicleInfo.vehicleType]);
     
     function handleChoice(choiceValue) {
 
@@ -35,4 +40,4 @@ function GetVehicleType(props) {
 
 }
 
-export default GetVehicleType;
+export default React.memo(GetVehicleType);

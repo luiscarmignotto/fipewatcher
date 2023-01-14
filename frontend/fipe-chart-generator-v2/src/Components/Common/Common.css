@@ -13,24 +13,27 @@
 .SearchBox__Input {
     text-align: center;
     align-self: center;
-    color: #92a4b4;
+    color: black;
     
 }
 
 .SearchBox__DropDownList {
     text-align: left;
-    color: #92a4b4;
-    font-size: 80%;
+    color: white;
+    font-size: 100%;
+    font-weight: bold;
+
 }
 
 .ShowBox {
     font-weight: bold;
     text-align: center;
+    color: white;
 }
 
 .NumberInput {
     justify-self: center;
-    color: #92a4b4
+    color: white
 }
 
 .NumberInput__Box {
@@ -44,5 +47,5 @@
     font-size: 15px;
     font-weight: bold;
     color: white;
-    background-color: #33a9f4;;
+    background-color: transparent;
 }

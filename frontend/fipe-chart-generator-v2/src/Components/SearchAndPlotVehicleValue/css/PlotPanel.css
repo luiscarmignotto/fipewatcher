@@ -1,19 +1,20 @@
 .GraphPlotPanel {
-    border: 1px solid #93ceff; 
     border-radius: 15px;
-    background-color: #fff;
-    height: 70%;
-    width: 100%;
+    height: 800px;
+    width: auto;
+
+    background-color: (0,0,0,0.5);
+    backdrop-filter: blur(15px);
 
     display: grid; 
     grid-template-columns: auto;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: auto auto;
 }
 
-.GraphPlotPanel__Heading {
+.GraphPlotPanel__Head {
     text-align: center;
     font-weight: bold;
-    font-size: 30px;
+    font-size: 60px;
     height: 60px; 
 }
 
@@ -22,11 +23,23 @@
     grid-template-columns: auto;
     grid-template-rows: auto;
 
+    /* background-color: white; */
+    /* backdrop-filter: blur(30px); */
+
 }
 
 .GraphPlotPanel__Content canvas{
-    max-width: 100%;
-    max-height: 100%;
+    max-width: 90%;
+    max-height: 90%;
+    justify-self: center;
+}
+
+.GraphPlotPanel__Content--ActionButtonsContainer {
+    height: 60px;
+    display: grid; 
+    grid-template-columns: auto;
+    grid-template-rows: auto auto;
+    justify-content: center;
 }
 
 .GraphPlotPanel__Loading {

@@ -7,6 +7,8 @@ import GetNumberOfMonths from './GetNumberOfMonths';
 import PlotDefaults from './PlotDefaults';
 import ActionButton from '../../Common/ActionButton';
 
+import ShowVehicleInformation from '../VehicleSearchPanel/ShowVehicleInformation';
+
 
 const GraphPlotOptionsPanel = (props) => {
 
@@ -21,32 +23,37 @@ const GraphPlotOptionsPanel = (props) => {
         }
 
         if (props.plotData) {
-            props.setPlotData(null);
+            props.setPlotData({});
         }
 
         const plotOptions = {
             "numberOfMonths": numberOfMonths,
             "maxDisplayedMonths": PlotDefaults().maxDisplayedMonths
         }
+
         setWrongInputFlag(false);
         props.setPlotOptions(plotOptions);
     }
 
     return (
         <div className="UserInputPanelContainer">
-            <div className="UserInputPanel__Heading">Configurações do Plot</div>
-            <div className="UserInputPanel__InputBoxesContainer">
-                <GetNumberOfMonths setNumberOfMonths={setNumberOfMonths} />
-            </div>
-            { wrongInputFlag &&
-                <div>O número de meses do plot deve ser maior que 1</div>
-            }
-            <div className="UserInputPanel__ActionButtonsContainer">
-                {numberOfMonths && <ActionButton onClick={generatePlotOptions} text="Gerar Gráfico"/>}
-            </div>            
-            
-        </div>
-        
+            <div className="UserInputPanel__Head">Configurações do Plot</div>
+            <div className="UserInputPanel__Content">
+                <div className="UserInputPanel__Content--DisplayInfo">
+                    <ShowVehicleInformation inputVehicleInfo={props.inputVehicleInfo} setInputVehicleInfo={props.setInputVehicleInfo} />              
+                </div>
+                <div className="UserInputPanel__Content--InputBoxesContainer">
+                    <GetNumberOfMonths setNumberOfMonths={setNumberOfMonths} />
+                    { wrongInputFlag &&
+                    <div>O número de meses do plot deve ser maior que 1</div>
+                    }
+                </div>
+                <div className="UserInputPanel__Content--ActionButtonsContainer">
+                    {numberOfMonths && <ActionButton onClick={generatePlotOptions} text="Gerar Gráfico"/>}
+                    <ActionButton onClick={() => { props.setPlotOptions({}); props.setInputVehicleInfo({...props.inputVehicleInfo, "searchResult": null})}} text="Alter Opções do Veículo"/>
+                </div>  
+            </div>    
+        </div>    
     );
 }
 

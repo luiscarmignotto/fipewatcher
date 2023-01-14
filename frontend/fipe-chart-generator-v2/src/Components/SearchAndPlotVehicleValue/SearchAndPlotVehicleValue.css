@@ -1,14 +1,31 @@
 .SearchAndPlotVehicleValue {
 
+  padding: 50px;
+
   width: 100% - 1px;
   height: 100% - 1px;
 
-  border: 1px solid white; 
-  background-color: #33a9f4;
+  /* background-color: #33a9f4; */
   
   display: grid;
+  grid-template-columns: 60%;
+  grid-template-rows: auto auto auto;
   align-items: center;
-  grid-template-columns: 20% 20% 1fr;
-  justify-content: start;
-  padding: 30px;
+  justify-content: center;
+  gap: 50px;
+
+}
+
+.SearchAndPlotVehicleValue__Head{
+  font-size: 60px;
+  font-weight: bold;
+  color: white; 
+  text-align: center;
+}
+
+.SearchAndPlotVehicleValue div{
+
+  justify-self: center;
+  width: 100%;
+
 }
