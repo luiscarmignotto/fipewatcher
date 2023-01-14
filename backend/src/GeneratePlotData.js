@@ -88,6 +88,7 @@ async function GeneratePlotData(requestBody) {
 
     if (monthArray.length > 0 && valueArray.length > 0) {
         return {
+            ...requestBody, 
             "monthArray": monthArray,
             "valueArray": valueArray
         }

@@ -9,13 +9,10 @@ function SearchModelYear(props) {
 
     useEffect(() => {
         getModelYearsList(props.inputVehicleInfo).then((result) => result.length > 0 ? setModelYearsList(result) : null);
-    }, [props]);
+    }, [props.inputVehicleInfo.model]);
 
     function handleChoice(choiceValue){
-        props.setInputVehicleInfo({
-            ...props.inputVehicleInfo, 
-            "modelYear": choiceValue
-        })
+        props.setModelYear(choiceValue);
     }
 
     return (

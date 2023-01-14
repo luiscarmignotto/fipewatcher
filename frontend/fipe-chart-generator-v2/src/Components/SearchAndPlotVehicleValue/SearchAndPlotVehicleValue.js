@@ -9,30 +9,49 @@ import GraphPlotPanel from './GraphPlotPanel/GraphPlotPanel';
 
 function SearchAndPlotVehicleValue() {
 
-  const [inputVehicleInfo, setInputVehicleInfo] = useState({});
-  const [plotOptions, setPlotOptions] = useState({});
-  const [plotData,setPlotData] = useState({});
+  // Array that contains N inputVehicleInfo objects. 
+
+  const [searchAndPlotData, setSearchAndPlotData] = useState({
+    "inputVehicleInfoArray": [{
+      "id": 0
+    }],
+    "plotOptions": {},
+    "plotDataArray": []
+  });
+
+
+  function resetSearchResult(){
+
+    for (const id in searchAndPlotData.inputVehicleInfoArray) {
+      const inputVehicleInfo = searchAndPlotData.inputVehicleInfoArray[id];
+      setSearchAndPlotData({
+        ...searchAndPlotData,
+        "inputVehicleInfoArray": [
+          ...searchAndPlotData.inputVehicleInfoArray,
+          {...inputVehicleInfo, "searchResult": null}
+        ]
+      })
+    }
+  }
 
   const graphPlotOptionsPanel = useRef(null);
   const graphPlotPanel = useRef(null);
   const vehicleSearchPanel = useRef(null);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    if (plotOptions.numberOfMonths && graphPlotPanel.current) {
-      graphPlotPanel.current.scrollIntoView( {behavior: "smooth" });
-    }
-    if (inputVehicleInfo.searchResult &&  !plotOptions.numberOfMonths && graphPlotOptionsPanel.current) {
-        graphPlotOptionsPanel.current.scrollIntoView( {behavior: "smooth" } );
-    }
-    if (!inputVehicleInfo.searchResult &&  !plotOptions.numberOfMonths && !plotData.valueArray && vehicleSearchPanel.current) {
-      vehicleSearchPanel.current.scrollIntoView( {behavior: "smooth" } );
-    }
-  }, [inputVehicleInfo, plotOptions, plotData]);
+  //   if (searchAndPlotData.plotOptions.numberOfMonths && graphPlotPanel.current) {
+  //     graphPlotPanel.current.scrollIntoView( {behavior: "smooth" });
+  //   }
+  //   if (inputVehicleInfo.searchResult &&  !searchAndPlotData.plotOptions.numberOfMonths && graphPlotOptionsPanel.current) {
+  //       graphPlotOptionsPanel.current.scrollIntoView( {behavior: "smooth" } );
+  //   }
+  //   if (!inputVehicleInfo.searchResult &&  !searchAndPlotData.plotOptions.numberOfMonths && !plotData.valueArray && vehicleSearchPanel.current) {
+  //     vehicleSearchPanel.current.scrollIntoView( {behavior: "smooth" } );
+  //   }
+  // }, [inputVehicleInfo, plotOptions, plotData]);
 
-  console.log("inputVehicleInfo", inputVehicleInfo);
-  console.log("plotOptions", plotOptions);
-  console.log("plotData", plotData);
+  console.log("searchAndPlotData: ", searchAndPlotData);
 
   return (
     <div className="SearchAndPlotVehicleValue">
@@ -40,13 +59,15 @@ function SearchAndPlotVehicleValue() {
         Histórico de Preços de Veículos - Tabela FIPE
       </div>
       <div ref={vehicleSearchPanel}>
-        <VehicleSearchPanel inputVehicleInfo={inputVehicleInfo} setInputVehicleInfo={setInputVehicleInfo} setPlotOptions={setPlotOptions}/>
+        <VehicleSearchPanel searchAndPlotData={searchAndPlotData} setSearchAndPlotData={setSearchAndPlotData}/>
       </div>      
       <div ref={graphPlotOptionsPanel}>
-        {inputVehicleInfo.searchResult && <GraphPlotOptionsPanel  plotOptions={plotOptions} setPlotOptions={setPlotOptions} plotData={plotData} setPlotData={setPlotData} inputVehicleInfo={inputVehicleInfo} setInputVehicleInfo={setInputVehicleInfo}/>}
+        {searchAndPlotData.inputVehicleInfoArray[0].searchResult && 
+        <GraphPlotOptionsPanel  searchAndPlotData={searchAndPlotData} setSearchAndPlotData={setSearchAndPlotData} resetSearchResult={resetSearchResult}/>}
       </div>
       <div ref={graphPlotPanel}>
-        {inputVehicleInfo.searchResult && plotOptions.numberOfMonths && <GraphPlotPanel inputVehicleInfo={inputVehicleInfo} setInputVehicleInfo={setInputVehicleInfo} plotOptions={plotOptions} setPlotOptions={setPlotOptions} plotData={plotData} setPlotData={setPlotData}/>}
+        {searchAndPlotData.inputVehicleInfoArray[0].searchResult && searchAndPlotData.plotOptions.numberOfMonths && 
+        <GraphPlotPanel searchAndPlotData={searchAndPlotData} setSearchAndPlotData={setSearchAndPlotData} resetSearchResult={resetSearchResult}/>}
       </div>
     </div>
   );

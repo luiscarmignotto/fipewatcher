@@ -6,22 +6,26 @@ import { convertLabelToCurrency } from './GraphPlotFormatTools';
 
 const LineChart = (props) => {
 
-  const title = props.inputVehicleInfo.manufacturer.Label + " - " + props.inputVehicleInfo.model.Label + " - " + props.inputVehicleInfo.modelYear.Label
 
-  const displayLabel = convertLabelToCurrency(props.valueArray); 
+  // const title = props.inputVehicleInfo.manufacturer.Label + " - " + props.inputVehicleInfo.model.Label + " - " + props.inputVehicleInfo.modelYear.Label;
+  const title = "test";
+
+  // const displayLabel = convertLabelToCurrency(props.valueArray); 
 
   const data = {
-    labels: props.monthArray,
-    datasets: [
+    labels: props.dataArray[0].monthArray,
+    datasets: props.dataArray.map((item, index) => (
       {
-        label: title,
-        data: props.valueArray,
-        fill: true,
-        backgroundColor: 'rgba(0,0,0,0.2)',
-        borderColor: 'rgba(255,255,255,1)',    
+        "label": item.vehicleInfo.manufacturer.Label + " - " + item.vehicleInfo.model.Label + " - " + item.vehicleInfo.modelYear.Label,
+        "data": item.valueArray,
+        "fill": true,
+        "backgroundColor": 'rgba(0,0,0,0.2)',
+        "borderColor": 'rgba(255,255,255,1)',    
       }
-    ],
+    )),
+
     reponsive: true
+    
   };
 
   return <Line data={data} />

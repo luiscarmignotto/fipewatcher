@@ -30,7 +30,7 @@ async function sendBackendRequest(operation, bodyInfo) {
 
     // console.log("Sending ", requestMethod, " request to ", operation, "with: ", payload);
 
-    const response = await fetch(backendEndpoint, payload)
+    const response = await fetch(backendEndpoint, payload);
     const jsonData = await response.json();
 
     // console.log("jsonData: ", jsonData);

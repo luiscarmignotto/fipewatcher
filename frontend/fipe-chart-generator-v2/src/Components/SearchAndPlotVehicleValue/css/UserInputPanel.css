@@ -36,6 +36,13 @@
     gap: 30px;
 }
 
+.UserInputPanel__Content--AllInstances {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: center;
+    gap: 10px;
+}
+
 .UserInputPanel__Content--InputBoxesContainer {
 
     display: grid; 

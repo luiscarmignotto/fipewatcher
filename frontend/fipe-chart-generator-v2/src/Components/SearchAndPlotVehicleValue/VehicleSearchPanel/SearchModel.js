@@ -9,15 +9,10 @@ function SearchModel(props) {
 
     useEffect(() => {
         getModelsList(props.inputVehicleInfo).then((result) => result["Modelos"].length > 0 ? setModelsList(result["Modelos"]) : null);
-    }, [props]);
-
+    }, [props.inputVehicleInfo.manufacturer]);
 
     function handleChoice(choiceValue){
-        props.setInputVehicleInfo({
-            ...props.inputVehicleInfo, 
-            "model": choiceValue,
-            "modelYear": null
-        })
+        props.setModel(choiceValue);
     }
 
     return (

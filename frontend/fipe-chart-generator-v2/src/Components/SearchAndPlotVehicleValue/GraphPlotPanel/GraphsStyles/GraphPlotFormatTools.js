@@ -7,7 +7,7 @@ function convertLabelToCurrency(labelArray) {
         labelArray.map((item) => converted.push("R$ " + item.replace(",", ".")));
     }
 
-    console.log("Converted", converted)
+    // console.log("Converted", converted);
 
     return converted; 
 }
