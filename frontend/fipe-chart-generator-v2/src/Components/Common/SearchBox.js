@@ -1,15 +1,21 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect } from 'react';
 import './Common.css'
 
 function SearchBox(props) {
 
     const [searchValue, setSearchValue] = useState("");
 
-    function searchFilter(value) {
+    useEffect(() => {
+        if (props.displayItem) {
+            setSearchValue(props.displayItem.Label)
+        } else {
+            setSearchValue("")
+        }
+    }, [props.displayItem]);    
 
+    function searchFilter(value) {
         const searchTerm = searchValue.toLowerCase();
         const fullName = value.toLowerCase();
-
 
         return (
             searchTerm &&
@@ -19,9 +25,7 @@ function SearchBox(props) {
     }
 
     function displayOptions(itemsList){
-        
         const filterIncludeOptions = itemsList.filter((item) => searchFilter(item.Label)).sort().splice(0,9);
-
         return filterIncludeOptions
     }
 
@@ -29,7 +33,7 @@ function SearchBox(props) {
 
         <div className="SearchBox">
             <input className="SearchBox__Input" type="text" value={searchValue} placeholder={props.placeholder} onChange={(e) => setSearchValue(e.target.value)} />
-            {props.itemsList && displayOptions(props.itemsList).map((item) => (<div key={item.Value} className="SearchBox__DropDownList" onClick={() => {setSearchValue(item.Label); props.setOption(item)}}>{item.Label}</div>))}
+            {props.itemsList && displayOptions(props.itemsList).map((item) => (<div key={item.Value} className="SearchBox__DropDownList" onClick={() => {props.setOption(item)}}>{item.Label}</div>))}
             {/* {props.itemsList && props.itemsList.filter((item) => searchFilter(item.Label)).map((item) => (<div key={item.Value} onClick={() => {setSearchValue(item.Label); props.setOption(item)}}>{item.Label}</div>))} */}
         </div>
     )

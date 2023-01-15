@@ -19,6 +19,12 @@ function SearchAndPlotVehicleValue() {
     "plotDataArray": []
   });
 
+  const [canGetPlotData, setCanGetPlotData] = useState(false);
+
+  useEffect(() => {
+    checkIfCanGetPlotData();
+  }, [searchAndPlotData]);
+
 
   function resetSearchResult(){
 
@@ -34,22 +40,35 @@ function SearchAndPlotVehicleValue() {
     }
   }
 
+  function checkIfCanGetPlotData(){
+
+    for (let i = 0; i < searchAndPlotData.inputVehicleInfoArray.length; i++) {
+      const inputVehicleInfo = searchAndPlotData.inputVehicleInfoArray[i];
+
+      if (inputVehicleInfo.searchResult == null) {
+        setCanGetPlotData(false);
+        return;
+      }
+    }
+    setCanGetPlotData(true);
+  }
+
   const graphPlotOptionsPanel = useRef(null);
   const graphPlotPanel = useRef(null);
   const vehicleSearchPanel = useRef(null);
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   if (searchAndPlotData.plotOptions.numberOfMonths && graphPlotPanel.current) {
-  //     graphPlotPanel.current.scrollIntoView( {behavior: "smooth" });
-  //   }
-  //   if (inputVehicleInfo.searchResult &&  !searchAndPlotData.plotOptions.numberOfMonths && graphPlotOptionsPanel.current) {
-  //       graphPlotOptionsPanel.current.scrollIntoView( {behavior: "smooth" } );
-  //   }
-  //   if (!inputVehicleInfo.searchResult &&  !searchAndPlotData.plotOptions.numberOfMonths && !plotData.valueArray && vehicleSearchPanel.current) {
-  //     vehicleSearchPanel.current.scrollIntoView( {behavior: "smooth" } );
-  //   }
-  // }, [inputVehicleInfo, plotOptions, plotData]);
+    // if (searchAndPlotData.plotOptions.numberOfMonths && graphPlotPanel.current) {
+    //   graphPlotPanel.current.scrollIntoView( {behavior: "smooth" });
+    // }
+    if (canGetPlotData &&  !searchAndPlotData.plotOptions.numberOfMonths && graphPlotOptionsPanel.current) {
+        graphPlotOptionsPanel.current.scrollIntoView( {behavior: "smooth" } );
+    }
+    // if (!inputVehicleInfo.searchResult &&  !searchAndPlotData.plotOptions.numberOfMonths && !plotData.valueArray && vehicleSearchPanel.current) {
+    //   vehicleSearchPanel.current.scrollIntoView( {behavior: "smooth" } );
+    // }
+  }, [canGetPlotData, searchAndPlotData]);
 
   console.log("searchAndPlotData: ", searchAndPlotData);
 
@@ -62,13 +81,13 @@ function SearchAndPlotVehicleValue() {
         <VehicleSearchPanel searchAndPlotData={searchAndPlotData} setSearchAndPlotData={setSearchAndPlotData}/>
       </div>      
       <div ref={graphPlotOptionsPanel}>
-        {searchAndPlotData.inputVehicleInfoArray[0].searchResult && 
+        {canGetPlotData && 
         <GraphPlotOptionsPanel  searchAndPlotData={searchAndPlotData} setSearchAndPlotData={setSearchAndPlotData} resetSearchResult={resetSearchResult}/>}
       </div>
-      <div ref={graphPlotPanel}>
+      {/* <div ref={graphPlotPanel}>
         {searchAndPlotData.inputVehicleInfoArray[0].searchResult && searchAndPlotData.plotOptions.numberOfMonths && 
         <GraphPlotPanel searchAndPlotData={searchAndPlotData} setSearchAndPlotData={setSearchAndPlotData} resetSearchResult={resetSearchResult}/>}
-      </div>
+      </div> */}
     </div>
   );
 }

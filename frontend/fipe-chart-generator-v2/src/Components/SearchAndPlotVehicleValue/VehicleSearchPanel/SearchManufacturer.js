@@ -17,7 +17,7 @@ function SearchManufacturer(props) {
 
     return (
         <div>
-            <SearchBox setOption={handleChoice} itemsList={manufacturersList} placeholder="Digite a Marca"/>
+            <SearchBox setOption={handleChoice} itemsList={manufacturersList} displayItem={props.inputVehicleInfo.manufacturer} placeholder="Digite a Marca"/>
         </div>
         
     )

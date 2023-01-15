@@ -16,7 +16,7 @@ function SearchModelYear(props) {
     }
 
     return (
-        <SearchBox setOption={handleChoice} itemsList={modelYearsList} placeholder="Digite o Ano"/>
+        <SearchBox setOption={handleChoice} itemsList={modelYearsList} displayItem={props.inputVehicleInfo.modelYear} placeholder="Digite o Ano"/>
     )
 
 }

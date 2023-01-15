@@ -13,7 +13,7 @@ const LineChart = (props) => {
   // const displayLabel = convertLabelToCurrency(props.valueArray); 
 
   const data = {
-    labels: props.dataArray[0].monthArray,
+    labels: props.searchAndPlotData.plotLabels,
     datasets: props.dataArray.map((item, index) => (
       {
         "label": item.vehicleInfo.manufacturer.Label + " - " + item.vehicleInfo.model.Label + " - " + item.vehicleInfo.modelYear.Label,
@@ -23,9 +23,7 @@ const LineChart = (props) => {
         "borderColor": 'rgba(255,255,255,1)',    
       }
     )),
-
     reponsive: true
-    
   };
 
   return <Line data={data} />

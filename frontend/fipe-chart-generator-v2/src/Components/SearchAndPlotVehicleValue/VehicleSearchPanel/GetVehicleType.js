@@ -5,7 +5,7 @@ import ChooseBox from '../../Common/ChooseBox';
 function GetVehicleType(props) {
 
     const [vehicleTypeList,  setVehicleTypeList] = useState(null);
-
+    
     useEffect(() => {
         if(!props.inputVehicleInfo.vehicleType) {
             getVehicleTypes().then((result) => { if (result.length > 0) { setVehicleTypeList(result) }} )
@@ -19,7 +19,7 @@ function GetVehicleType(props) {
 
     return (
         <div>
-            {vehicleTypeList && <ChooseBox itemsList={vehicleTypeList} setOption={handleChoice}/>} 
+            {vehicleTypeList && <ChooseBox itemsList={vehicleTypeList} setOption={handleChoice} displayItem={props.inputVehicleInfo.vehicleType}/>} 
             {!vehicleTypeList && <div>ERRO AO SE CONECTAR COM O SERVIDOR</div>}
         </div>
     )

@@ -17,7 +17,7 @@ function SearchModel(props) {
 
     return (
         <div>
-            <SearchBox setOption={handleChoice} itemsList={modelsList} placeholder="Digite o Modelo"/>
+            <SearchBox setOption={handleChoice} itemsList={modelsList} displayItem={props.inputVehicleInfo.model} placeholder="Digite o Modelo"/>
         </div>
     )
 

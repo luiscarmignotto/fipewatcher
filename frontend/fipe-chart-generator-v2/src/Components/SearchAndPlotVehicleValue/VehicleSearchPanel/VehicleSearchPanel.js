@@ -6,11 +6,7 @@ import VehicleSearchPanelInputBoxes from './VehicleSearchPanelInputBoxes';
 import ActionButton from '../../Common/ActionButton';
 
 import { getVehicleInformation } from '../../../interfaces/BackendCalls';
-
-
-
-
-
+import VehicleSearchPanelDefaults from './VehicleSearchPanelDefaults';
 
 function VehicleSearchPanel(props) {
 
@@ -22,23 +18,32 @@ function VehicleSearchPanel(props) {
 
     }, [props.searchAndPlotData.inputVehicleInfoArray]);
 
-    function setInputVehicleInfoInstance(id, value) {
+    function updateInputVehicleInfoInstance(id, value) {
 
-        console.log("setInputVehicleInfoInstance id", id);
-        console.log("setInputVehicleInfoInstance value", value);
-    
-        props.setSearchAndPlotData({
-          ...props.searchAndPlotData,
-          "inputVehicleInfoArray": [
-            ...props.searchAndPlotData.inputVehicleInfoArray.slice(0,id), 
-            value,
-            ...props.searchAndPlotData.inputVehicleInfoArray.slice(id+1, props.searchAndPlotData.inputVehicleInfoArray.length)
-          ]
-        })
+        console.log("updateInputVehicleInfoInstance Start");
 
-        // console.log("...props.searchAndPlotData.inputVehicleInfoArray.slice(0,id)", ...props.searchAndPlotData.inputVehicleInfoArray.slice(0,id))
-        // console.log("...props.searchAndPlotData.inputVehicleInfoArray.slice(id+1, props.searchAndPlotData.inputVehicleInfoArray.length + 1)", ...props.searchAndPlotData.inputVehicleInfoArray.slice(id+1, props.searchAndPlotData.inputVehicleInfoArray.length + 1))
-      }    
+        const arrayIndex = props.searchAndPlotData.inputVehicleInfoArray.findIndex((item) => item.id === id);
+
+        if (arrayIndex !== -1) {
+            props.setSearchAndPlotData({
+                ...props.searchAndPlotData,
+                "inputVehicleInfoArray": [
+                    ...props.searchAndPlotData.inputVehicleInfoArray.slice(0,arrayIndex),
+                    value, 
+                    ...props.searchAndPlotData.inputVehicleInfoArray.slice(arrayIndex+1)
+                ]
+            });            
+        } else {
+            props.setSearchAndPlotData({
+                ...props.searchAndPlotData,
+                "inputVehicleInfoArray": [
+                    ...props.searchAndPlotData.inputVehicleInfoArray,
+                    value
+                ]
+            });              
+        }     
+        console.log("arrayIndex", arrayIndex);     
+    };
 
     function resetValues() {
         props.setSearchAndPlotData({
@@ -50,7 +55,7 @@ function VehicleSearchPanel(props) {
         });
 
         setCanSearch(false);
-    }
+    };
 
     function checkIfUserInputIsComplete(){
 
@@ -64,8 +69,7 @@ function VehicleSearchPanel(props) {
         }
         // console.log("Can Search!!");
         setCanSearch(true);
-
-    }
+    };
 
     async function searchButton() {
 
@@ -83,27 +87,42 @@ function VehicleSearchPanel(props) {
                 const response = await getVehicleInformation(inputVehicleInfo);
                 console.log("response", response);
                 localInputVehicleInfoArray.push({...inputVehicleInfo, "searchResult": response});
-                // setInputVehicleInfoInstance(inputVehicleInfo.id, { ...inputVehicleInfo, "searchResult": response } );
+                // updateInputVehicleInfoInstance(inputVehicleInfo.id, { ...inputVehicleInfo, "searchResult": response } );
             }             
         }
-        
+
         props.setSearchAndPlotData({
             ...props.searchAndPlotData,
             "inputVehicleInfoArray": localInputVehicleInfoArray
         })
+    };
+
+    function addNewEmptySearchInstance(){
+
+        if (props.searchAndPlotData.inputVehicleInfoArray.length < VehicleSearchPanelDefaults().maxSearchInstances) {
+            const inUseIds = props.searchAndPlotData.inputVehicleInfoArray.map((item) => item.id);
+
+            for (let i = 0; i < VehicleSearchPanelDefaults().maxSearchInstances; i++) {
+                if (!inUseIds.includes(i)) {
+                    console.log("new id", i);
+                    updateInputVehicleInfoInstance(i, {
+                        id: i
+                    })   
+                    return;                  
+                }
+            }
+        }
     }
 
-    function addNewSearchInstance(){
-        const newId = props.searchAndPlotData.inputVehicleInfoArray.length;
-        setInputVehicleInfoInstance(newId, {
-            id: newId
-        })
-    }
+    function removeSearchInstance(inputVehicleInfo){
 
-    function removeSearchInstance(){
-        const newId = props.searchAndPlotData.inputVehicleInfoArray.length;
-        setInputVehicleInfoInstance(newId, {
-            id: newId
+        const toRemoveId = inputVehicleInfo.id; 
+        console.log("removeSearchInstance", toRemoveId);
+        console.log("filter", props.searchAndPlotData.inputVehicleInfoArray.filter((item) => item.id !== toRemoveId))
+        
+        props.setSearchAndPlotData({
+            ...props.searchAndPlotData,
+            "inputVehicleInfoArray": props.searchAndPlotData.inputVehicleInfoArray.filter((item) => item.id !== toRemoveId)
         })
     }
 
@@ -113,15 +132,23 @@ function VehicleSearchPanel(props) {
             <div className="UserInputPanel__Head">Consulta de Valores</div>
             <div className="UserInputPanel__Content">
                 <div className="UserInputPanel__Content--AllInstances">
-                {props.searchAndPlotData.inputVehicleInfoArray.map((item, index) => (
-                        <VehicleSearchPanelInputBoxes key={index} inputVehicleInfo={item} setInputVehicleInfoInstance={setInputVehicleInfoInstance}/>
+                {props.searchAndPlotData.inputVehicleInfoArray.map((inputVehicleInfo, index) => (
+                    <div key={index}>
+                       <VehicleSearchPanelInputBoxes searchAndPlotData={props.searchAndPlotData} inputVehicleInfo={inputVehicleInfo} updateInputVehicleInfoInstance={updateInputVehicleInfoInstance} removeInstance={removeSearchInstance}/>
+                    </div>
                 ))} 
                 </div>
 
                 <div className="UserInputPanel__Content--ActionButtonsContainer">
-                    {canSearch && <ActionButton onClick={searchButton} text="Pesquisar"/>}
-                    {<ActionButton onClick={resetValues} text="Resetar Pesquisa"/>}
-                    {<ActionButton onClick={addNewSearchInstance} text="Comparar com outro veículo"/>}
+                {props.searchAndPlotData.inputVehicleInfoArray.length < VehicleSearchPanelDefaults().maxSearchInstances &&
+                    <ActionButton onClick={addNewEmptySearchInstance} text="Comparar com outro veículo"/>
+                }
+                {
+                    <ActionButton onClick={resetValues} text="Resetar Pesquisa"/>
+                }
+                {canSearch && 
+                    <ActionButton onClick={searchButton} text="Pesquisar"/>
+                }                
                 </div>                
             </div>
         </div>

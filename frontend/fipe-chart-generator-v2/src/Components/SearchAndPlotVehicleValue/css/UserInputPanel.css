@@ -46,7 +46,8 @@
 .UserInputPanel__Content--InputBoxesContainer {
 
     display: grid; 
-    grid-template-columns: 50%;
+    border: 1px solid white;
+    grid-template-columns: auto;
     grid-template-rows: auto auto auto;
     justify-content: center;
     align-self: center;
@@ -54,6 +55,8 @@
 
 .UserInputPanel__Content--InputBoxesContainer div{
     text-align: center;
+    align-self: center;
+    width: 100%;
 }
 
 .UserInputPanel__Content--ActionButtonsContainer {

@@ -31,23 +31,23 @@ const GraphPlotPanel = (props) => {
             console.log("Getting PlotData");
             const response = await getPlotData(inputVehicleInfo, props.searchAndPlotData.plotOptions);
 
-            localPlotDataArray.push(response);
-            
-            if (labels.length > 0) {
-                if (response.monthArray.length < labels.length) {
+            if (response.valueArray.length > 0) {
+                if (labels.length > 0) {
+                    if (response.monthArray.length < labels.length) {
+                        labels = response.monthArray;
+                    }
+                } else {
                     labels = response.monthArray;
                 }
-            } else {
-                labels = response.monthArray;
             }
 
+            localPlotDataArray.push(response);
             // }
         } 
         
-        
-        
         props.setSearchAndPlotData({
             ...props.searchAndPlotData,
+            "plotLabels": labels, 
             "plotDataArray": localPlotDataArray
         })
     }
@@ -58,7 +58,7 @@ const GraphPlotPanel = (props) => {
                 Gráfico De Preços
             </div>
             <div className="GraphPlotPanel__Content">
-                { props.searchAndPlotData.plotDataArray.length > 0 && props.searchAndPlotData.plotDataArray.length > 0 &&  
+                { props.searchAndPlotData.plotDataArray.length > 0 &&  
                     <LineChart searchAndPlotData={props.searchAndPlotData} dataArray={props.searchAndPlotData.plotDataArray}/>
                 }
                 {
