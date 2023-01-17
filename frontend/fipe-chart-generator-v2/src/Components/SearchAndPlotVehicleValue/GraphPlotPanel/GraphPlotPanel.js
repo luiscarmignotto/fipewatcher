@@ -13,7 +13,7 @@ const GraphPlotPanel = (props) => {
 
     useEffect(() => {
         updatePlotData();
-    }, [props.searchAndPlotData.plotOptions]);
+    }, [props.state.plotOptions]);
 
     async function updatePlotData(){
 
@@ -23,13 +23,13 @@ const GraphPlotPanel = (props) => {
 
         var labels = [];
         
-        for (let id=0; id < props.searchAndPlotData.inputVehicleInfoArray.length; id++) {
+        for (let id=0; id < props.state.inputVehicleInfoArray.length; id++) {
 
-            var inputVehicleInfo = props.searchAndPlotData.inputVehicleInfoArray[id];
+            var inputVehicleInfo = props.state.inputVehicleInfoArray[id];
 
-            // if (!props.searchAndPlotData.plotDataArray[id]){
+            // if (!props.state.plotDataArray[id]){
             console.log("Getting PlotData");
-            const response = await getPlotData(inputVehicleInfo, props.searchAndPlotData.plotOptions);
+            const response = await getPlotData(inputVehicleInfo, props.state.plotOptions);
 
             if (response.valueArray.length > 0) {
                 if (labels.length > 0) {
@@ -45,8 +45,8 @@ const GraphPlotPanel = (props) => {
             // }
         } 
         
-        props.setSearchAndPlotData({
-            ...props.searchAndPlotData,
+        props.setstate({
+            ...props.state,
             "plotLabels": labels, 
             "plotDataArray": localPlotDataArray
         })
@@ -58,17 +58,17 @@ const GraphPlotPanel = (props) => {
                 Gráfico De Preços
             </div>
             <div className="GraphPlotPanel__Content">
-                { props.searchAndPlotData.plotDataArray.length > 0 &&  
-                    <LineChart searchAndPlotData={props.searchAndPlotData} dataArray={props.searchAndPlotData.plotDataArray}/>
+                { props.state.plotDataArray.length > 0 &&  
+                    <LineChart state={props.state} dataArray={props.state.plotDataArray}/>
                 }
                 {
-                    !props.searchAndPlotData.plotDataArray.length > 0 && 
+                    !props.state.plotDataArray.length > 0 && 
                     <div className="GraphPlotPanel__Loading">
                         <ActivityIndicator/>
                     </div>
                 }
             </div>
-            { props.searchAndPlotData.plotDataArray.length > 0 && 
+            { props.state.plotDataArray.length > 0 && 
             <div className="GraphPlotPanel__Content--ActionButtonsContainer">
                 <ActionButton onClick={() => { props.setPlotOptions({}) }} text="Alter Opções de Plot"/>
                 <ActionButton onClick={() => { props.setPlotOptions({}); props.setInputVehicleInfo({...props.inputVehicleInfo, "searchResult": null})}} text="Alter Opções do Veículo"/>

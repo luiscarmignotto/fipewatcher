@@ -16,8 +16,8 @@ const GraphPlotOptionsPanel = (props) => {
     const [wrongInputFlag, setWrongInputFlag] = useState(false);
 
     function setPlotOptions(value) {
-        props.setSearchAndPlotData({
-          ...props.searchAndPlotData,
+        props.setstate({
+          ...props.state,
           "plotOptions": value
         })
     };
@@ -29,7 +29,7 @@ const GraphPlotOptionsPanel = (props) => {
             return; 
         }
 
-        if (props.searchAndPlotData.plotDataArray) {
+        if (props.state.plotDataArray) {
             // props.setPlotData([]);
         }
 
@@ -47,7 +47,7 @@ const GraphPlotOptionsPanel = (props) => {
             <div className="UserInputPanel__Head">Configurações do Plot</div>
             <div className="UserInputPanel__Content">
                 <div className="UserInputPanel__Content--AllInstances">
-                    {props.searchAndPlotData.inputVehicleInfoArray.map((item,index) => (
+                    {props.state.inputVehicleInfoArray.map((item,index) => (
                         <ShowVehicleInformation key={index} inputVehicleInfo={item} />  
                     ))}
                 </div>

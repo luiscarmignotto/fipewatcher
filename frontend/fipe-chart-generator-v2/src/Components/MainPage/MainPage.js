@@ -3,6 +3,9 @@ import './MainPage.css'
 import SearchAndPlotVehicleValue from '../SearchAndPlotVehicleValue/SearchAndPlotVehicleValue';
 
 const MainPage = (props) => {
+
+    console.log("Main Page Running");
+
     return (
         <div className="MainPage">
             <div className="MainPage__Header">Header</div>

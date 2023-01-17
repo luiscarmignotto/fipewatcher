@@ -1,5 +1,5 @@
 export default function VehicleSearchPanelDefaults() {
     return {
-        "maxSearchInstances": 3
+        "MAX_SEARCH_INSTANCES": 3
     }
 }

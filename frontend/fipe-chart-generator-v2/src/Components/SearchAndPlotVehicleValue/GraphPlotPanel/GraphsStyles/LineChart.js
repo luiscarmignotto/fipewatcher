@@ -13,7 +13,7 @@ const LineChart = (props) => {
   // const displayLabel = convertLabelToCurrency(props.valueArray); 
 
   const data = {
-    labels: props.searchAndPlotData.plotLabels,
+    labels: props.state.plotLabels,
     datasets: props.dataArray.map((item, index) => (
       {
         "label": item.vehicleInfo.manufacturer.Label + " - " + item.vehicleInfo.model.Label + " - " + item.vehicleInfo.modelYear.Label,

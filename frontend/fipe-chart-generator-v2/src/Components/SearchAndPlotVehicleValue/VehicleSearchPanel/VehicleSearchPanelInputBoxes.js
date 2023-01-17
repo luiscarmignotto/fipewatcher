@@ -72,8 +72,8 @@ const VehicleSearchPanelInputBoxes = (props) => {
             { props.inputVehicleInfo.vehicleType && props.inputVehicleInfo.manufacturer && props.inputVehicleInfo.model && 
                 <SearchModelYear inputVehicleInfo={props.inputVehicleInfo} setModelYear={setModelYear}/>
             }  
-            {props.searchAndPlotData.inputVehicleInfoArray.length > 1 && 
-                <ActionButton onClick={() => {props.removeInstance(props.inputVehicleInfo)}} text="Remover Instância"/>
+            {props.state.inputVehicleInfoArray.length > 1 && 
+                <ActionButton onClick={() => {props.removeInstance(props.inputVehicleInfo.id)}} text="Remover Instância"/>
             }         
         </div>
     );
