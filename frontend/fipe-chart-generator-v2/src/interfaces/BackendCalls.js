@@ -13,12 +13,7 @@ async function sendBackendRequest(operation, bodyInfo) {
         cache: 'no-cache',
         withCredentials: false, 
         headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json;",
-            "Access-Control-Allow-Credentials" : true,
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "DELETE, POST, GET, OPTIONS",
-            "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",      
+            "Content-Type": "application/json"    
         }
     }
 
@@ -39,14 +34,7 @@ async function sendBackendRequest(operation, bodyInfo) {
 
 }
 
-async function getBackendInfo (operation, bodyInfo) {
-
-    const response = await sendBackendRequest(operation, bodyInfo);
-    return response;
-
-}
-
-async function getManufacturersList(inputVehicleInfo) {
+function getManufacturersList(inputVehicleInfo) {
 
     const operation = "SearchManufacturer";
 
@@ -54,12 +42,11 @@ async function getManufacturersList(inputVehicleInfo) {
         "vehicleTypeId": inputVehicleInfo.vehicleType.id
     }
 
-    const response = await getBackendInfo(operation, requestBodyInfo);
-    return response
+    return sendBackendRequest(operation, requestBodyInfo);
 
 }
 
-async function getModelsList(inputVehicleInfo) {
+function getModelsList(inputVehicleInfo) {
 
     const operation = "SearchModels";
 
@@ -68,12 +55,11 @@ async function getModelsList(inputVehicleInfo) {
         "manufacturerId": inputVehicleInfo.manufacturer.Value
     }
 
-    const response = await getBackendInfo(operation, requestBodyInfo);
-    return response
+    return sendBackendRequest(operation, requestBodyInfo);
 
 }
 
-async function getModelYearsList(inputVehicleInfo) {
+function getModelYearsList(inputVehicleInfo) {
 
     const operation = "SearchModelYears";
 
@@ -83,12 +69,11 @@ async function getModelYearsList(inputVehicleInfo) {
         "modelId": inputVehicleInfo.model.Value
     }
 
-    const response = await getBackendInfo(operation, requestBodyInfo);
-    return response
+    return sendBackendRequest(operation, requestBodyInfo);
 
 }
 
-async function getVehicleInformation(inputVehicleInfo) {
+function getVehicleInformation(inputVehicleInfo) {
 
     const operation = "getVehicleInformation";
 
@@ -99,20 +84,18 @@ async function getVehicleInformation(inputVehicleInfo) {
         "modelYearId": inputVehicleInfo.modelYear.Label
     }
 
-    const response = await getBackendInfo(operation, requestBodyInfo);
-    return response
+    return sendBackendRequest(operation, requestBodyInfo);
 
 }
 
-async function getVehicleTypes() {
+function getVehicleTypes() {
 
     const operation = "getVehicleTypes";
 
-    const response = await getBackendInfo(operation, null);
-    return response
+    return sendBackendRequest(operation, null);
 }
 
-async function getPlotData(vehicleInfo, plotOptions) {
+function getPlotData(vehicleInfo, plotOptions) {
 
     const operation = "getPlotData";
 
@@ -121,8 +104,7 @@ async function getPlotData(vehicleInfo, plotOptions) {
         "plotOptions": plotOptions
     }
 
-    const response = await getBackendInfo(operation, requestBodyInfo);
-    return response
+    return sendBackendRequest(operation, requestBodyInfo);
 }
 
 export { getVehicleTypes, getManufacturersList, getModelsList, getModelYearsList, getVehicleInformation, getPlotData }

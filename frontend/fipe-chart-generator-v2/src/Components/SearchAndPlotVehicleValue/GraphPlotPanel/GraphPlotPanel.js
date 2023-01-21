@@ -44,12 +44,15 @@ const GraphPlotPanel = (props) => {
             localPlotDataArray.push(response);
             // }
         } 
-        
-        props.setstate({
-            ...props.state,
-            "plotLabels": labels, 
-            "plotDataArray": localPlotDataArray
+
+
+        props.dispatch({
+            type: 'PlotPanel',
+            subtype: 'UpdatePlotData',
+            plotDataArray: localPlotDataArray,
+            plotDataLabels: labels
         })
+        
     }
 
     return (

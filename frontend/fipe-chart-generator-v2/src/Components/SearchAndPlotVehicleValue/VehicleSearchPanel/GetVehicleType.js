@@ -1,29 +1,50 @@
-import React, {useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect } from 'react';
 import { getVehicleTypes } from '../../../interfaces/BackendCalls';
+import ActivityIndicator from '../../Common/ActivityIndicator';
 import ChooseBox from '../../Common/ChooseBox';
 
 function GetVehicleType(props) {
 
-    const [vehicleTypeList,  setVehicleTypeList] = useState(null);
+    const [vehicleTypeList,  setVehicleTypeList] = useState({loading: true});
     
     useEffect(() => {
-        if(!props.inputVehicleInfo.vehicleType) {
-            getVehicleTypes().then((result) => { if (result.length > 0) { setVehicleTypeList(result) }} )
+
+        if (!vehicleTypeList.result) {
+            getVehicleTypes()
+            .then((result) => { 
+                setVehicleTypeList({loading: false, result}) 
+            })
+            .catch((error) => setVehicleTypeList({loading: false, error}));
         }
-    }, [props.inputVehicleInfo.vehicleType]);
+    });
     
     function handleChoice(choiceValue) {
         // console.log("setVehicleType HandleChoice", choiceValue);
         props.setVehicleType(choiceValue)
     }
 
-    return (
-        <div>
-            {vehicleTypeList && <ChooseBox itemsList={vehicleTypeList} setOption={handleChoice} displayItem={props.inputVehicleInfo.vehicleType}/>} 
-            {!vehicleTypeList && <div>ERRO AO SE CONECTAR COM O SERVIDOR</div>}
-        </div>
-    )
+    if (vehicleTypeList.result) {
 
+        if (vehicleTypeList.result.length === 0) {
+            return (<div>Length 0</div>)
+        }
+
+        return (
+            <ChooseBox itemsList={vehicleTypeList.result} setOption={handleChoice} displayItem={props.inputVehicleInfo.vehicleType}/>
+        )
+    }
+    if (vehicleTypeList.error) {
+        return(
+            <div>{vehicleTypeList.error.message}</div>
+        )
+    }
+    if (vehicleTypeList.loading) {
+        return(
+            <ActivityIndicator/>
+        )
+    } 
+    
+    return(<div>Unknown State</div>)
 }
 
 export default React.memo(GetVehicleType);

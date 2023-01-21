@@ -1,5 +1,6 @@
-import { useReducer, useCallback } from "react";
+import { useReducer } from "react";
 import VehicleSearchPanelDefaults from "./VehicleSearchPanelDefaults";
+import produce from "immer";
 
 const initialState = {
     "inputVehicleInfoArray": [{id: 0}],
@@ -8,7 +9,7 @@ const initialState = {
     "plotDataLabels": []
 }
 
-function reducer(state, action) {
+const reducer = produce((state, action) => {
 
     console.log("Reducer Start");
     console.log("action", action);
@@ -18,8 +19,7 @@ function reducer(state, action) {
         case 'General': {
             switch(action.subtype) {
                 case 'ResetAll': {
-                    const newState = initialState;
-                    return newState; 
+                    return initialState; 
                 }
                 default:
                     return state;
@@ -30,8 +30,8 @@ function reducer(state, action) {
 
             switch(action.subtype) {
                 case 'AddVehicleSearchInstance': {   
-                    const newState = {...state}         
-                    const inUseIds = newState.inputVehicleInfoArray.map((item) => item.id);
+                    
+                    const inUseIds = state.inputVehicleInfoArray.map((item) => item.id);
                     console.log("inUseIds", inUseIds);
                     const availableIds = [...Array(VehicleSearchPanelDefaults().MAX_SEARCH_INSTANCES).keys()].filter((id) => !inUseIds.includes(id));
                     console.log("availableIds", availableIds);
@@ -42,41 +42,63 @@ function reducer(state, action) {
         
                     const newInstanceId = Math.min(...availableIds);
                     console.log("newInstanceId", newInstanceId);
-                    // const newState = {...state};
-                    newState.inputVehicleInfoArray.push({
+                    
+                    state.inputVehicleInfoArray.push({
                         "id": newInstanceId
                     });
                     console.log("Reducer Finish");
-                    return newState;
+                    return state;
                 }
                 case 'RemoveVehicleSearchInstance': {
-                    const newState = {...state};
-                    newState["inputVehicleInfoArray"] = newState.inputVehicleInfoArray.filter((item) => item.id !== action.id );
-                    return newState;
+                    
+                    state["inputVehicleInfoArray"] = state.inputVehicleInfoArray.filter((item) => item.id !== action.id );
+                    return state;
                 }
                 case 'UpdateInputVehicleInfoInstance': {
                     console.log("Case UpdateInputVehicleInfoInstance");
-                    const newState = {...state};
-                    console.log("newState", newState);
-                    console.log(newState.inputVehicleInfoArray.map((item) => item.id === action.id ? action.value : item ));
-                    // newState["inputVehicleInfoArray"] = newState.inputVehicleInfoArray.map((item) => { if (item.id === action.id){return action.value}; return item});
-                    newState["inputVehicleInfoArray"] = newState.inputVehicleInfoArray.map((item) => item.id === action.id ? action.value : item );
-                    console.log("newState", newState);
-                    return newState; 
+                    
+                    console.log("state", state);
+                    console.log(state.inputVehicleInfoArray.map((item) => item.id === action.id ? action.value : item ));
+                    // state["inputVehicleInfoArray"] = state.inputVehicleInfoArray.map((item) => { if (item.id === action.id){return action.value}; return item});
+                    state["inputVehicleInfoArray"] = state.inputVehicleInfoArray.map((item) => item.id === action.id ? action.value : item );
+                    console.log("state", state);
+                    return state; 
                 }        
-                case 'ResetVehicleSearch': {
-                    var newState = {...state}; 
-                    newState["inputVehicleInfoArray"] = newState.inputVehicleInfoArray.map((item) => { return {...item, "searchResult": null}});
-                    return newState;
+                case 'ResetSearchResults': {
+                    state["inputVehicleInfoArray"] = state.inputVehicleInfoArray.map((item) => { return {...item, "searchResult": null}});
+                    return state;
                 }
                 default:
                     return state;                
             }
         }
+        case 'PlotOptionsPanel': {
+            switch (action.subtype) {
+                case 'ResetPlotOptions': {
+                    return {...state, "plotOptions": {}}; 
+                }    
+                case 'UpdatePlotOptions': {
+                    return {...state, "plotOptions": action.plotOptions}
+                }           
+                default:
+                    return state;
+            }
+        }
+        case 'PlotPanel': {
+            switch (action.subtype) {
+                case 'UpdatePlotData': {
+                    return {...state, "plotDataArray": action.plotDataArray, "plotDataLabels": action.plotDataLabels };
+                }
+                default:
+                    return state;
+            }
+        }
         default: 
             return state;
+
     }    
 }
+)
 
 export function useSearchAndPlotVehicleValueReducer(){
     return useReducer(reducer, initialState);

@@ -17,7 +17,8 @@ app.get('/', (req, res) => {
 })
 
 app.get('/ConsultarTipoVeiculos', (req, res) => {
-  res.send(getVehicleTypes())
+  res.send(getVehicleTypes());
+  // res.send([]);
 })
 
 app.post('/ConsultarMarcas', (req, res) => {

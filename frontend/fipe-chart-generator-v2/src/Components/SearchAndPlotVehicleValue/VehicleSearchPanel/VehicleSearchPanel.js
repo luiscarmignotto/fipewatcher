@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useMemo } from 'react';
 
 import '../css/UserInputPanel.css'
 
@@ -13,7 +13,15 @@ function VehicleSearchPanel(props) {
     const state = props.state
     const inputVehicleInfoArray = props.state.inputVehicleInfoArray;
 
-    const [canSearch, setCanSearch] = useState(false);
+    const canSearch = useMemo(() => {
+        const emptyItem = inputVehicleInfoArray.some(item => {
+            if (!item.vehicleType || !item.manufacturer || !item.model ||  !item.modelYear) {            
+                return true;
+            }
+            return false; 
+        })
+        return !emptyItem;
+    }, [inputVehicleInfoArray]);
 
     function updateInputVehicleInfoInstance(id, value){
         props.dispatch(
@@ -26,27 +34,12 @@ function VehicleSearchPanel(props) {
         )
     }
 
-    useEffect(() => {
-        
-        for (const id in inputVehicleInfoArray) {
-            var inputVehicleInfo = inputVehicleInfoArray[id];
-            if (!inputVehicleInfo.vehicleType || !inputVehicleInfo.manufacturer || !inputVehicleInfo.model ||  !inputVehicleInfo.modelYear) {
-                // console.log("InputIncomplete");
-                setCanSearch(false);
-                return;
-            } 
-        }
-        setCanSearch(true);      
-
-    }, [inputVehicleInfoArray]);
-
     function resetValues() {
         
         props.dispatch({
             type: "General",
             subtype: 'ResetAll'
         })
-        setCanSearch(false);
     };
 
     function searchButton() {

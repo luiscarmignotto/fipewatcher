@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useReducer, useCallback } from 'react'
+import { useEffect, useRef, useMemo } from 'react'
 
 import './SearchAndPlotVehicleValue.css';
 
@@ -16,29 +16,15 @@ function SearchAndPlotVehicleValue() {
 
   const [state, dispatch ] = useSearchAndPlotVehicleValueReducer();
 
-  const [canGetPlotData, setCanGetPlotData] = useState(false);
-
-  function resetSearchResult(){
-    dispatch({
-      type: 'VehicleSearchPanel',
-      subtype: 'ResetVehicleSearch'
-    }
-    );
-  }
-  
-  useEffect(() => {
-
-    for (let i = 0; i < state.inputVehicleInfoArray.length; i++) {
-      const inputVehicleInfo = state.inputVehicleInfoArray[i];
-
-      if (!inputVehicleInfo.searchResult) {
-        setCanGetPlotData(false);
-        return;
-      }
-    }
-    setCanGetPlotData(true);
-
+  const canGetPlotData = useMemo(() => {
+    return state.inputVehicleInfoArray.every((item) => item.searchResult );
   }, [state.inputVehicleInfoArray]);
+
+  const canPlot = useMemo(() => {
+
+    // return (state.inputVehicleInfoArray.every((item) => item.searchResult !== null) && state.plotOptions.numberOfMonths); 
+    return (state.inputVehicleInfoArray.every((item) => item.searchResult) && state.plotOptions.numberOfMonths); 
+  }, [state.inputVehicleInfoArray, state.plotOptions])
 
   const graphPlotOptionsPanel = useRef(null);
   const graphPlotPanel = useRef(null);
@@ -69,12 +55,12 @@ function SearchAndPlotVehicleValue() {
       </div>      
       <div ref={graphPlotOptionsPanel}>
         {canGetPlotData && 
-        <GraphPlotOptionsPanel  state={state} dispatch={dispatch} resetSearchResult={resetSearchResult}/>}
+        <GraphPlotOptionsPanel  state={state} dispatch={dispatch}/>}
       </div>
-      {/* <div ref={graphPlotPanel}>
-        {state.inputVehicleInfoArray[0].searchResult && state.plotOptions.numberOfMonths && 
-        <GraphPlotPanel state={state} setstate={setstate} resetSearchResult={resetSearchResult}/>}
-      </div> */}
+      <div ref={graphPlotPanel}>
+        {canPlot && 
+        <GraphPlotPanel state={state} dispatch={dispatch}/>}
+      </div>
     </div>
   );
 }

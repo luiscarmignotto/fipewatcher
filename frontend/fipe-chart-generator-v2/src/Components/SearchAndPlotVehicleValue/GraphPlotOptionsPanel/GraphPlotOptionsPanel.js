@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useMemo } from 'react';
 
 import '../css/UserInputPanel.css'
 
@@ -13,33 +13,33 @@ import ShowVehicleInformation from '../VehicleSearchPanel/ShowVehicleInformation
 const GraphPlotOptionsPanel = (props) => {
 
     const [numberOfMonths, setNumberOfMonths] = useState(null);
-    const [wrongInputFlag, setWrongInputFlag] = useState(false);
+    const wrongInputFlag = useMemo(() => {
+        return numberOfMonths && numberOfMonths < 2
+    }, [numberOfMonths]);
 
-    function setPlotOptions(value) {
-        props.setstate({
-          ...props.state,
-          "plotOptions": value
-        })
-    };
-
-    function generatePlotOptions() {
-
-        if (numberOfMonths && numberOfMonths < 2) {
-            setWrongInputFlag(true);
-            return; 
-        }
-
-        if (props.state.plotDataArray) {
-            // props.setPlotData([]);
-        }
+    function updatePlotOptions() {
 
         const plotOptions = {
             "numberOfMonths": numberOfMonths,
             "maxDisplayedMonths": PlotDefaults().maxDisplayedMonths
         }
 
-        setWrongInputFlag(false);
-        setPlotOptions(plotOptions);
+        props.dispatch({
+            type: 'PlotOptionsPanel',
+            subtype: 'UpdatePlotOptions',
+            plotOptions
+        })
+    }
+
+    function resetPlotOptionsAndSearchResult(){
+        props.dispatch({
+            type: 'VehicleSearchPanel',
+            subtype: 'ResetSearchResults'
+        });
+        props.dispatch({
+            type: 'PlotOptionsPanel',
+            subtype: 'ResetPlotOptions'            
+        })
     }
 
     return (
@@ -59,8 +59,8 @@ const GraphPlotOptionsPanel = (props) => {
                     }
                 </div>
                 <div className="UserInputPanel__Content--ActionButtonsContainer">
-                    {numberOfMonths && <ActionButton onClick={generatePlotOptions} text="Gerar Gráfico"/>}
-                    <ActionButton onClick={() => { setPlotOptions({}); props.resetSearchResult() }} text="Alter Opções do Veículo"/>
+                    {numberOfMonths && <ActionButton onClick={updatePlotOptions} text="Gerar Gráfico"/>}
+                    <ActionButton onClick={() => { resetPlotOptionsAndSearchResult() }} text="Alter Opções do Veículo"/>
                 </div>  
             </div>    
         </div>    
