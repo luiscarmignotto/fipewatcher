@@ -2,7 +2,7 @@ import React from 'react';
 import './MainPage.css'
 import SearchAndPlotVehicleValue from '../SearchAndPlotVehicleValue/SearchAndPlotVehicleValue';
 
-const MainPage = (props) => {
+const MainPage = () => {
 
     console.log("Main Page Running");
 

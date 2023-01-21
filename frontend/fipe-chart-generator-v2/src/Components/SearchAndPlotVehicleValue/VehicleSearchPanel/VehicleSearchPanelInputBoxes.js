@@ -8,72 +8,35 @@ import SearchModelYear from './SearchModelYear';
 import '../css/UserInputPanel.css'
 import ActionButton from '../../Common/ActionButton';
 
-const VehicleSearchPanelInputBoxes = (props) => {
+const VehicleSearchPanelInputBoxes = ({ state, dispatch, id }) => {
 
-    // console.log("VehicleSearchPanelInputBoxes", props.inputVehicleInfo)
+    // console.log("VehicleSearchPanelInputBoxes", inputVehicleInfo)
 
-    function setVehicleType(choiceValue){
+    const inputVehicleInfo = state.inputVehicleInfoArray.find((item) => item.id === id);
 
-        const value = {
-            ...props.inputVehicleInfo,
-            "vehicleType": choiceValue
-        }
-        // console.log("setInfo", props.inputVehicleInfo.id);
-        // console.log("setInfo", value);
-        props.updateInputVehicleInfoInstance(props.inputVehicleInfo.id, value);
-    };
-
-    function setManufacturer(choiceValue){
-        const value = {
-            ...props.inputVehicleInfo,
-            "manufacturer": choiceValue,
-            "model": null,
-            "modelYear": null,
-            "searchResult": null
-        }
-        // console.log("setInfo", props.inputVehicleInfo.id);
-        // console.log("setInfo", value);
-        props.updateInputVehicleInfoInstance(props.inputVehicleInfo.id, value);
-    };
-
-    function setModel(choiceValue){
-        const value = {
-            ...props.inputVehicleInfo,
-            "model": choiceValue,
-            "modelYear": null,
-            "searchResult": null
-        }
-        // console.log("setInfo", props.inputVehicleInfo.id);
-        // console.log("setInfo", value);
-        props.updateInputVehicleInfoInstance(props.inputVehicleInfo.id, value);
-    };
-
-    function setModelYear(choiceValue){
-        const value = {
-            ...props.inputVehicleInfo,
-            "modelYear": choiceValue,
-            "searchResult": null
-        }
-        // console.log("setInfo", props.inputVehicleInfo.id);
-        // console.log("setInfo", value);
-        props.updateInputVehicleInfoInstance(props.inputVehicleInfo.id, value);
-    };
+    function removeSearchInstance(id){
+        dispatch({
+            type: "VehicleSearchPanel",
+            subtype: "RemoveVehicleSearchInstance",
+            id
+        })
+    }
 
     return (
         <div className="UserInputPanel__Content--InputBoxesContainer">        
-            <GetVehicleType inputVehicleInfo={props.inputVehicleInfo} setVehicleType={setVehicleType} />
+            <GetVehicleType inputVehicleInfo={inputVehicleInfo} dispatch={dispatch}/>
         
-            { props.inputVehicleInfo.vehicleType && 
-                <SearchManufacturer inputVehicleInfo={props.inputVehicleInfo} setManufacturer={setManufacturer}/>
+            { inputVehicleInfo.vehicleType && 
+                <SearchManufacturer inputVehicleInfo={inputVehicleInfo} dispatch={dispatch}/>
             }
-            { props.inputVehicleInfo.vehicleType && props.inputVehicleInfo.manufacturer && 
-                <SearchModel inputVehicleInfo={props.inputVehicleInfo} setModel={setModel}/>
+            { inputVehicleInfo.vehicleType && inputVehicleInfo.manufacturer && 
+                <SearchModel inputVehicleInfo={inputVehicleInfo} dispatch={dispatch} />
             }
-            { props.inputVehicleInfo.vehicleType && props.inputVehicleInfo.manufacturer && props.inputVehicleInfo.model && 
-                <SearchModelYear inputVehicleInfo={props.inputVehicleInfo} setModelYear={setModelYear}/>
+            { inputVehicleInfo.vehicleType && inputVehicleInfo.manufacturer && inputVehicleInfo.model && 
+                <SearchModelYear inputVehicleInfo={inputVehicleInfo} dispatch={dispatch}/>
             }  
-            {props.state.inputVehicleInfoArray.length > 1 && 
-                <ActionButton onClick={() => {props.removeInstance(props.inputVehicleInfo.id)}} text="Remover Instância"/>
+            {state.inputVehicleInfoArray.length > 1 && 
+                <ActionButton onClick={() => {removeSearchInstance(id)}} text="Remover Instância"/>
             }         
         </div>
     );

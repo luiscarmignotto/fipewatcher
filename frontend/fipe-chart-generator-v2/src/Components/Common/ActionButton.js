@@ -1,9 +1,9 @@
 import React from 'react';
 
-function ActionButton(props) {
+function ActionButton({onClick, text}) {
 
     return (
-        <button className="ActionButton" onClick={() => props.onClick()}>{props.text}</button>
+        <button className="ActionButton" onClick={() => onClick()}>{text}</button>
     )
 }
 

@@ -8,10 +8,9 @@ import ActionButton from '../../Common/ActionButton';
 import { getVehicleInformation } from '../../../interfaces/BackendCalls';
 import VehicleSearchPanelDefaults from './VehicleSearchPanelDefaults';
 
-function VehicleSearchPanel(props) {
+function VehicleSearchPanel({state, dispatch}) {
 
-    const state = props.state
-    const inputVehicleInfoArray = props.state.inputVehicleInfoArray;
+    const inputVehicleInfoArray = state.inputVehicleInfoArray;
 
     const canSearch = useMemo(() => {
         const emptyItem = inputVehicleInfoArray.some(item => {
@@ -23,20 +22,9 @@ function VehicleSearchPanel(props) {
         return !emptyItem;
     }, [inputVehicleInfoArray]);
 
-    function updateInputVehicleInfoInstance(id, value){
-        props.dispatch(
-            {
-                type: "VehicleSearchPanel",
-                subtype: "UpdateInputVehicleInfoInstance",
-                id: id, 
-                value: value
-            }
-        )
-    }
-
     function resetValues() {
         
-        props.dispatch({
+        dispatch({
             type: "General",
             subtype: 'ResetAll'
         })
@@ -45,23 +33,20 @@ function VehicleSearchPanel(props) {
     function searchButton() {
 
         for (let i=0; i < inputVehicleInfoArray.length; i++) {
-            const inputVehicleInfo = inputVehicleInfoArray[i];
+            const inputVehicleInfoInstance = inputVehicleInfoArray[i];
             console.log("searchButton i", i);
-            console.log("searchButton ivi", inputVehicleInfo);
+            console.log("searchButton ivi", inputVehicleInfoInstance);
 
-            if (inputVehicleInfo.vehicleType && inputVehicleInfo.manufacturer && inputVehicleInfo.model &&  inputVehicleInfo.modelYear) {
+            if (inputVehicleInfoInstance.vehicleType && inputVehicleInfoInstance.manufacturer && inputVehicleInfoInstance.model &&  inputVehicleInfoInstance.modelYear) {
                 console.log("Getting VehicleInformation!!")
-                const response = getVehicleInformation(inputVehicleInfo);
-                response.then((response) => {
-                    console.log("response", response);
-                    props.dispatch({
+                const response = getVehicleInformation(inputVehicleInfoInstance);
+                response.then((searchResult) => {
+                    console.log("searchResult", searchResult);
+                    dispatch({
                         "type": "VehicleSearchPanel",
                         "subtype": "UpdateInputVehicleInfoInstance",
-                        "id": inputVehicleInfo.id,
-                        "value": {
-                            ...inputVehicleInfo,
-                            "searchResult": response
-                        }
+                        "id": inputVehicleInfoInstance.id,
+                        searchResult
                     })                    
                 })
             } 
@@ -70,17 +55,9 @@ function VehicleSearchPanel(props) {
 
     function addNewEmptySearchInstance(){
         console.log("Adding New Search Instance");
-        props.dispatch({
+        dispatch({
             "type": "VehicleSearchPanel",
             "subtype": "AddVehicleSearchInstance"
-        })
-    }
-
-    function removeSearchInstance(id){
-        props.dispatch({
-            type: "VehicleSearchPanel",
-            subtype: "RemoveVehicleSearchInstance",
-            id: id
         })
     }
 
@@ -92,7 +69,7 @@ function VehicleSearchPanel(props) {
                 <div className="UserInputPanel__Content--AllInstances">
                 {inputVehicleInfoArray.map((inputVehicleInfo) => (
                     <div key={inputVehicleInfo.id}>
-                       <VehicleSearchPanelInputBoxes state={state} inputVehicleInfo={inputVehicleInfo} updateInputVehicleInfoInstance={updateInputVehicleInfoInstance} removeInstance={removeSearchInstance}/>
+                       <VehicleSearchPanelInputBoxes state={state} dispatch={dispatch} id={inputVehicleInfo.id}/>
                     </div>
                 ))} 
                 </div>

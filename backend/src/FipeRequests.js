@@ -68,7 +68,7 @@ async function GetModels(requestBody) {
 
     // console.log("Response: ", response);
 
-    return response;
+    return response["Modelos"];
        
 }
 

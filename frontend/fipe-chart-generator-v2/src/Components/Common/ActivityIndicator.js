@@ -5,7 +5,7 @@ import './Common.css'
 import { Dots } from 'react-activity';
 import "react-activity/dist/library.css";
 
-function ActivityIndicator(props) {
+function ActivityIndicator() {
 
     return (
         <Dots />

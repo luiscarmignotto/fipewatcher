@@ -1,23 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import { getModelYearsList } from '../../../interfaces/BackendCalls';
+import ActivityIndicator from '../../Common/ActivityIndicator';
 
 import SearchBox from '../../Common/SearchBox';
 
-function SearchModelYear(props) {
+function SearchModelYear({inputVehicleInfo, dispatch}) {
 
-    const [modelYearsList, setModelYearsList] = useState(null);
+    const [modelYearsList, setModelYearsList] = useState({loading: true});
 
     useEffect(() => {
-        getModelYearsList(props.inputVehicleInfo).then((result) => result.length > 0 ? setModelYearsList(result) : null);
-    }, [props.inputVehicleInfo.model]);
+        getModelYearsList(inputVehicleInfo)
+        .then((result) => setModelYearsList({loading: false, result}))
+        .catch((error) => setModelYearsList({loading: false, error}));
+    }, [inputVehicleInfo.model]);
 
-    function handleChoice(choiceValue){
-        props.setModelYear(choiceValue);
+    function setModelYear(modelYear){
+        dispatch({
+            type: 'VehicleSearchPanel',
+            subtype: 'UpdateInputVehicleInfoInstance',
+            id: inputVehicleInfo.id,
+            modelYear
+        })
+    };  
+    
+    if (modelYearsList.loading) {
+        return (
+            <ActivityIndicator/>
+        )
     }
 
-    return (
-        <SearchBox setOption={handleChoice} itemsList={modelYearsList} displayItem={props.inputVehicleInfo.modelYear} placeholder="Digite o Ano"/>
-    )
+    if (modelYearsList.result) {
+        if (modelYearsList.result.length === 0) {
+            return (
+                <div>Length 0</div>
+            )
+        }
+        return (
+            <SearchBox itemsList={modelYearsList.result} placeholder="Digite o Ano" setOption={setModelYear}/>
+        )        
+    }
+
+    if (modelYearsList.error) {
+        return (
+            <div>{modelYearsList.error.message}</div>
+        )
+    }
+
+    return (<div>Unknown State</div>)
 
 }
 

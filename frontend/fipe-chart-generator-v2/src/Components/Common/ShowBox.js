@@ -1,10 +1,10 @@
 import React from 'react';
 
-function ShowBox(props) {
+function ShowBox({itemsList}) {
 
     return (
         <div className="ShowBox">
-            {props.itemsList && Object.keys(props.itemsList).map((key) => <div key={key} >{key}: { props.itemsList[key] }</div>)}
+            {itemsList && Object.keys(itemsList).map((key) => <div key={key} >{key}: { itemsList[key] }</div>)}
         </div>
     )
 

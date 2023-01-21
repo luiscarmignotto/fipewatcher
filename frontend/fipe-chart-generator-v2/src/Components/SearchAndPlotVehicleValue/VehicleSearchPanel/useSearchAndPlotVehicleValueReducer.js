@@ -55,12 +55,22 @@ const reducer = produce((state, action) => {
                     return state;
                 }
                 case 'UpdateInputVehicleInfoInstance': {
-                    console.log("Case UpdateInputVehicleInfoInstance");
-                    
-                    console.log("state", state);
-                    console.log(state.inputVehicleInfoArray.map((item) => item.id === action.id ? action.value : item ));
-                    // state["inputVehicleInfoArray"] = state.inputVehicleInfoArray.map((item) => { if (item.id === action.id){return action.value}; return item});
-                    state["inputVehicleInfoArray"] = state.inputVehicleInfoArray.map((item) => item.id === action.id ? action.value : item );
+
+                    const vehicleInfoTypes = Object.keys(action).filter((item) => item !== "type" && item !== "subtype" && item !== "id");
+
+                    state["inputVehicleInfoArray"] = state.inputVehicleInfoArray.map((item) => {
+                        if (item.id === action.id){
+                            vehicleInfoTypes.map((type) => {
+                                console.log({type});
+                                console.log([type], action[type]);
+                                item = {
+                                    ...item,
+                                    [type]: action[type]
+                                }
+                            })
+                        }
+                        return item
+                    });
                     console.log("state", state);
                     return state; 
                 }        

@@ -10,7 +10,7 @@ import ActionButton from '../../Common/ActionButton';
 import ShowVehicleInformation from '../VehicleSearchPanel/ShowVehicleInformation';
 
 
-const GraphPlotOptionsPanel = (props) => {
+const GraphPlotOptionsPanel = ({state, dispatch}) => {
 
     const [numberOfMonths, setNumberOfMonths] = useState(null);
     const wrongInputFlag = useMemo(() => {
@@ -24,7 +24,7 @@ const GraphPlotOptionsPanel = (props) => {
             "maxDisplayedMonths": PlotDefaults().maxDisplayedMonths
         }
 
-        props.dispatch({
+        dispatch({
             type: 'PlotOptionsPanel',
             subtype: 'UpdatePlotOptions',
             plotOptions
@@ -32,11 +32,11 @@ const GraphPlotOptionsPanel = (props) => {
     }
 
     function resetPlotOptionsAndSearchResult(){
-        props.dispatch({
+        dispatch({
             type: 'VehicleSearchPanel',
             subtype: 'ResetSearchResults'
         });
-        props.dispatch({
+        dispatch({
             type: 'PlotOptionsPanel',
             subtype: 'ResetPlotOptions'            
         })
@@ -47,7 +47,7 @@ const GraphPlotOptionsPanel = (props) => {
             <div className="UserInputPanel__Head">Configurações do Plot</div>
             <div className="UserInputPanel__Content">
                 <div className="UserInputPanel__Content--AllInstances">
-                    {props.state.inputVehicleInfoArray.map((item,index) => (
+                    {state.inputVehicleInfoArray.map((item,index) => (
                         <ShowVehicleInformation key={index} inputVehicleInfo={item} />  
                     ))}
                 </div>

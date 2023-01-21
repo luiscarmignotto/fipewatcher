@@ -9,11 +9,11 @@ import ActivityIndicator from '../../Common/ActivityIndicator';
 import ActionButton from '../../Common/ActionButton';
 
 
-const GraphPlotPanel = (props) => {
+const GraphPlotPanel = ({state, dispatch}) => {
 
     useEffect(() => {
         updatePlotData();
-    }, [props.state.plotOptions]);
+    }, [state.plotOptions]);
 
     async function updatePlotData(){
 
@@ -23,13 +23,13 @@ const GraphPlotPanel = (props) => {
 
         var labels = [];
         
-        for (let id=0; id < props.state.inputVehicleInfoArray.length; id++) {
+        for (let id=0; id < state.inputVehicleInfoArray.length; id++) {
 
-            var inputVehicleInfo = props.state.inputVehicleInfoArray[id];
+            var inputVehicleInfo = state.inputVehicleInfoArray[id];
 
-            // if (!props.state.plotDataArray[id]){
+            // if (!state.plotDataArray[id]){
             console.log("Getting PlotData");
-            const response = await getPlotData(inputVehicleInfo, props.state.plotOptions);
+            const response = await getPlotData(inputVehicleInfo, state.plotOptions);
 
             if (response.valueArray.length > 0) {
                 if (labels.length > 0) {
@@ -46,7 +46,7 @@ const GraphPlotPanel = (props) => {
         } 
 
 
-        props.dispatch({
+        dispatch({
             type: 'PlotPanel',
             subtype: 'UpdatePlotData',
             plotDataArray: localPlotDataArray,
@@ -55,26 +55,40 @@ const GraphPlotPanel = (props) => {
         
     }
 
+    function resetPlotOptions(){
+        dispatch({
+            type: 'PlotOptionsPanel',
+            subtype: 'ResetPlotOptions'
+        })
+    }
+
+    function resetSearchResults(){
+        dispatch({
+            type: 'VehicleInfoPanel',
+            subtype: 'ResetSearchResults'
+        })
+    }
+
     return (
         <div className="GraphPlotPanel">
             <div className="GraphPlotPanel__Head">
                 Gráfico De Preços
             </div>
             <div className="GraphPlotPanel__Content">
-                { props.state.plotDataArray.length > 0 &&  
-                    <LineChart state={props.state} dataArray={props.state.plotDataArray}/>
+                { state.plotDataArray.length > 0 &&  
+                    <LineChart state={state} dataArray={state.plotDataArray}/>
                 }
                 {
-                    !props.state.plotDataArray.length > 0 && 
+                    !state.plotDataArray.length > 0 && 
                     <div className="GraphPlotPanel__Loading">
                         <ActivityIndicator/>
                     </div>
                 }
             </div>
-            { props.state.plotDataArray.length > 0 && 
+            { state.plotDataArray.length > 0 && 
             <div className="GraphPlotPanel__Content--ActionButtonsContainer">
-                <ActionButton onClick={() => { props.setPlotOptions({}) }} text="Alter Opções de Plot"/>
-                <ActionButton onClick={() => { props.setPlotOptions({}); props.setInputVehicleInfo({...props.inputVehicleInfo, "searchResult": null})}} text="Alter Opções do Veículo"/>
+                <ActionButton onClick={() => { resetPlotOptions({}) }} text="Alter Opções de Plot"/>
+                <ActionButton onClick={() => { resetPlotOptions(); resetSearchResults()}} text="Alter Opções do Veículo"/>
             </div>
             }
         </div>

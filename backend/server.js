@@ -22,7 +22,6 @@ app.get('/ConsultarTipoVeiculos', (req, res) => {
 })
 
 app.post('/ConsultarMarcas', (req, res) => {
-  console.log("RequestBody: ", req.body)
   GetManufacturers(req.body)
     .then(
       (response) => {

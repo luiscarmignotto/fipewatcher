@@ -31,17 +31,20 @@ function SearchAndPlotVehicleValue() {
   const vehicleSearchPanel = useRef(null);
 
   useEffect(() => {
-
-    // if (state.plotOptions.numberOfMonths && graphPlotPanel.current) {
-    //   graphPlotPanel.current.scrollIntoView( {behavior: "smooth" });
-    // }
-    if (canGetPlotData &&  !state.plotOptions.numberOfMonths && graphPlotOptionsPanel.current) {
-        graphPlotOptionsPanel.current.scrollIntoView( {behavior: "smooth" } );
+    
+    if (canGetPlotData && canPlot) {
+      graphPlotPanel.current.scrollIntoView({behavior: "smooth"});
+      return; 
     }
-    // if (!inputVehicleInfo.searchResult &&  !state.plotOptions.numberOfMonths && !plotData.valueArray && vehicleSearchPanel.current) {
-    //   vehicleSearchPanel.current.scrollIntoView( {behavior: "smooth" } );
-    // }
-  }, [canGetPlotData, state]);
+
+    if (canGetPlotData) {
+      graphPlotOptionsPanel.current.scrollIntoView({behavior: "smooth"});
+      return;
+    }
+
+    vehicleSearchPanel.current.scrollIntoView({behavior: "smooth"});
+
+  }, [canGetPlotData, canPlot]);
 
   console.log("state: ", state);
 

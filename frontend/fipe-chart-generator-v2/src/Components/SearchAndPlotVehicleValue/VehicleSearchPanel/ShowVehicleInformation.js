@@ -2,10 +2,10 @@ import React from 'react';
 
 import ShowBox from '../../Common/ShowBox';
 
-function ShowVehicleInformation(props) {
+function ShowVehicleInformation({inputVehicleInfo}) {
 
     return (
-        <ShowBox itemsList={props.inputVehicleInfo.searchResult} /> 
+        <ShowBox itemsList={inputVehicleInfo.searchResult} /> 
     )
 }
 

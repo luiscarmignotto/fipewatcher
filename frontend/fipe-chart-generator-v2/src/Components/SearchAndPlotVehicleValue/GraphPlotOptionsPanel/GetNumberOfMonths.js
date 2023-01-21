@@ -1,11 +1,11 @@
 import React from 'react';
 import NumberInputBox from '../../Common/NumberInputBox';
 
-const GetNumberOfMonths = (props) => {
+const GetNumberOfMonths = ({setNumberOfMonths}) => {
     return (
         <div >
             <div>Insira a quantidade de meses</div>
-            <NumberInputBox setValue={props.setNumberOfMonths} />
+            <NumberInputBox setValue={setNumberOfMonths} />
         </div>
     );
 }

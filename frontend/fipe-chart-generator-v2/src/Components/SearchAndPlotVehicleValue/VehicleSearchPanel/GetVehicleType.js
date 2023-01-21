@@ -3,7 +3,7 @@ import { getVehicleTypes } from '../../../interfaces/BackendCalls';
 import ActivityIndicator from '../../Common/ActivityIndicator';
 import ChooseBox from '../../Common/ChooseBox';
 
-function GetVehicleType(props) {
+function GetVehicleType({inputVehicleInfo, dispatch}) {
 
     const [vehicleTypeList,  setVehicleTypeList] = useState({loading: true});
     
@@ -17,20 +17,25 @@ function GetVehicleType(props) {
             .catch((error) => setVehicleTypeList({loading: false, error}));
         }
     });
+
+    function setVehicleType(vehicleType){
+        dispatch({
+            type: 'VehicleSearchPanel',
+            subtype: 'UpdateInputVehicleInfoInstance',
+            id: inputVehicleInfo.id,
+            vehicleType,
+            manufacturer: null, 
+            model: null, 
+            searchResult: null
+        })
+    };
     
-    function handleChoice(choiceValue) {
-        // console.log("setVehicleType HandleChoice", choiceValue);
-        props.setVehicleType(choiceValue)
-    }
-
     if (vehicleTypeList.result) {
-
         if (vehicleTypeList.result.length === 0) {
             return (<div>Length 0</div>)
         }
-
         return (
-            <ChooseBox itemsList={vehicleTypeList.result} setOption={handleChoice} displayItem={props.inputVehicleInfo.vehicleType}/>
+            <ChooseBox itemsList={vehicleTypeList.result} setOption={setVehicleType} displayItem={inputVehicleInfo.vehicleType}/>
         )
     }
     if (vehicleTypeList.error) {
