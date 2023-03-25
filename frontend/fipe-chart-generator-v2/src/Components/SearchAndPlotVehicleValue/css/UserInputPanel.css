@@ -24,7 +24,8 @@
 
 .UserInputPanel__Content {
     /* border-radius: 30px; */
-    width: 60%;
+    display: grid; 
+    grid-template-columns: 60%;
     justify-self: center;
 
     /* backdrop-filter: blur(50px); */
@@ -37,26 +38,46 @@
 }
 
 .UserInputPanel__Content--AllInstances {
+    width: 60%;
     display: grid;
-    grid-template-columns: auto auto auto;
-    justify-content: center;
-    gap: 10px;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    align-items: center;
+}
+
+.UserInputPanel__Content--AllInstances > * {
+    width: 100%;
+    height: 100px;
+    box-sizing: border-box;
+  }
+
+.UserInputPanel__Content--AllInstances > :first-UserInputPanel__Content--InputBoxesContainer {
+    justify-self: center;
+}
+
+@media (min-width: 768px) {
+    .UserInputPanel__Content--AllInstances {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      justify-items: space-between;
+    }
 }
 
 .UserInputPanel__Content--InputBoxesContainer {
 
     display: grid; 
     border: 1px solid white;
+    border-radius: 10px;
     grid-template-columns: auto;
     grid-template-rows: auto auto auto;
     justify-content: center;
     align-self: center;
+    padding: 5px;
 }
 
 .UserInputPanel__Content--InputBoxesContainer div{
     text-align: center;
     align-self: center;
-    width: 100%;
+    /* width: 100%; */
 }
 
 .UserInputPanel__Content--ActionButtonsContainer {

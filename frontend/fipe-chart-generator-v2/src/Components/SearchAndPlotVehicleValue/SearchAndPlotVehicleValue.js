@@ -21,10 +21,8 @@ function SearchAndPlotVehicleValue() {
   }, [state.inputVehicleInfoArray]);
 
   const canPlot = useMemo(() => {
-
-    // return (state.inputVehicleInfoArray.every((item) => item.searchResult !== null) && state.plotOptions.numberOfMonths); 
-    return (state.inputVehicleInfoArray.every((item) => item.searchResult) && state.plotOptions.numberOfMonths); 
-  }, [state.inputVehicleInfoArray, state.plotOptions])
+    return (state.plotDataArray.every((item) => item.valueArray )); 
+  }, [state.plotDataArray])
 
   const graphPlotOptionsPanel = useRef(null);
   const graphPlotPanel = useRef(null);

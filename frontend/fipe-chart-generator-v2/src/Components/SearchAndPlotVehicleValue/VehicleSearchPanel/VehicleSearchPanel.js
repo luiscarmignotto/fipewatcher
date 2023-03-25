@@ -30,28 +30,24 @@ function VehicleSearchPanel({state, dispatch}) {
         })
     };
 
-    function searchButton() {
+    async function searchButton() {
 
-        for (let i=0; i < inputVehicleInfoArray.length; i++) {
-            const inputVehicleInfoInstance = inputVehicleInfoArray[i];
-            console.log("searchButton i", i);
-            console.log("searchButton ivi", inputVehicleInfoInstance);
+        console.log("Search Button")
 
-            if (inputVehicleInfoInstance.vehicleType && inputVehicleInfoInstance.manufacturer && inputVehicleInfoInstance.model &&  inputVehicleInfoInstance.modelYear) {
-                console.log("Getting VehicleInformation!!")
-                const response = getVehicleInformation(inputVehicleInfoInstance);
-                response.then((searchResult) => {
-                    console.log("searchResult", searchResult);
-                    dispatch({
-                        "type": "VehicleSearchPanel",
-                        "subtype": "UpdateInputVehicleInfoInstance",
-                        "id": inputVehicleInfoInstance.id,
-                        searchResult
-                    })                    
-                })
-            } 
-        }
-    };
+        const response = await getVehicleInformation(state.inputVehicleInfoArray);
+
+        console.log({response});
+
+        response.forEach((item) => {
+            console.log({item});
+            dispatch({
+                type: 'VehicleSearchPanel',
+                subtype: "UpdateInputVehicleInfoInstance",
+                id: item.id, 
+                searchResult: {...item.result }
+            })
+        })
+    }
 
     function addNewEmptySearchInstance(){
         console.log("Adding New Search Instance");

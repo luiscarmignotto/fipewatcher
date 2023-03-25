@@ -1,5 +1,5 @@
-import { GetManufacturers, GetModels, GetModelYear, GetAllVehicleInformationShort, getVehicleTypes } from './src/FipeRequests.js';
-import { GeneratePlotData } from './src/GeneratePlotData.js';
+import { handleBatch, getManufacturers, getModels, getModelYear, getAllVehicleInformationShort, getVehicleTypes } from './src/FipeRequests.js';
+import { generatePlotData } from './src/GeneratePlotData.js';
 
 import express from 'express';
 import cors from 'cors';
@@ -22,7 +22,7 @@ app.get('/ConsultarTipoVeiculos', (req, res) => {
 })
 
 app.post('/ConsultarMarcas', (req, res) => {
-  GetManufacturers(req.body)
+  getManufacturers(req.body)
     .then(
       (response) => {
         res.send(response)
@@ -31,7 +31,7 @@ app.post('/ConsultarMarcas', (req, res) => {
 })
 
 app.post('/ConsultarModelos', (req, res) => {
-  GetModels(req.body)
+  getModels(req.body)
     .then(
       (response) => {
         res.send(response)
@@ -40,7 +40,7 @@ app.post('/ConsultarModelos', (req, res) => {
 })
 
 app.post('/ConsultarAnoModelo', (req, res) => {
-  GetModelYear(req.body)
+  getModelYear(req.body)
     .then(
       (response) => {
         res.send(response)
@@ -48,22 +48,14 @@ app.post('/ConsultarAnoModelo', (req, res) => {
     );
 })
 
-app.post('/ConsultarValorComTodosParametros', (req, res) => {
-  GetAllVehicleInformationShort(req.body)
-    .then(
-      (response) => {
-        res.send(response)
-      }
-    );
+app.post('/ConsultarValorComTodosParametros', async (req, res) => {
+  const response = await handleBatch(req.body, getAllVehicleInformationShort);
+  res.send(response);
 })
 
-app.post('/GerarDadosPlot', (req, res) => {
-  GeneratePlotData(req.body)
-    .then(
-      (response) => {
-        res.send(response)
-      }
-    );
+app.post('/GerarDadosPlot', async (req, res) => {
+  const response = await handleBatch(req.body, generatePlotData);
+  res.send(response);
 })
 
 app.listen(port, () => {

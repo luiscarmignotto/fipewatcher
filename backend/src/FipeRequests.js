@@ -22,68 +22,73 @@ async function SendPostRequest (operation, data) {
         body: JSON.stringify(data)
     }
 
-    // console.log("Sending Post Request to ", url, "with: ", payload);
+    console.log("Sending Post Request to ", url, "with: ", payload);
 
-    const response = await fetch(url, payload);
-
-    const jsonData = await response.json();
-
-    // console.log("JsonData: ", jsonData)
-
-    return jsonData; 
+    try {
+        const response = await fetch(url, payload);
+        const jsonData = await response.json();
+        console.log({jsonData});
+        return jsonData; 
+    } catch (error) {
+        return error.message
+    }
 
 }
 
 
-async function GetManufacturers(requestBody) {
+function getManufacturers(requestBody) {
 
     const operation = '/ConsultarMarcas';
 
     // console.log("RequestBody: ", requestBody)
 
     const getManufacturersRequest = {
-        "codigoTabelaReferencia": "292",
+        "codigoTabelaReferencia": "295",
         "codigoTipoVeiculo": requestBody.vehicleTypeId
     }
 
-    const response = await SendPostRequest(operation, getManufacturersRequest);
+    const response = SendPostRequest(operation, getManufacturersRequest)
+    .then((response) => response )
+    .catch((error) => error.message);
 
-    // // console.log("Response: ", response);
+    console.log("Response: ", response);
 
     return response;
        
 }
 
-async function GetModels(requestBody) {
+function getModels(requestBody) {
 
     const operation = '/ConsultarModelos';
 
     const getModelsRequest = {
         "codigoTipoVeiculo" : requestBody.vehicleTypeId,
-        "codigoTabelaReferencia" : "292",
+        "codigoTabelaReferencia" : "295",
         "codigoMarca" : requestBody.manufacturerId
     }
 
-    const response = await SendPostRequest(operation, getModelsRequest);
+    const response = SendPostRequest(operation, getModelsRequest)
+    .then((result) => result["Modelos"])
+    .catch((error) => error.message);
 
-    // console.log("Response: ", response);
-
-    return response["Modelos"];
+    return response;
        
 }
 
-async function GetModelYear(requestBody) {
+function getModelYear(requestBody) {
 
     const operation = '/ConsultarAnoModelo';
 
     const getModelsRequest = {
         "codigoTipoVeiculo" : requestBody.vehicleTypeId,
-        "codigoTabelaReferencia" : "292",
+        "codigoTabelaReferencia" : "295",
         "codigoModelo": requestBody.modelId,
         "codigoMarca" : requestBody.manufacturerId
     }
 
-    const response = await SendPostRequest(operation, getModelsRequest);
+    const response = SendPostRequest(operation, getModelsRequest)
+    .then((response) => response)
+    .catch((error) => error.message);
 
     // console.log("Response: ", response);
 
@@ -91,7 +96,7 @@ async function GetModelYear(requestBody) {
        
 }
 
-async function GetAllVehicleInformation(requestBody) {
+function getAllVehicleInformation(requestBody) {
 
     const operation = '/ConsultarValorComTodosParametros';
 
@@ -114,45 +119,80 @@ async function GetAllVehicleInformation(requestBody) {
         "anoModelo": requestBody.modelYearId.replace(/\D/g,'')
     }
 
-    const response = await SendPostRequest(operation, getModelsRequest);
+    const response = SendPostRequest(operation, getModelsRequest)
+    .then((response) => response)
+    .catch((error) => error.message);
 
-    return response;
-       
+    return {
+        id: requestBody.id, 
+        result: response
+    }
 }
 
-async function GetAllVehicleInformationShort(requestBody) {
+async function getAllVehicleInformationShort({inputVehicleInfo}) {
+
+    console.log("getAllVehicleInformationShort Start");
+    console.log({inputVehicleInfo});
 
     const operation = '/ConsultarValorComTodosParametros';
 
-    const referenceTableId = ServerProperties().latestTableId;
+    var referenceTableId = ServerProperties().latestTableId;
 
-    if (requestBody.referenceTableId) {
-        const referenceTableId = requestBody.referenceTableId;
+    if (inputVehicleInfo.referenceTableId) {
+        console.log("Inside", {referenceTableId});
+        referenceTableId = inputVehicleInfo.referenceTableId;
     }
 
-    console.log("requestBody: ",  requestBody);
+    console.log("inputVehicleInfo: ",  inputVehicleInfo);
 
     const getModelsRequest = {
-        "codigoTipoVeiculo" : requestBody.vehicleTypeId,
+        "codigoTipoVeiculo" : inputVehicleInfo.vehicleType.id,
         "codigoTabelaReferencia" : referenceTableId,
-        "codigoModelo": requestBody.modelId,
-        "codigoMarca" : requestBody.manufacturerId,
-        "tipoVeiculo": requestBody.vehicleTypeString,
+        "codigoModelo": inputVehicleInfo.model.Value,
+        "codigoMarca" : inputVehicleInfo.manufacturer.Value,
+        "tipoVeiculo": inputVehicleInfo.vehicleType.name,
         "tipoConsulta": "tradicional",
         "codigoTipoCombustivel": "1",
-        "anoModelo": requestBody.modelYearId.replace(/\D/g,'')
+        "anoModelo": inputVehicleInfo.modelYear.Label.replace(/\D/g,'')
     }
+
+    const responseItens = ["Marca", "Modelo", "AnoModelo", "Combustivel", "MesReferencia", "Valor" ]
 
     const response = await SendPostRequest(operation, getModelsRequest);
 
-    const responseItens = ["Marca", "Modelo", "AnoModelo", "Combustível", "MesReferencia", "Valor" ]
+    return responseItens.reduce((accumulated, key) => {
+        return {
+            ...accumulated,
+            result: {
+                ...accumulated.result,
+                [key]: response[key]
+            }
+            
+        }
+    }, {id: inputVehicleInfo.id})
+  
+}
 
-    var shortResponse = {};
-    
-    responseItens.map((item) => shortResponse[item] = response[item] )
+async function handleBatch(requestBody, requestHandlerFunction){
 
-    return shortResponse;
-       
+    console.log("Handle Batch Start");
+
+    console.log(requestBody);
+
+    const {inputVehicleInfoArray, ...rest } = requestBody;
+
+    const batchResponse = await inputVehicleInfoArray.reduce(async (accumulatedPromise, inputVehicleInfo) => {
+        const accumulated = await accumulatedPromise;
+        console.log({accumulated});
+        const instanceResponse = await requestHandlerFunction({inputVehicleInfo, ...rest});
+        console.log({instanceResponse});
+        return [...accumulated, instanceResponse];
+    }, Promise.resolve([]));
+
+    console.log("HandleBatch Response: ", batchResponse);
+
+    return batchResponse; 
+
 }
 
 function getVehicleTypes(){
@@ -168,4 +208,4 @@ function getVehicleTypes(){
     return vehicleTypes
 }
 
-export { GetManufacturers, GetModels, GetModelYear, GetAllVehicleInformation, GetAllVehicleInformationShort,  getVehicleTypes };
+export { handleBatch, getManufacturers, getModels, getModelYear, getAllVehicleInformation, getAllVehicleInformationShort,  getVehicleTypes };

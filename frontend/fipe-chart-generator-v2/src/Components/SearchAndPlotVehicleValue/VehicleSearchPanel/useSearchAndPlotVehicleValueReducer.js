@@ -5,15 +5,15 @@ import produce from "immer";
 const initialState = {
     "inputVehicleInfoArray": [{id: 0}],
     "plotOptions": {},
-    "plotDataArray": [],
+    "plotDataArray": [{id: 0}],
     "plotDataLabels": []
 }
 
 const reducer = produce((state, action) => {
 
     console.log("Reducer Start");
-    console.log("action", action);
-
+    console.log({action});
+    
     switch (action.type) {
 
         case 'General': {
@@ -31,22 +31,21 @@ const reducer = produce((state, action) => {
             switch(action.subtype) {
                 case 'AddVehicleSearchInstance': {   
                     
-                    const inUseIds = state.inputVehicleInfoArray.map((item) => item.id);
-                    console.log("inUseIds", inUseIds);
-                    const availableIds = [...Array(VehicleSearchPanelDefaults().MAX_SEARCH_INSTANCES).keys()].filter((id) => !inUseIds.includes(id));
-                    console.log("availableIds", availableIds);
+                    const inUseIds = state.inputVehicleInfoArray.map((item) => item.id);                    
+                    const availableIds = [...Array(VehicleSearchPanelDefaults().MAX_SEARCH_INSTANCES).keys()].filter((id) => !inUseIds.includes(id));                    
                     
                     if (availableIds.length === 0) {
                         return state; 
                     }
         
-                    const newInstanceId = Math.min(...availableIds);
-                    console.log("newInstanceId", newInstanceId);
+                    const newInstanceId = Math.min(...availableIds);                    
                     
                     state.inputVehicleInfoArray.push({
                         "id": newInstanceId
-                    });
-                    console.log("Reducer Finish");
+                    });                    
+                    state.plotDataArray.push({
+                        "id": newInstanceId
+                    });                    
                     return state;
                 }
                 case 'RemoveVehicleSearchInstance': {
@@ -55,25 +54,17 @@ const reducer = produce((state, action) => {
                     return state;
                 }
                 case 'UpdateInputVehicleInfoInstance': {
-
-                    const vehicleInfoTypes = Object.keys(action).filter((item) => item !== "type" && item !== "subtype" && item !== "id");
+                    const {id, type, subtype, ...data} = action 
 
                     state["inputVehicleInfoArray"] = state.inputVehicleInfoArray.map((item) => {
                         if (item.id === action.id){
-                            vehicleInfoTypes.map((type) => {
-                                console.log({type});
-                                console.log([type], action[type]);
-                                item = {
-                                    ...item,
-                                    [type]: action[type]
-                                }
-                            })
+                            item = {...item, ...data}
                         }
                         return item
-                    });
-                    console.log("state", state);
+                    });                    
                     return state; 
-                }        
+                }      
+
                 case 'ResetSearchResults': {
                     state["inputVehicleInfoArray"] = state.inputVehicleInfoArray.map((item) => { return {...item, "searchResult": null}});
                     return state;
@@ -96,8 +87,20 @@ const reducer = produce((state, action) => {
         }
         case 'PlotPanel': {
             switch (action.subtype) {
-                case 'UpdatePlotData': {
-                    return {...state, "plotDataArray": action.plotDataArray, "plotDataLabels": action.plotDataLabels };
+                case 'UpdatePlotDataInstance': {
+                    const {id, type, subtype, ...data} = action 
+
+                    state["plotDataArray"] = state.plotDataArray.map((item) => {
+                        if (item.id === action.id){
+                            item = {...item, ...data}
+                        }
+                        return item
+                    });                    
+                    return state; 
+                }
+                case 'ResetPlotData': {
+                    state.plotDataArray = state.plotDataArray.map((item) => { return {...item, monthArray: null, valueArray: null}});
+                    return state
                 }
                 default:
                     return state;

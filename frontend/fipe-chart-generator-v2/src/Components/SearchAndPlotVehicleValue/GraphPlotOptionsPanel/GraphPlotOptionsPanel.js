@@ -8,6 +8,7 @@ import PlotDefaults from './PlotDefaults';
 import ActionButton from '../../Common/ActionButton';
 
 import ShowVehicleInformation from '../VehicleSearchPanel/ShowVehicleInformation';
+import { getPlotData } from '../../../interfaces/BackendCalls';
 
 
 const GraphPlotOptionsPanel = ({state, dispatch}) => {
@@ -28,6 +29,19 @@ const GraphPlotOptionsPanel = ({state, dispatch}) => {
             type: 'PlotOptionsPanel',
             subtype: 'UpdatePlotOptions',
             plotOptions
+        })
+
+        getPlotData(state.inputVehicleInfoArray, plotOptions)
+        .then((result) => {
+            result.forEach((item) => {
+                dispatch({
+                    type: 'PlotPanel',
+                    subtype: 'UpdatePlotDataInstance',
+                    id: item.id,
+                    monthArray: item.result.monthArray,
+                    valueArray: item.result.valueArray
+                })
+            })
         })
     }
 

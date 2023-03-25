@@ -23,12 +23,12 @@ async function sendBackendRequest(operation, bodyInfo) {
         payload["body"] = JSON.stringify(bodyInfo);
     }
 
-    // console.log("Sending ", requestMethod, " request to ", operation, "with: ", payload);
+    console.log("Sending ", requestMethod, " request to ", operation, "with: ", payload);
 
     const response = await fetch(backendEndpoint, payload);
     const jsonData = await response.json();
 
-    // console.log("jsonData: ", jsonData);
+    console.log("jsonData: ", jsonData);
 
     return jsonData;
 
@@ -73,18 +73,14 @@ function getModelYearsList(inputVehicleInfo) {
 
 }
 
-function getVehicleInformation(inputVehicleInfo) {
+function getVehicleInformation(inputVehicleInfoArray) {
+
+    console.log("getVehicleInformation start");
+    console.log({inputVehicleInfoArray});
 
     const operation = "getVehicleInformation";
 
-    const requestBodyInfo = {
-        "vehicleTypeId": inputVehicleInfo.vehicleType.id,
-        "manufacturerId": inputVehicleInfo.manufacturer.Value,
-        "modelId": inputVehicleInfo.model.Value,
-        "modelYearId": inputVehicleInfo.modelYear.Label
-    }
-
-    return sendBackendRequest(operation, requestBodyInfo);
+    return sendBackendRequest(operation, {inputVehicleInfoArray});
 
 }
 
@@ -95,13 +91,13 @@ function getVehicleTypes() {
     return sendBackendRequest(operation, null);
 }
 
-function getPlotData(vehicleInfo, plotOptions) {
+function getPlotData(inputVehicleInfoArray, plotOptions) {
 
     const operation = "getPlotData";
 
     const requestBodyInfo = {
-        "vehicleInfo": vehicleInfo, 
-        "plotOptions": plotOptions
+        inputVehicleInfoArray, 
+        plotOptions
     }
 
     return sendBackendRequest(operation, requestBodyInfo);
