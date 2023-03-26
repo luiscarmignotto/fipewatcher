@@ -1,10 +1,11 @@
-const backendProperties = require('./BackendConfig.json');
+import config from './BackendConfig'
 
 async function sendBackendRequest(operation, bodyInfo) {
 
-    // console.log("backendProperties", backendProperties);
+    
+    const backendEndpoint = "http://" + config.BACKEND_SERVICE_NAME + ':' + config.BACKEND_SERVICE_PORT + config.routes[operation];
 
-    const backendEndpoint = backendProperties.url + backendProperties.routes[operation];
+    console.log({backendEndpoint});
 
     const requestMethod = (bodyInfo ? 'POST' : 'GET');
 
