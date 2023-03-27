@@ -13,9 +13,7 @@ node {
       sh 'minikube image build -t fipewatcher:latest . '
     }
     stage('Deploy'){
-      if(env.BRANCH_NAME == 'master'){
-        sh 'minikube image build -t fipewatcher:latest '
-      }
+      sh 'cd /home/luisc/devops/git/devops-ansible-k8s-builds && ansible-playbook -i inventory/local_lab.yml site_install.yml'
     }
   }
   catch (err) {
