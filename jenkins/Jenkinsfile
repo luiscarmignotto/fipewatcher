@@ -1,24 +1,15 @@
-node {
-  try {
-    stage('Checkout') {
-      checkout scm
+pipeline {
+    agent {
+        docker {
+            image 'node:lts-bullseye-slim' 
+            args '-p 3000:3000' 
+        }
     }
-    stage('Environment') {
-      sh 'git --version'
-      echo "Branch: ${env.BRANCH_NAME}"
-      sh 'docker -v'
-      sh 'printenv'
+    stages {
+        stage('Build') { 
+            steps {
+                sh 'npm install' 
+            }
+        }
     }
-    stage('Build Docker test'){
-      sh 'minikube image build -t fipewatcher:latest . --no-cache . '
-    }
-    stage('Deploy'){
-      if(env.BRANCH_NAME == 'master'){
-        sh 'minikube image build -t fipewatcher:latest --no-cache'
-      }
-    }
-  }
-  catch (err) {
-    throw err
-  }
 }
