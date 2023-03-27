@@ -10,11 +10,11 @@ node {
       sh 'printenv'
     }
     stage('Build Docker test'){
-      sh 'minikube image build -t fipewatcher:latest . --no-cache . '
+      sh 'minikube image build -t fipewatcher:latest . '
     }
     stage('Deploy'){
       if(env.BRANCH_NAME == 'master'){
-        sh 'minikube image build -t fipewatcher:latest --no-cache'
+        sh 'minikube image build -t fipewatcher:latest '
       }
     }
   }
