@@ -13,7 +13,7 @@ node {
       sh 'minikube image build -t fipewatcher:latest . '
     }
     stage('Deploy'){
-      sh 'cd /home/luisc/devops/git/devops-ansible-k8s-builds && ansible-playbook -i inventory/local_lab.yml site_install.yml'
+      sh 'cd /home/luisc/devops/git/devops-ansible-k8s-builds && /home/luisc/.local/bin/ansible-playbook -i inventory/local_lab.yml site_install.yml'
     }
   }
   catch (err) {
