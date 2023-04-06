@@ -1,22 +1,28 @@
-node {
-  try {
-    stage('Checkout') {
-      checkout scm
+pipeline {
+    agent wsl
+    options {
+        // Timeout counter starts AFTER agent is allocated
     }
-    stage('Environment') {
-      sh 'git --version'
-      echo "Branch: ${env.BRANCH_NAME}"
-      sh 'docker -v'
-      sh 'printenv'
+    stages {
+        stage('Env') {
+          steps {
+            def packageJson = readJSON file: 'package.json'
+            def appName = packageJSON.name
+            def appVersion = packageJSON.version
+            def registryUrl = packageJSON.dockerRegistry
+            def imageName = "${dockerRegistry}/${appName}:${appVersion}"
+          }
+        }
+        stage('Build and Push') {
+          steps {
+            sh("docker build -t ${imageName} .")
+            sh("docker push ${imageName}")
+          }
+        }
+        stage('Deploy') {
+          steps {
+            sh("echo deploying")
+          }
+        }
     }
-    stage('Build Docker test'){
-      sh 'minikube image build -t fipewatcher:latest . '
-    }
-    stage('Deploy'){
-      sh 'cd /home/luisc/devops/git/devops-ansible-k8s-builds && /home/luisc/.local/bin/ansible-playbook -i inventory/local_lab.yml site_install.yml'
-    }
-  }
-  catch (err) {
-    throw err
-  }
 }
