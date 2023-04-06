@@ -1,9 +1,11 @@
 pipeline {
-    agent wsl
-    options {
-        // Timeout counter starts AFTER agent is allocated
-    }
+    agent { label 'docker' }
     stages {
+        stage('Checkout') {
+          steps {
+            checkout scm
+          }
+        }
         stage('Env') {
           steps {
             def packageJson = readJSON file: 'package.json'
