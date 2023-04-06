@@ -6,21 +6,17 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Env') {
-            steps {
-                script {
-                    def packageJson = readJSON file: 'package.json'
-                    def appName = packageJson.name
-                    def appVersion = packageJson.version
-                    def registryUrl = packageJson.dockerRegistryUrl
-                    def imageName = "${registryUrl}/${appName}:${appVersion}"
-                }
-            }
-        }
         stage('Build and Push') {
             steps {
-                sh "docker build -t ${imageName} ."
-                sh "docker push ${imageName}"
+                script {
+                  def packageJson = readJSON file: 'package.json'
+                  def appName = packageJson.name
+                  def appVersion = packageJson.version
+                  def registryUrl = packageJson.dockerRegistryUrl
+                  def imageName = "${registryUrl}/${appName}:${appVersion}"                  
+                  sh "docker build -t ${imageName} ."
+                  sh "docker push ${imageName}"
+                }
             }
         }
         stage('Deploy') {
