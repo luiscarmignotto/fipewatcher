@@ -1,7 +1,7 @@
 {
   "name": "fipewatcher",
   "version": "1.0.0",
-  "registry": "localhost:5000",
+  "dockerRegistryUrl": "localhost:5000",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",

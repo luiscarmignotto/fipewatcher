@@ -8,11 +8,13 @@ pipeline {
         }
         stage('Env') {
             steps {
-                def packageJson = readJSON file: 'package.json'
-                def appName = packageJson.name
-                def appVersion = packageJson.version
-                def registryUrl = packageJson.dockerRegistry
-                def imageName = "${registryUrl}/${appName}:${appVersion}"
+                script {
+                    def packageJson = readJSON file: 'package.json'
+                    def appName = packageJson.name
+                    def appVersion = packageJson.version
+                    def registryUrl = packageJson.dockerRegistryUrl
+                    def imageName = "${registryUrl}/${appName}:${appVersion}"
+                }
             }
         }
         stage('Build and Push') {
