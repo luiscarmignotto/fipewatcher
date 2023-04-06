@@ -2,29 +2,29 @@ pipeline {
     agent { label 'docker' }
     stages {
         stage('Checkout') {
-          steps {
-            checkout scm
-          }
+            steps {
+                checkout scm
+            }
         }
         stage('Env') {
-          steps {
-            def packageJson = readJSON file: 'package.json'
-            def appName = packageJSON.name
-            def appVersion = packageJSON.version
-            def registryUrl = packageJSON.dockerRegistry
-            def imageName = "${dockerRegistry}/${appName}:${appVersion}"
-          }
+            steps {
+                def packageJson = readJSON file: 'package.json'
+                def appName = packageJson.name
+                def appVersion = packageJson.version
+                def registryUrl = packageJson.dockerRegistry
+                def imageName = "${registryUrl}/${appName}:${appVersion}"
+            }
         }
         stage('Build and Push') {
-          steps {
-            sh("docker build -t ${imageName} .")
-            sh("docker push ${imageName}")
-          }
+            steps {
+                sh "docker build -t ${imageName} ."
+                sh "docker push ${imageName}"
+            }
         }
         stage('Deploy') {
-          steps {
-            sh("echo deploying")
-          }
+            steps {
+                sh "echo deploying"
+            }
         }
     }
 }
