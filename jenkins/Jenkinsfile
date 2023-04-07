@@ -9,18 +9,14 @@ pipeline {
         stage('Update Ansible Inventory') {
             steps {            
                 script {
-                    def globalProperties = readProperties file: 'jenkins/GlobalProperties.groovy'
-
-                    echo "globalProperties: ${globalProperties}"
-
-                    def playbooksRepoCredentials = credentials("${globalProperties.ansible.playbooks.credentials}")
-                    def rolesRepoCredentials = credentials("${globalProperties.ansible.roles.credentials}")
+                    def playbooksRepoCredentials = credentials('git-repos')
+                    def rolesRepoCredentials = credentials('git-repos')
 
                     echo "playbooksRepoCredentials: ${playbooksRepoCredentials}"
                     echo "rolesRepoCredentials: ${rolesRepoCredentials}"
 
-                    git branch: "${globalProperties.ansible.playbooks.branch}", credentialsId: playbooksRepoCredentials.id, url: "${globalProperties.ansible.playbooks.repoUrl}"
-                    git branch: "${globalProperties.ansible.roles.branch}", credentialsId: rolesRepoCredentials.id, url: "${globalProperties.ansible.roles.repoUrl}"
+                    git branch: 'master', credentialsId: playbooksRepoCredentials.id, url: 'git@github.com:luiscarmignotto/devops-ansible-k8s-builds.git'
+                    git branch: 'master', credentialsId: rolesRepoCredentials.id, url: 'git@github.com:luiscarmignotto/devops-ansible-k8s-roles.git'
 
                     sh 'ls -lrth'
 
