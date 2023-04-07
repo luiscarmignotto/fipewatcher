@@ -28,11 +28,14 @@ pipeline {
             steps {            
                 script {
 
-                    def playbooksRepoCredentials = credentials(${globalProperties.ansible.playbooks.credentials})
-                    def rolesRepoCredentials = credentials(${globalProperties.ansible.roles.credentials})
+                    def playbooksRepoCredentials = credentials("${globalProperties.ansible.playbooks.credentials}")
+                    def rolesRepoCredentials = credentials("${globalProperties.ansible.roles.credentials}")
 
-                    git branch: "${globalProperties.ansible.playbooks.branch}" credentialsId: playbooksRepoCredentials, url: "${globalProperties.ansible.playbooks.repoUrl}"
-                    git branch: "${globalProperties.ansible.playbooks.branch}" credentialsId: rolesRepoCredentials, url: "${globalProperties.ansible.roles.repoUrl}"
+                    sh "echo playbooksRepoCredentials: ${playbooksRepoCredentials}"
+                    sh "echo rolesRepoCredentials: ${rolesRepoCredentials}"
+
+                    git branch: "${globalProperties.ansible.playbooks.branch}" credentialsId: playbooksRepoCredentials.id, url: "${globalProperties.ansible.playbooks.repoUrl}"
+                    git branch: "${globalProperties.ansible.playbooks.branch}" credentialsId: rolesRepoCredentials.id, url: "${globalProperties.ansible.roles.repoUrl}"
 
                     sh 'ls -lrth'
 
