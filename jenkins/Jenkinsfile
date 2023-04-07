@@ -8,7 +8,7 @@ pipeline {
         // }
         stage('Checkout Git') {
             steps { 
-                // checkout scm
+                checkout scm
                 dir('../ANSIBLE') { 
                     sh 'pwd'
                     sh 'rm -rf *'
