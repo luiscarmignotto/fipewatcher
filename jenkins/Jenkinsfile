@@ -61,7 +61,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 dir('../ANSIBLE') {
-                    sh '/home/luisc/.local/bin/ansible-playbook/ansible-playbook -i inventory/local_lab.yml site_install.yml'                    
+                    ansiblePlaybook(inventory: 'inventory/local_lab.yml', playbook: 'site_install.yml')
                 }
             }
         }
