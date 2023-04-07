@@ -8,44 +8,29 @@ pipeline {
         // }
         stage('Checkout Git') {
             steps { 
-                // dir('APP') {
-                //     checkout scm
-                //     sh 'pwd'
-                //     sh 'ls -lrth'
-                //     sh 'ls -lrth ..'
-                // }
-                dir('ANSIBLE_PLAYBOOKS') { 
+                // checkout scm
+                dir('ANSIBLE') { 
                     withCredentials([sshUserPrivateKey(credentialsId: 'git-repos', keyFileVariable: 'SSH_KEY')]) {  
                         sh '''
-                        pwd
-                        ls -lrth
-                        ls -lrth ..
-                        GIT_SSH_COMMAND="ssh -i $SSH_KEY" git clone git@github.com:luiscarmignotto/devops-ansible-k8s-builds.git
-                        pwd
-                        ls -lrth
-                        ls -lrth ..
+                        rm -rf *
+                        GIT_SSH_COMMAND="ssh -i $SSH_KEY" git clone -b master git@github.com:luiscarmignotto/devops-ansible-k8s-builds.git
+                        GIT_SSH_COMMAND="ssh -i $SSH_KEY" git clone -b master git@github.com:luiscarmignotto/devops-ansible-k8s-roles.git
                         '''
                     }
                 }
-                dir('ANSIBLE_ROLES') {
-                    withCredentials([sshUserPrivateKey(credentialsId: 'git-repos', keyFileVariable: 'SSH_KEY')]) {  
-                        sh '''
-                        pwd
-                        ls -lrth
-                        ls -lrth ..
-                        GIT_SSH_COMMAND="ssh -i $SSH_KEY" git clone git@github.com:luiscarmignotto/devops-ansible-k8s-roles.git
-                        pwd
-                        ls -lrth
-                        ls -lrth ..
-                        '''
-                    }
-                }
-
-                sh 'ls -lrth'
-                sh 'ls -lrth ..'
-
             }
-        }        
+        }  
+        stage('Updating Ansible Inventory') {
+            steps {
+                script {
+                    def inventoryFile = './ANSIBLE/devops-ansible-k8s-builds/inventory/group_vars/local_lab.yml'
+                    def data = readYaml file: inventoryFile
+                    data.solution.application.fipewatcher.image_tag = "2.3.0"
+                    sh "rm $inventoryFile"
+                    writeYaml file: inventoryFile, data: data
+                }
+            }
+        }    
         stage('Build and Push') {
             steps {
                 script {
