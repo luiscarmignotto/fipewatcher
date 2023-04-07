@@ -9,24 +9,14 @@ pipeline {
         stage('Checkout Git') {
             steps { 
                 checkout scm
-                dir('../ANSIBLE') { 
-                    sh 'pwd'
+                dir('../ANSIBLE') {
                     sh 'rm -rf *'
-                    git credentialsId: 'git-repos', url: 'git@github.com:luiscarmignotto/devops-ansible-k8s-builds.git'
-                    git credentialsId: 'git-repos', url: 'git@github.com:luiscarmignotto/devops-ansible-k8s-roles.git'
-                    // withCredentials([sshUserPrivateKey(credentialsId: 'git-repos', keyFileVariable: 'SSH_KEY')]) {  
-                    //     sh '''
-                    //     rm -rf *
-                    //     GIT_SSH_COMMAND="ssh -i $SSH_KEY" git clone git@github.com:luiscarmignotto/devops-ansible-k8s-builds.git
-                    //     cd devops-ansible-k8s-builds
-                    //     git checkout master && git pull --all
-                    //     cd -
-                    //     GIT_SSH_COMMAND="ssh -i $SSH_KEY" git clone git@github.com:luiscarmignotto/devops-ansible-k8s-roles.git
-                    //     cd devops-ansible-k8s-roles
-                    //     git checkout master && git pull --all
-                    //     cd -                        
-                    //     '''
-                    // }
+                    dir('devops-ansible-k8s-builds') { 
+                        git credentialsId: 'git-repos', url: 'git@github.com:luiscarmignotto/devops-ansible-k8s-builds.git'
+                    }
+                    dir('devops-ansible-k8s-roles') { 
+                        git credentialsId: 'git-repos', url: 'git@github.com:luiscarmignotto/devops-ansible-k8s-roles.git'
+                    }                    
                 }
             }
         }  
