@@ -1,3 +1,5 @@
+library './Properties.groovy'
+
 pipeline {
     agent { label 'docker' }
     stages {
@@ -19,6 +21,27 @@ pipeline {
                   sh "minikube image build -t ${imageName} ."
                   sh "jenkins/scripts/dockerRegistryTunnel.sh"
                   // sh "docker push ${imageName}"
+                }
+            }
+        }
+        stage('Update Ansible Inventory') {
+            steps {            
+                script {
+
+                    def playbooksRepoCredentials = credentials(${globalProperties.ansible.playbooks.credentials})
+                    def rolesRepoCredentials = credentials(${globalProperties.ansible.roles.credentials})
+
+                    git branch: "${globalProperties.ansible.playbooks.branch}" credentialsId: playbooksRepoCredentials, url: "${globalProperties.ansible.playbooks.repoUrl}"
+                    git branch: "${globalProperties.ansible.playbooks.branch}" credentialsId: rolesRepoCredentials, url: "${globalProperties.ansible.roles.repoUrl}"
+
+                    sh 'ls -lrth'
+
+                    def yamlData = readYaml(file: 'path/to/your/yaml/file.yml')
+                    yamlData.nested.structure.image.tag = 'new-image-tag'
+                    writeYaml(file: 'path/to/your/yaml/file.yml', data: yamlData)
+                    git add: '.'
+                    git commit: '-m "Update react app image tag"'
+                    git push          
                 }
             }
         }
