@@ -10,7 +10,7 @@ pipeline {
             steps { 
                 // checkout scm
                 dir('ANSIBLE') { 
-                    rm -rf *
+                    sh 'rm -rf *'
                     git branch: 'master', credentialsId: 'git-repos', url: 'git@github.com:luiscarmignotto/devops-ansible-k8s-builds.git'
                     git branch: 'master', credentialsId: 'git-repos', url: 'git@github.com:luiscarmignotto/devops-ansible-k8s-roles.git'
                     // withCredentials([sshUserPrivateKey(credentialsId: 'git-repos', keyFileVariable: 'SSH_KEY')]) {  
