@@ -1,5 +1,12 @@
 pipeline {
     agent { label 'docker' }
+
+    parameters {
+        string(name: 'appVersion', defaultValue: '')
+        string(name: 'appName', defaultValue: 'fipewatcher')
+        string(name: 'imageName', defaultValue: '')
+    }
+
     stages {
         // stage('Checkout') {
         //     steps {
@@ -22,13 +29,10 @@ pipeline {
         }  
         stage('Getting Build Info') {
             steps {
-                script {
-                    def packageJson = readJSON file: 'package.json'
-                    def appName = packageJson.name
-                    def appVersion = packageJson.version
-                    def registryUrl = packageJson.dockerRegistryUrl         
-                    def imageName = "${appName}:${appVersion}"
-                }
+                packageJson = readJSON file: 'package.json'
+                env.appName = packageJson.name
+                env.appVersion = packageJson.version     
+                env.imageName = "${env.appName}:${env.appVersion}"                
             }
         }
         stage('Updating Ansible Inventory') {
