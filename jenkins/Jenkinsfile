@@ -6,22 +6,6 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Build and Push') {
-            steps {
-                script {
-                  def packageJson = readJSON file: 'package.json'
-                  def appName = packageJson.name
-                  def appVersion = packageJson.version
-                  def registryUrl = packageJson.dockerRegistryUrl
-                  // def imageName = "${registryUrl}/${appName}:${appVersion}"             
-                  def imageName = "${appName}:${appVersion}"
-                  // sh "docker build -t ${imageName} ."
-                  sh "minikube image build -t ${imageName} ."
-                  sh "jenkins/scripts/dockerRegistryTunnel.sh"
-                  // sh "docker push ${imageName}"
-                }
-            }
-        }
         stage('Update Ansible Inventory') {
             steps {            
                 script {
@@ -44,6 +28,22 @@ pipeline {
                     git add: '.'
                     git commit: '-m "Update react app image tag"'
                     git push          
+                }
+            }
+        }        
+        stage('Build and Push') {
+            steps {
+                script {
+                  def packageJson = readJSON file: 'package.json'
+                  def appName = packageJson.name
+                  def appVersion = packageJson.version
+                  def registryUrl = packageJson.dockerRegistryUrl
+                  // def imageName = "${registryUrl}/${appName}:${appVersion}"             
+                  def imageName = "${appName}:${appVersion}"
+                  // sh "docker build -t ${imageName} ."
+                  sh "minikube image build -t ${imageName} ."
+                  sh "jenkins/scripts/dockerRegistryTunnel.sh"
+                  // sh "docker push ${imageName}"
                 }
             }
         }
