@@ -1,21 +1,30 @@
 pipeline {
     agent { label 'docker' }
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-        stage('Update Ansible Inventory') {
+        // stage('Checkout') {
+        //     steps {
+        //         checkout scm
+        //     }
+        // }
+        stage('Checkout Git') {
             steps { 
-                withCredentials([sshUserPrivateKey(credentialsId: 'git-repos', keyFileVariable: 'SSH_KEY')]) {   
-                    git branch: 'master', credentialsId: 'git-repos', url: 'git@github.com:luiscarmignotto/devops-ansible-k8s-builds.git'
-                    git branch: 'master', credentialsId: 'git-repos', url: 'git@github.com:luiscarmignotto/devops-ansible-k8s-roles.git'
-
-                    sh 'ls -lrth'
-                    sh 'ls -lrth ..'
-
+                dir('APP') {
+                    checkout scm
                 }
+                dir('ANSIBLE_PLAYBOOKS') { 
+                    withCredentials([sshUserPrivateKey(credentialsId: 'git-repos', keyFileVariable: 'SSH_KEY')]) {  
+                        git branch: 'master', credentialsId: 'git-repos', url: 'git@github.com:luiscarmignotto/devops-ansible-k8s-builds.git'
+                    }
+                }
+                dir('ANSIBLE_ROLES') {
+                    withCredentials([sshUserPrivateKey(credentialsId: 'git-repos', keyFileVariable: 'SSH_KEY')]) {  
+                        git branch: 'master', credentialsId: 'git-repos', url: 'git@github.com:luiscarmignotto/devops-ansible-k8s-roles.git'
+                    }
+                }
+
+                sh 'ls -lrth'
+                sh 'ls -lrth ..'
+
             }
         }        
         stage('Build and Push') {
