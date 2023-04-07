@@ -22,13 +22,16 @@ pipeline {
         }  
         stage('Updating Ansible Inventory') {
             steps {
-                script {
-                    def inventoryFile = './ANSIBLE/devops-ansible-k8s-builds/inventory/group_vars/local_lab.yml'
-                    def data = readYaml file: inventoryFile
-                    data.solution.application.fipewatcher.image_tag = "2.3.0"
-                    sh "rm $inventoryFile"
-                    writeYaml file: inventoryFile, data: data
+                dir('../ANSIBLE/devops-ansible-k8s-builds') {
+                    script {
+                        def inventoryFile = 'inventory/group_vars/local_lab.yml'
+                        def data = readYaml file: inventoryFile
+                        data.solution.application.fipewatcher.image_tag = "2.3.0"
+                        sh "rm $inventoryFile"
+                        writeYaml file: inventoryFile, data: data
+                    }
                 }
+
             }
         }    
         stage('Build and Push') {
