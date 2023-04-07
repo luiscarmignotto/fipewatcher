@@ -2,7 +2,7 @@
     border-radius: 30px;
 
     background-color: (0,0,0,0.5);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(7px);
 
     height: 60vh;
     width: 60%;
@@ -17,9 +17,11 @@
 .UserInputPanel__Head {
     text-align: center;
     font-weight: bold;
-    color: white;
-    font-size: 60px;
-    height: 60px; 
+    color: black;
+    font-size: 40px;
+    height: 100px; 
+    align-self: center;
+    text-shadow: .05em .05em 0 hsl(24,58%,85%);
 }
 
 .UserInputPanel__Content {

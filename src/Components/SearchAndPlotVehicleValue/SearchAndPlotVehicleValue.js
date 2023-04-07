@@ -49,7 +49,7 @@ function SearchAndPlotVehicleValue() {
   return (
     <div className="SearchAndPlotVehicleValue">
       <div className="SearchAndPlotVehicleValue__Head">
-        Histórico de Preços de Veículos - Tabela FIPE
+        Histórico de Preços Tabela FIPE
       </div>
       <div ref={vehicleSearchPanel}>
         <VehicleSearchPanel state={state} dispatch={dispatch}/>

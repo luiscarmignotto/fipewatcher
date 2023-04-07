@@ -60,7 +60,7 @@ function VehicleSearchPanel({state, dispatch}) {
     return (
 
         <div className="UserInputPanelContainer">
-            <div className="UserInputPanel__Head">Consulta de Valores</div>
+            <div className="UserInputPanel__Head">Pesquisar Veículo</div>
             <div className="UserInputPanel__Content">
                 <div className="UserInputPanel__Content--AllInstances">
                 {inputVehicleInfoArray.map((inputVehicleInfo) => (
