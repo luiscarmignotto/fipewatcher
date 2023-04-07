@@ -9,10 +9,8 @@ pipeline {
         stage('Checkout Git') {
             steps { 
                 // checkout scm
-                sh 'cd ..'
-                sh 'pwd'
-                sh 'ls -lrth'
-                dir('ANSIBLE') { 
+                dir('../ANSIBLE') { 
+                    sh 'pwd'
                     sh 'rm -rf *'
                     git branch: 'master', credentialsId: 'git-repos', url: 'git@github.com:luiscarmignotto/devops-ansible-k8s-builds.git'
                     git branch: 'master', credentialsId: 'git-repos', url: 'git@github.com:luiscarmignotto/devops-ansible-k8s-roles.git'
@@ -30,9 +28,6 @@ pipeline {
                     //     '''
                     // }
                 }
-                sh 'ls -lrth'
-                sh 'cd fipewatcher_master'
-                sh 'ls -lrth'
             }
         }  
         stage('Updating Ansible Inventory') {
