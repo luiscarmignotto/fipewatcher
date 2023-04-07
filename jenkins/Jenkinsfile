@@ -60,7 +60,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                dir('../ANSIBLE') {
+                dir('../ANSIBLE/devops-ansible-k8s-builds') {
                     echo "PATH: ${PATH}"
                     ansiblePlaybook(inventory: 'inventory/local_lab.yml', playbook: 'site_install.yml')
                 }
