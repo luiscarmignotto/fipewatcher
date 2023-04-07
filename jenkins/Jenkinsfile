@@ -14,7 +14,13 @@ pipeline {
                         sh '''
                         rm -rf *
                         GIT_SSH_COMMAND="ssh -i $SSH_KEY" git clone git@github.com:luiscarmignotto/devops-ansible-k8s-builds.git
+                        cd ANSIBLE/devops-ansible-k8s-builds
+                        git checkout master && git pull --all
+                        cd -
                         GIT_SSH_COMMAND="ssh -i $SSH_KEY" git clone git@github.com:luiscarmignotto/devops-ansible-k8s-roles.git
+                        cd ANSIBLE/devops-ansible-k8s-roles
+                        git checkout master && git pull --all
+                        cd -                        
                         '''
                     }
                 }
