@@ -13,7 +13,8 @@ pipeline {
                   def appName = packageJson.name
                   def appVersion = packageJson.version
                   def registryUrl = packageJson.dockerRegistryUrl
-                  def imageName = "${registryUrl}/${appName}:${appVersion}"                  
+                  // def imageName = "${registryUrl}/${appName}:${appVersion}"             
+                  def imageName = "${appName}:${appVersion}"
                   // sh "docker build -t ${imageName} ."
                   sh "minikube image build -t ${imageName} ."
                   sh "jenkins/scripts/dockerRegistryTunnel.sh"
