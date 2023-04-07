@@ -10,6 +10,8 @@ pipeline {
             steps { 
                 // checkout scm
                 sh 'cd ..'
+                sh 'pwd'
+                sh 'ls -lrth'
                 dir('ANSIBLE') { 
                     sh 'rm -rf *'
                     git branch: 'master', credentialsId: 'git-repos', url: 'git@github.com:luiscarmignotto/devops-ansible-k8s-builds.git'
