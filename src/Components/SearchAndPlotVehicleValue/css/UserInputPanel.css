@@ -8,7 +8,7 @@
     width: 60%;
     
     display: grid; 
-    grid-template-columns: 100%;
+    grid-template-columns: 60%;
     grid-template-rows: auto auto auto; 
     justify-content: center;
 
@@ -26,8 +26,9 @@
 
 .UserInputPanel__Content {
     /* border-radius: 30px; */
-    width: 60%;
+    width: 100%;
     justify-self: center;
+    /* align-self: self-start; */
 
     /* backdrop-filter: blur(50px); */
 
@@ -42,19 +43,22 @@
     display: grid;
     grid-template-columns: auto auto auto;
     justify-content: center;
-    gap: 10px;
+    gap: 40px;
+    overflow-x: auto;
 }
 
 .UserInputPanel__Content--InputBoxesContainer {
-
     display: grid; 
-    border: 1px solid white;
+    /* border: 1px solid white; */
     border-radius: 10px;
     grid-template-columns: auto;
     grid-template-rows: auto auto auto;
     justify-content: center;
+    align-content: space-between;
+    gap: 5px;
     align-self: center;
-    padding: 5px;
+    padding: 15px;
+    background-color: hsl(30,2%,65%, 70%);
 }
 
 .UserInputPanel__Content--InputBoxesContainer div{
@@ -72,10 +76,7 @@
 }
 
 .UserInputPanel__Content--DisplayInfo {
-    border: 1px solid white;
-    border-radius: 10px;
-    text-align: center;
     align-self: center;
-    justify-self: center;
-    width: 60%;
+    border-radius: 5px;
+    background-color: hsl(30,2%,65%, 70%);
 }

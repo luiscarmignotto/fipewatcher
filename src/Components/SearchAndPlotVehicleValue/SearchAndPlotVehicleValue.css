@@ -8,7 +8,7 @@
   /* background-color: #33a9f4; */
   
   display: grid;
-  grid-template-columns: 40%;
+  grid-template-columns: 60%;
   grid-template-rows: auto auto auto;
   align-items: center;
   justify-content: center;
@@ -17,7 +17,7 @@
 }
 
 .SearchAndPlotVehicleValue__Head{
-  font-size: 50px;
+  font-size: 40px;
   font-weight: bold;
   color: hsl(354,99%,39%); 
   text-align: center;

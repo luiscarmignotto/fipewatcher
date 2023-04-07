@@ -69,6 +69,7 @@ function VehicleSearchPanel({state, dispatch}) {
                     </div>
                 ))} 
                 </div>
+            </div>                
 
                 <div className="UserInputPanel__Content--ActionButtonsContainer">
                 {inputVehicleInfoArray.length < VehicleSearchPanelDefaults().MAX_SEARCH_INSTANCES &&
@@ -80,8 +81,7 @@ function VehicleSearchPanel({state, dispatch}) {
                 {canSearch && 
                     <ActionButton onClick={searchButton} text="Pesquisar"/>
                 }                
-                </div>                
-            </div>
+                </div>                            
         </div>
     )
 

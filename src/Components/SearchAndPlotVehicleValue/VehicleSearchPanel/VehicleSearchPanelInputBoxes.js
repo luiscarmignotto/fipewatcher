@@ -23,7 +23,8 @@ const VehicleSearchPanelInputBoxes = ({ state, dispatch, id }) => {
     }
 
     return (
-        <div className="UserInputPanel__Content--InputBoxesContainer">        
+        <div className="UserInputPanel__Content--InputBoxesContainer">     
+            {<div>Veículo {id}</div>}
             <GetVehicleType inputVehicleInfo={inputVehicleInfo} dispatch={dispatch}/>
         
             { inputVehicleInfo.vehicleType && 

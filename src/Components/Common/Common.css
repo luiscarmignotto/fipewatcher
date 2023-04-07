@@ -4,6 +4,9 @@
 
 .ChooseBox__SelectOption {
     text-align: center;
+    height: 30px;
+    width: 200px;
+    font-size: 15px;
 }
 
 .SearchBox {
@@ -14,15 +17,23 @@
     text-align: center;
     align-self: center;
     color: black;
+    height: 30px;
+    width: 200px;
+    font-size: 15px;
     
 }
 
 .SearchBox__DropDownList {
+    height: 100px;
+    overflow-y: scroll; 
+}
+
+.SearchBox__DropDownListItem {
     text-align: left;
     color: white;
-    font-size: 60%;
+    font-size: 90%;
     font-weight: bold;
-
+    height: 25px;
 }
 
 .ShowBox {

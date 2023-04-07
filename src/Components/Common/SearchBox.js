@@ -1,4 +1,4 @@
-import React, {useState, useMemo } from 'react';
+import React, {useState, useMemo, useEffect } from 'react';
 import './Common.css'
 
 function SearchBox({itemsList, placeholder, setOption }) {
@@ -6,7 +6,13 @@ function SearchBox({itemsList, placeholder, setOption }) {
     const [searchValue, setSearchValue] = useState("");
 
     const displayItems = useMemo(() => {
-        return itemsList && itemsList.filter((item) => searchFilter(item.Label)).sort().splice(0, 9)
+        if (searchValue === "") {
+            return itemsList;
+        }
+        if (itemsList.length > 0 ) {
+            return itemsList.filter((item) => searchFilter(item.Label)).sort();
+        }   
+        return null;    
     }, [itemsList, searchValue]);
 
     function searchFilter(value) {
@@ -23,8 +29,11 @@ function SearchBox({itemsList, placeholder, setOption }) {
     return (
         <div className="SearchBox">
             <input className="SearchBox__Input" type="text" value={searchValue} placeholder={placeholder} onChange={(e) => setSearchValue(e.target.value)} />
-            {displayItems && displayItems.map((item) => (<div key={item.Value} className="SearchBox__DropDownList" onClick={() => {setSearchValue(item.Label); setOption(item)}}>{item.Label}</div>))}
-            {/* {itemsList && itemsList.filter((item) => searchFilter(item.Label)).map((item) => (<div key={item.Value} onClick={() => {setSearchValue(item.Label); setOption(item)}}>{item.Label}</div>))} */}
+            {displayItems && displayItems.length > 0 && 
+                <div className="SearchBox__DropDownList">
+                    {displayItems.map((item) => (<div key={item.Value} className="SearchBox__DropDownListItem" onClick={() => {setSearchValue(item.Label); setOption(item)}}>{item.Label}</div>))}
+                </div>
+            }        
         </div>
     )
 }
