@@ -25,7 +25,7 @@ pipeline {
         stage('Update Ansible Inventory') {
             steps {            
                 script {
-                    def globalProperties = loadProperties('Properties.groovy')
+                    def globalProperties = readProperties file: 'GlobalProperties.groovy'
 
                     def playbooksRepoCredentials = credentials("${globalProperties.ansible.playbooks.credentials}")
                     def rolesRepoCredentials = credentials("${globalProperties.ansible.roles.credentials}")
