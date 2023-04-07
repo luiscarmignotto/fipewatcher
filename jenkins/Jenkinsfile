@@ -7,6 +7,10 @@ pipeline {
         string(name: 'imageName', defaultValue: '')
     }
 
+    environment {
+        PATH="${PATH}:/home/luisc/.local/bin"
+    }
+
     stages {
         // stage('Checkout') {
         //     steps {
