@@ -76,6 +76,8 @@ pipeline {
             steps {
                 dir('../ANSIBLE/devops-ansible-k8s-builds') {
                     withCredentials([sshUserPrivateKey(credentialsId: "git-repos", keyFileVariable: 'keyfile')]) {
+                        sh("git add --all")
+                        sh("git commit -m "Jenkins Automatic message: fipewatcher image version updated to ${env.appVersion}"")
                         sh("git tag -a ${env.appVersion} -m 'Jenkins'")
                         sh("git push  git@github.com:luiscarmignotto/devops-ansible-k8s-builds.git --tags")
                     }
