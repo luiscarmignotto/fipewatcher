@@ -29,10 +29,12 @@ pipeline {
         }  
         stage('Getting Build Info') {
             steps {
-                def packageJson = readJSON file: 'package.json'
-                env.appName = packageJson.name
-                env.appVersion = packageJson.version     
-                env.imageName = "${env.appName}:${env.appVersion}"                
+                script {
+                    packageJson = readJSON file: 'package.json'
+                    env.appName = packageJson.name
+                    env.appVersion = packageJson.version     
+                    env.imageName = "${env.appName}:${env.appVersion}"
+                }
             }
         }
         stage('Updating Ansible Inventory') {
@@ -41,7 +43,7 @@ pipeline {
                     script {
                         def inventoryFile = 'inventory/group_vars/local_lab.yml'
                         def data = readYaml file: inventoryFile
-                        data.solution.application.fipewatcher.image_tag = "${appVersion}"
+                        data.solution.application.fipewatcher.image_tag = "${env.appVersion}"
                         sh "rm $inventoryFile"
                         writeYaml file: inventoryFile, data: data
                     }
@@ -52,7 +54,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    sh "minikube image build -t ${imageName} ."
+                    sh "minikube image build -t ${env.imageName} ."
                 }
             }
         }
