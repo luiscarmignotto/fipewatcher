@@ -13,8 +13,8 @@ pipeline {
                     withCredentials([sshUserPrivateKey(credentialsId: 'git-repos', keyFileVariable: 'SSH_KEY')]) {  
                         sh '''
                         rm -rf *
-                        ssh -i $SSH_KEY git clone git@github.com:luiscarmignotto/devops-ansible-k8s-builds.git
-                        ssh -i $SSH_KEY git clone git@github.com:luiscarmignotto/devops-ansible-k8s-roles.git
+                        GIT_SSH_COMMAND="ssh -i $SSH_KEY" git clone git@github.com:luiscarmignotto/devops-ansible-k8s-builds.git
+                        GIT_SSH_COMMAND="ssh -i $SSH_KEY" git clone git@github.com:luiscarmignotto/devops-ansible-k8s-roles.git
                         '''
                     }
                 }
