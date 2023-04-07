@@ -1,4 +1,4 @@
-def globalProperties: [ 
+def globalProperties = [
     ansible: [
         playbooks: [
             branch: 'master',
