@@ -11,11 +11,13 @@ pipeline {
                 script {
                     def globalProperties = readProperties file: 'jenkins/GlobalProperties.groovy'
 
+                    echo "globalProperties: ${globalProperties}"
+
                     def playbooksRepoCredentials = credentials("${globalProperties.ansible.playbooks.credentials}")
                     def rolesRepoCredentials = credentials("${globalProperties.ansible.roles.credentials}")
 
-                    sh "echo playbooksRepoCredentials: ${playbooksRepoCredentials}"
-                    sh "echo rolesRepoCredentials: ${rolesRepoCredentials}"
+                    echo "playbooksRepoCredentials: ${playbooksRepoCredentials}"
+                    echo "rolesRepoCredentials: ${rolesRepoCredentials}"
 
                     git branch: "${globalProperties.ansible.playbooks.branch}", credentialsId: playbooksRepoCredentials.id, url: "${globalProperties.ansible.playbooks.repoUrl}"
                     git branch: "${globalProperties.ansible.roles.branch}", credentialsId: rolesRepoCredentials.id, url: "${globalProperties.ansible.roles.repoUrl}"
