@@ -65,6 +65,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 dir('../ANSIBLE/devops-ansible-k8s-builds') {
+                    sh 'whoami'
                     echo "PATH: ${PATH}"
                     ansiblePlaybook(inventory: 'inventory/local_lab.yml', playbook: 'site_install.yml')
                 }
