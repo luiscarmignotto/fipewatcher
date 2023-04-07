@@ -9,7 +9,7 @@ pipeline {
         stage('Update Ansible Inventory') {
             steps {            
                 script {
-                    def globalProperties = readProperties file: 'GlobalProperties.groovy'
+                    def globalProperties = readProperties file: 'jenkins/GlobalProperties.groovy'
 
                     def playbooksRepoCredentials = credentials("${globalProperties.ansible.playbooks.credentials}")
                     def rolesRepoCredentials = credentials("${globalProperties.ansible.roles.credentials}")
@@ -22,12 +22,12 @@ pipeline {
 
                     sh 'ls -lrth'
 
-                    def yamlData = readYaml(file: 'path/to/your/yaml/file.yml')
-                    yamlData.nested.structure.image.tag = 'new-image-tag'
-                    writeYaml(file: 'path/to/your/yaml/file.yml', data: yamlData)
-                    git add: '.'
-                    git commit: '-m "Update react app image tag"'
-                    git push          
+                    // def yamlData = readYaml(file: 'path/to/your/yaml/file.yml')
+                    // yamlData.nested.structure.image.tag = 'new-image-tag'
+                    // writeYaml(file: 'path/to/your/yaml/file.yml', data: yamlData)
+                    // git add: '.'
+                    // git commit: '-m "Update react app image tag"'
+                    // git push          
                 }
             }
         }        
