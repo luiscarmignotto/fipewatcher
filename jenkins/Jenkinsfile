@@ -29,7 +29,7 @@ pipeline {
         }  
         stage('Getting Build Info') {
             steps {
-                packageJson = readJSON file: 'package.json'
+                def packageJson = readJSON file: 'package.json'
                 env.appName = packageJson.name
                 env.appVersion = packageJson.version     
                 env.imageName = "${env.appName}:${env.appVersion}"                
