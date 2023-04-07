@@ -19,7 +19,7 @@ pipeline {
                         sh 'pwd'
                         sh 'ls -lrth'
                         sh 'ls -lrth ..'
-                        git branch: 'master', credentialsId: 'git-repos', url: 'git@github.com:luiscarmignotto/devops-ansible-k8s-builds.git'
+                        sh "GIT_SSH_COMMAND="ssh -i $SSH_KEY" git clone git@github.com:luiscarmignotto/devops-ansible-k8s-builds.git"
                         sh 'pwd'
                         sh 'ls -lrth'
                         sh 'ls -lrth ..'
