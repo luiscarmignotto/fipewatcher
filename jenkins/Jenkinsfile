@@ -76,7 +76,8 @@ pipeline {
             steps {
                 dir('../ANSIBLE/devops-ansible-k8s-builds') {
                     withCredentials([sshUserPrivateKey(credentialsId: "git-repos", keyFileVariable: 'keyfile')]) {
-                        sh("git push git@github.com:luiscarmignotto/devops-ansible-k8s-builds.git v${appVersion}")
+                        sh("git tag -a ${env.appVersion} -m 'Jenkins'")
+                        sh("git push  git@github.com:luiscarmignotto/devops-ansible-k8s-builds.git --tags")
                     }
                 }
             }
