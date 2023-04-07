@@ -68,7 +68,7 @@ pipeline {
                     sh 'whoami'
                     echo "PATH: ${PATH}"
                     sh 'pwd'
-                    ansiblePlaybook(inventory: 'inventory/local_lab.yml', playbook: 'site_install.yml')
+                    ansiblePlaybook(installation: 'main-ansible', inventory: 'inventory/local_lab.yml', playbook: 'site_install.yml')
                 }
             }
         }
