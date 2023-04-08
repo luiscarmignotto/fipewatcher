@@ -6,9 +6,11 @@ const MainPage = () => {
 
     console.log("Main Page Running");
 
+    const appVersion = process.env.REACT_APP_VERSION || "default";
+
     return (
         <div className="MainPage">
-            <div className="MainPage__Header">Header</div>
+            <div className="MainPage__Header">Header || Version: {appVersion}</div>
             <div className="MainPage__Content">
                 {/* <div>Placeholder</div> */}
                 <SearchAndPlotVehicleValue />

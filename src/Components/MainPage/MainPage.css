@@ -20,6 +20,7 @@
 .MainPage__Header {
     height: 100px;
     background: linear-gradient(#57010a, #b90315);
+    font-size: 20px;
     /* background-color: #c70116; */
     text-align: center;
     color: white; 

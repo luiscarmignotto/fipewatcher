@@ -1,6 +1,7 @@
 FROM node:17-alpine as builder
 WORKDIR /app
 
+ENV REACT_APP_VERSION "versionPlaceHolder"
 ENV REACT_APP_BACKEND_SERVICE_NAME "localhost"
 ENV REACT_APP_BACKEND_SERVICE_PORT "4000"
 
