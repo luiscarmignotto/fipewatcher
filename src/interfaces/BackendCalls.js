@@ -40,6 +40,7 @@ function getManufacturersList(inputVehicleInfo) {
     const operation = "SearchManufacturer";
 
     const requestBodyInfo = {
+        "referenceTableId": inputVehicleInfo.referenceTableId.Value, 
         "vehicleTypeId": inputVehicleInfo.vehicleType.id
     }
 
@@ -52,6 +53,7 @@ function getModelsList(inputVehicleInfo) {
     const operation = "SearchModels";
 
     const requestBodyInfo = {
+        "referenceTableId": inputVehicleInfo.referenceTableId.Value,
         "vehicleTypeId": inputVehicleInfo.vehicleType.id,
         "manufacturerId": inputVehicleInfo.manufacturer.Value
     }
@@ -65,6 +67,7 @@ function getModelYearsList(inputVehicleInfo) {
     const operation = "SearchModelYears";
 
     const requestBodyInfo = {
+        "referenceTableId": inputVehicleInfo.referenceTableId.Value,
         "vehicleTypeId": inputVehicleInfo.vehicleType.id,
         "manufacturerId": inputVehicleInfo.manufacturer.Value,
         "modelId": inputVehicleInfo.model.Value
@@ -92,6 +95,13 @@ function getVehicleTypes() {
     return sendBackendRequest(operation, null);
 }
 
+function getReferenceTableIdList() {
+
+    const operation = "getReferenceTableIdList";
+
+    return sendBackendRequest(operation, null);
+}
+
 function getPlotData(inputVehicleInfoArray, plotOptions) {
 
     const operation = "getPlotData";
@@ -104,4 +114,4 @@ function getPlotData(inputVehicleInfoArray, plotOptions) {
     return sendBackendRequest(operation, requestBodyInfo);
 }
 
-export { getVehicleTypes, getManufacturersList, getModelsList, getModelYearsList, getVehicleInformation, getPlotData }
+export { getVehicleTypes, getManufacturersList, getModelsList, getModelYearsList, getVehicleInformation, getPlotData, getReferenceTableIdList }

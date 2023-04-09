@@ -6,7 +6,7 @@ const MainPage = () => {
 
     console.log("Main Page Running");
 
-    const appVersion = process.env.REACT_APP_VERSION || "default";
+    const appVersion = process.env.REACT_APP_VERSION || "development";
 
     return (
         <div className="MainPage">

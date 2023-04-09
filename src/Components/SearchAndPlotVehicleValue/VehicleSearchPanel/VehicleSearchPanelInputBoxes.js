@@ -4,6 +4,7 @@ import GetVehicleType from './GetVehicleType';
 import SearchManufacturer from './SearchManufacturer';
 import SearchModel from './SearchModel';
 import SearchModelYear from './SearchModelYear';
+import GetReferenceTableId from './GetReferenceTableId';
 
 import '../css/UserInputPanel.css'
 import ActionButton from '../../Common/ActionButton';
@@ -25,6 +26,7 @@ const VehicleSearchPanelInputBoxes = ({ state, dispatch, id }) => {
     return (
         <div className="UserInputPanel__Content--InputBoxesContainer">     
             {<div>Veículo {id}</div>}
+            <GetReferenceTableId inputVehicleInfo={inputVehicleInfo} dispatch={dispatch}/>
             <GetVehicleType inputVehicleInfo={inputVehicleInfo} dispatch={dispatch}/>
         
             { inputVehicleInfo.vehicleType && 

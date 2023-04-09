@@ -7,7 +7,8 @@ const config = {
         SearchModels: "/ConsultarModelos",
         SearchModelYears: "/ConsultarAnoModelo",
         getVehicleInformation: "/ConsultarValorComTodosParametros",
-        getPlotData: "/GerarDadosPlot"
+        getPlotData: "/GerarDadosPlot",
+        getReferenceTableIdList: "/ConsultarTabelaDeReferencia"
     }
 }
 

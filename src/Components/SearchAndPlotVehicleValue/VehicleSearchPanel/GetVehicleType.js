@@ -35,7 +35,7 @@ function GetVehicleType({inputVehicleInfo, dispatch}) {
             return (<div>Length 0</div>)
         }
         return (
-            <ChooseBox itemsList={vehicleTypeList.result} setOption={setVehicleType} displayItem={inputVehicleInfo.vehicleType}/>
+            <ChooseBox itemsList={vehicleTypeList.result} setOption={setVehicleType} displayItem={inputVehicleInfo.vehicleType} defaultValue="Selecione o tipo do veículo"/>
         )
     }
     if (vehicleTypeList.error) {
