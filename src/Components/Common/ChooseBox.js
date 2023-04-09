@@ -15,7 +15,7 @@ function ChooseBox({itemsList, setOption, displayItem, defaultValue}) {
 
     return (
         <div className="ChooseBox">
-            <select className="ChooseBox__SelectOption" value={searchValue} onChange={e => setOption(itemsList.find((item) => {return item.Value.toString() === e.target.value.toString()}))}>
+            <select className="ChooseBox__SelectOption" onChange={e => setOption(itemsList.find((item) => {return item.Value.toString() === e.target.value.toString()}))}>
             {itemsList && itemsList
                 .map((item) => (                        
                     <option className="ChooseBox__SelectOption" key={item.Label} value={item.Value}>

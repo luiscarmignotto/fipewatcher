@@ -21,12 +21,7 @@ function GetReferenceTableId({inputVehicleInfo, dispatch}) {
             type: 'VehicleSearchPanel',
             subtype: 'UpdateInputVehicleInfoInstance',
             id: inputVehicleInfo.id,
-            referenceTableId,
-            vehicleType: null,
-            manufacturer: null,
-            model: null, 
-            modelYear: null,
-            searchResult: null
+            referenceTableId
         })
     };
 
