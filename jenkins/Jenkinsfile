@@ -78,8 +78,7 @@ pipeline {
                         sh("git checkout master")
                         sh("git add --all")
                         sh("git commit -m \"Jenkins Automatic message: fipewatcher image version updated to ${env.appVersion}\"")
-                        sh("git tag -a ${env.appVersion} -m 'Jenkins'")
-                        sh("git push -u origin master --tags")
+                        sh("git push -u origin master")
                     }
                 }
             }

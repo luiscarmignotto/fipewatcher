@@ -10,14 +10,11 @@ function ChooseBox({itemsList, setOption, displayItem, defaultValue}) {
     useEffect(() => {
         if (!displayItem) {
             setOption(itemsList[0]);
-        } else {
-
         }
     }, [displayItem]);
 
     return (
         <div className="ChooseBox">
-            {/* <select className="ChooseBox__SelectOption" value={searchValue} onChange={(e) => {setSearchValue(e.target.value); setOption(itemsList.find((item) => item.Label === e.target.value))}}> */}
             <select className="ChooseBox__SelectOption" value={searchValue} onChange={e => setOption(itemsList.find((item) => {return item.Value.toString() === e.target.value.toString()}))}>
             {itemsList && itemsList
                 .map((item) => (                        

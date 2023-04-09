@@ -27,15 +27,17 @@ const VehicleSearchPanelInputBoxes = ({ state, dispatch, id }) => {
         <div className="UserInputPanel__Content--InputBoxesContainer">     
             {<div>Veículo {id}</div>}
             <GetReferenceTableId inputVehicleInfo={inputVehicleInfo} dispatch={dispatch}/>
-            <GetVehicleType inputVehicleInfo={inputVehicleInfo} dispatch={dispatch}/>
+            { inputVehicleInfo.referenceTableId &&
+                <GetVehicleType inputVehicleInfo={inputVehicleInfo} dispatch={dispatch}/>
+            }
         
-            { inputVehicleInfo.vehicleType && 
+            { inputVehicleInfo.referenceTableId && inputVehicleInfo.vehicleType && 
                 <SearchManufacturer inputVehicleInfo={inputVehicleInfo} dispatch={dispatch}/>
             }
-            { inputVehicleInfo.vehicleType && inputVehicleInfo.manufacturer && 
+            { inputVehicleInfo.referenceTableId && inputVehicleInfo.vehicleType && inputVehicleInfo.manufacturer && 
                 <SearchModel inputVehicleInfo={inputVehicleInfo} dispatch={dispatch} />
             }
-            { inputVehicleInfo.vehicleType && inputVehicleInfo.manufacturer && inputVehicleInfo.model && 
+            { inputVehicleInfo.referenceTableId && inputVehicleInfo.vehicleType && inputVehicleInfo.manufacturer && inputVehicleInfo.model && 
                 <SearchModelYear inputVehicleInfo={inputVehicleInfo} dispatch={dispatch}/>
             }  
             {state.inputVehicleInfoArray.length > 1 && 
