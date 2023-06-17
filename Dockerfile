@@ -15,6 +15,7 @@ WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 
 RUN sed -i 's/user  nginx;/user  root;/g' /etc/nginx/nginx.conf
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=builder /app/build .
 ENTRYPOINT ["nginx", "-g", "daemon off;"]

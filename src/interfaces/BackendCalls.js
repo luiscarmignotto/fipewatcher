@@ -3,7 +3,8 @@ import config from './BackendConfig'
 async function sendBackendRequest(operation, bodyInfo) {
 
     
-    const backendEndpoint = "http://" + config.BACKEND_SERVICE_NAME + ':' + config.BACKEND_SERVICE_PORT + config.routes[operation];
+    // const backendEndpoint = "http://" + config.BACKEND_SERVICE_NAME + ':' + config.BACKEND_SERVICE_PORT + config.routes[operation];
+    const backendEndpoint = "/api" + config.routes[operation];
 
     console.log({backendEndpoint});
 
