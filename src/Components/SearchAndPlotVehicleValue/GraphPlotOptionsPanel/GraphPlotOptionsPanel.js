@@ -1,6 +1,6 @@
 import { React, useState, useMemo } from 'react';
 
-import '../css/UserInputPanel.css'
+import '../css/PlotConfigurationPanel.css'
 
 import GetNumberOfMonths from './GetNumberOfMonths';
 import PlotDefaults from './PlotDefaults';
@@ -61,41 +61,43 @@ const GraphPlotOptionsPanel = ({state, dispatch}) => {
 
     if (!state.inputVehicleInfoArray) {
         return (
-            <div className="UserInputPanelContainer">
-                <div className="UserInputPanel__Head">Configurações do Plot</div>
-                <div className="UserInputPanel__Content">
-                    <div className="UserInputPanel__Content--AllInstances">
+            <div className="PlotConfigurationPanelContainer">
+                <div className="PlotConfigurationPanel__Head">CONFIGURAÇÕES DE PLOT</div>
+                <div className="PlotConfigurationPanel__Content">
+                    <div className="PlotConfigurationPanel__Content--AllInstances">
                         <div>No Data to display</div>
                     </div>             
                 </div> 
-                <div className="UserInputPanel__Content--ActionButtonsContainer"> 
-                    <ActionButton onClick={resetPlotOptionsAndSearchResult} text="Alter Opções do Veículo"/>          
+                <div className="PlotConfigurationPanel__Content--ActionButtonsContainer"> 
+                    <ActionButton onClick={resetPlotOptionsAndSearchResult} text="Alterar Opções do Veículo"/>          
                 </div>            
             </div>                    
         )
     } else if (state.inputVehicleInfoArray.length > 0) {
         return (
-            <div className="UserInputPanelContainer">
-                <div className="UserInputPanel__Head">Configurações do Plot</div>
-                <div className="UserInputPanel__Content">
-                    <div className="UserInputPanel__Content--AllInstances">
+            <div className="PlotConfigurationPanelContainer">
+                <div className="PlotConfigurationPanel__Head">CONFIGURAÇÕES DE PLOT</div>
+                <div className="PlotConfigurationPanel__Content">
+                    <div className="PlotConfigurationPanel__Content--AllInstances">
                         {state.inputVehicleInfoArray.map((item,index) => (
-                            <ShowVehicleInformation key={index} inputVehicleInfo={item} />  
+                            <div className="PlotConfigurationPanel__Content--DisplayInfo">
+                                <ShowVehicleInformation  key={index} inputVehicleInfo={item} />  
+                            </div>
                         ))}
                     </div>
     
-                    <div className="UserInputPanel__Content--InputBoxesContainer">
+                    <div className="PlotConfigurationPanel__Content--InputBoxesContainer">
                         <GetNumberOfMonths setNumberOfMonths={setNumberOfMonths} />
                         { wrongInputFlag &&
-                        <div>O número de meses do plot deve ser maior que 1</div>
+                        <div className="PlotConfigurationPanel__Content--TextWarning">O número de meses deve ser maior que 1</div>
                         }
                     </div>
-                    <div className="UserInputPanel__Content--ActionButtonsContainer">
-                        {loading && <ActivityIndicator/>}
-                        {!loading && numberOfMonths && <ActionButton onClick={updatePlotOptions} text="Gerar Gráfico"/>}                        
-                        <ActionButton onClick={resetPlotOptionsAndSearchResult} text="Alter Opções do Veículo"/>
-                    </div>  
                 </div>    
+                <div className="PlotConfigurationPanel__Content--ActionButtonsContainer">
+                    {loading && <ActivityIndicator/>}
+                    {!loading && numberOfMonths > 1 && <ActionButton onClick={updatePlotOptions} text="Gerar Gráfico"/>}                        
+                    <ActionButton onClick={resetPlotOptionsAndSearchResult} text="Alterar Opções do Veículo"/>
+                </div>  
             </div>    
         );
     }

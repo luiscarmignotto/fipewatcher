@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-import '../css/UserInputPanel.css'
+import '../css/VehicleSelectionPanel.css'
 
 import VehicleSearchPanelInputBoxes from './VehicleSearchPanelInputBoxes';
 import ActionButton from '../../Common/ActionButton';
@@ -59,10 +59,10 @@ function VehicleSearchPanel({state, dispatch}) {
 
     return (
 
-        <div className="UserInputPanelContainer">
-            <div className="UserInputPanel__Head">Pesquisar Veículo</div>
-            <div className="UserInputPanel__Content">
-                <div className="UserInputPanel__Content--AllInstances">
+        <div className="VehicleSelectionPanelContainer">
+            <div className="VehicleSelectionPanel__Head">PESQUISAR VEÍCULO</div>
+            <div className="VehicleSelectionPanel__Content">
+                <div className="VehicleSelectionPanel__Content--AllInstances">
                 {inputVehicleInfoArray.map((inputVehicleInfo) => (
                     <div key={inputVehicleInfo.id}>
                        <VehicleSearchPanelInputBoxes state={state} dispatch={dispatch} id={inputVehicleInfo.id}/>
@@ -71,7 +71,7 @@ function VehicleSearchPanel({state, dispatch}) {
                 </div>
             </div>                
 
-                <div className="UserInputPanel__Content--ActionButtonsContainer">
+                <div className="VehicleSelectionPanel__Content--ActionButtonsContainer">
                 {inputVehicleInfoArray.length < VehicleSearchPanelDefaults().MAX_SEARCH_INSTANCES &&
                     <ActionButton onClick={addNewEmptySearchInstance} text="Comparar com outro veículo"/>
                 }

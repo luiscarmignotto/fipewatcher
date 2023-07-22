@@ -71,7 +71,7 @@ const GraphPlotPanel = ({state, dispatch}) => {
     return (
         <div className="GraphPlotPanel">
             <div className="GraphPlotPanel__Head">
-                Gráfico De Preços
+                GRÁFICO DE PREÇOS
             </div>
             <div className="GraphPlotPanel__Content">
                 { state.plotDataArray.length > 0 &&  

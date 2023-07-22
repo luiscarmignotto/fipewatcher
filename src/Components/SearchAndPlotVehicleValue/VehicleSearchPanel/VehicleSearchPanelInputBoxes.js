@@ -6,7 +6,7 @@ import SearchModel from './SearchModel';
 import SearchModelYear from './SearchModelYear';
 import GetReferenceTableId from './GetReferenceTableId';
 
-import '../css/UserInputPanel.css'
+import '../css/VehicleSelectionPanel.css'
 import ActionButton from '../../Common/ActionButton';
 
 const VehicleSearchPanelInputBoxes = ({ state, dispatch, id }) => {
@@ -24,7 +24,7 @@ const VehicleSearchPanelInputBoxes = ({ state, dispatch, id }) => {
     }
 
     return (
-        <div className="UserInputPanel__Content--InputBoxesContainer">     
+        <div className="VehicleSelectionPanel__Content--InputBoxesContainer">     
             {<div>Veículo {id}</div>}
             <GetReferenceTableId inputVehicleInfo={inputVehicleInfo} dispatch={dispatch}/>
             { inputVehicleInfo.referenceTableId &&
