@@ -1,11 +1,13 @@
 .App {
 
-  overflow-y: scroll;
+  margin: 0 0;
+  padding: 0 0;
 
-  width: calc(100vw - (100vw - 100%));
   height: 100vh;
-  /* background-color: #282c34; */
-  display: grid;
-  grid-template-columns: 100%;
-  grid-template-rows: 100%;
+  width: 100vw;
+
+}
+
+* {
+  box-sizing: border-box;
 }

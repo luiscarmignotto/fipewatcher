@@ -1,0 +1,74 @@
+.PlotConfigurationPanelContainer {
+    min-height: 300px;
+    border-radius: 30px;
+
+    background-color: (0,0,0,0.5);
+    backdrop-filter: blur(3px);  
+    display: grid;
+    grid-template-rows: 50px auto auto;
+    justify-content: space-around;
+}
+
+.PlotConfigurationPanel__Head {
+    text-align: center;
+    font-weight: bold;
+    color: black;
+    font-size: 20px;
+    text-shadow: .05em .05em 0 hsl(24,58%,85%);
+}
+
+.PlotConfigurationPanel__Content {
+}
+
+.PlotConfigurationPanel__Content--AllInstances {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.PlotConfigurationPanel__Content--AllInstances > div:empty {
+    display: none
+}
+
+.PlotConfigurationPanel__Content--InputBoxesContainer {
+    margin: 0 20px;
+    height: 100%;
+    
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.PlotConfigurationPanel__Content--InputBoxesContainer > button {
+    margin-top: auto;
+}
+
+.PlotConfigurationPanel__Content--InputBoxesContainer > *{
+    justify-content: space-around;
+}
+
+.PlotConfigurationPanel__Content--ActionButtonsContainer {
+    margin: 10px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.PlotConfigurationPanel__Content--ActionButtonsContainer > *{
+    max-width: 200px;
+}
+
+.PlotConfigurationPanel__Content--DisplayInfo {
+    border: solid black;
+    border-radius: 10px;
+    min-width: 100px;
+    min-height: 100px;
+}
+
+.PlotConfigurationPanel__Content--TextWarning {
+    margin: 0 auto;
+    max-width: 150px;
+    font-weight: bold;
+    font-size: 15px;
+    color: red;
+}

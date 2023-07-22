@@ -1,72 +1,53 @@
+* {
+    text-align: center;
+}
+
 .ChooseBox {
-    
 }
 
 .ChooseBox__SelectOption {
-    text-align: center;
-    height: 30px;
     width: 200px;
-    font-size: 15px;
 }
 
 .SearchBox {
-    align-self: center;
+
 }
 
 .SearchBox__Input {
-    text-align: center;
-    align-self: center;
-    color: black;
-    height: 30px;
     width: 200px;
-    font-size: 15px;
-    
 }
 
 .SearchBox__DropDownList {
-    height: 100px;
-    overflow-y: scroll; 
+    overflow-y: scroll;
+    max-height: 100px;
+    max-width: 200px;
 }
 
 .SearchBox__DropDownListItem {
-    text-align: left;
-    color: white;
-    font-size: 90%;
-    font-weight: bold;
-    height: 25px;
+
 }
 
 .ShowBox {
-    font-weight: bold;
-    text-align: center;
     color: white;
+    font-weight: bold;
 }
 
 .NumberInput {
-    justify-self: center;
-    color: white
+
 }
 
 .NumberInput__Box {
-    text-align: center;
+
 }
 
 .ActivityIndicator {
-    align-items: center;
-    justify-items: center;
+
 }
 
 .ActivityIndicator .div{
-    width: 100%;
-    height: 100%;
+
 }
 
 .ActionButton {
-    align-self: center;
-    justify-self: center;
-    border-radius: 5px;
-    font-size: 15px;
-    font-weight: bold;
-    color: black;
-    background-color: white;
+    width: 200px;
 }
